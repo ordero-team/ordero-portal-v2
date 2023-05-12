@@ -1,0 +1,123 @@
+:host {
+  position: fixed;
+  top: 120px;
+  right: 24px;
+  z-index: 9999999;
+
+  .btn-dismiss {
+    border-radius: 3px 3px 0 0;
+    text-align: center;
+  }
+
+  .btn-more {
+    border-radius: 0 0 3px 3px;
+    text-align: center;
+  }
+
+  .toast-wrap {
+    display: block;
+    max-height: calc(100vh - 170px);
+  }
+
+  .toast-item {
+    color: #ffffff;
+    padding: 10px 12px;
+    width: 256px;
+    cursor: pointer;
+    margin-bottom: 0;
+    background-color: rgba(#000, 0.87);
+    box-shadow: 0 0 10px rgba(#000, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background-color .3s ease-in-out;
+    border-left: 3px solid transparent;
+
+    &:hover {
+      background-color: #000000;
+    }
+
+    h4, p {
+      margin: 0;
+    }
+
+    &.toast-info {
+      border-left: 3px solid #4CAF50;
+
+      .toast-head {
+        > .toast-icon {
+          color: #4CAF50;
+        }
+      }
+    }
+
+    &.toast-warning {
+      border-left: 3px solid #FFEB3B;
+
+      .toast-head {
+        > .toast-icon {
+          color: #FFEB3B;
+        }
+      }
+    }
+
+    &.toast-error {
+      border-left: 3px solid #F44336;
+
+      .toast-head {
+        > .toast-icon {
+          color: #F44336;
+        }
+      }
+    }
+  }
+
+  .toast-head {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 6px;
+
+    h4 {
+      flex: 1;
+      line-height: 18px;
+      color: #ffffff;
+      font-size: 14px;
+    }
+
+    .toast-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+      margin-right: 6px;
+      line-height: 12px;
+    }
+  }
+
+  .toast-body {
+    padding: 0;
+    max-height: calc(100vh - 250px);
+    overflow-y: auto;
+
+    p {
+      font-size: 12px;
+      word-break: break-word;
+    }
+  }
+
+  .toast-exit {
+    opacity: 0.5;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    mat-icon {
+      color: #ffffff;
+      font-size: 13px;
+      width: 13px;
+      height: 13px;
+    }
+  }
+}

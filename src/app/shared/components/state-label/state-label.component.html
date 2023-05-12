@@ -1,0 +1,6 @@
+<div class="ps-state-label ps-text-label" *ngIf="text" [ngStyle]="styles" [ngClass]="class">
+  {{ text }}
+</div>
+<div class="ps-state-label" *ngIf="!text" [ngStyle]="styles" [ngClass]="class">
+  {{ state | stateLabel }}
+</div>

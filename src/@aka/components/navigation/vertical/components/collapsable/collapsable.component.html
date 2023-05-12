@@ -1,0 +1,79 @@
+<div class="aka-vertical-navigation-item-wrapper" [class.aka-vertical-navigation-item-has-subtitle]="!!item.subtitle"
+  [ngClass]="item.classes?.wrapper">
+
+  <div class="aka-vertical-navigation-item" [ngClass]="{'aka-vertical-navigation-item-disabled': item.disabled}"
+    (click)="toggleCollapsable()">
+
+    <!-- Icon -->
+    <mat-icon class="aka-vertical-navigation-item-icon" [ngClass]="item.classes?.icon" *ngIf="item.icon"
+      [icIcon]="item.icon"></mat-icon>
+
+    <!-- Title & Subtitle -->
+    <div class="aka-vertical-navigation-item-title-wrapper">
+      <div class="aka-vertical-navigation-item-title">
+        <span [ngClass]="item.classes?.title">
+          {{item.title}}
+        </span>
+      </div>
+      <div class="aka-vertical-navigation-item-subtitle" *ngIf="item.subtitle">
+        <span [ngClass]="item.classes?.subtitle">
+          {{item.subtitle}}
+        </span>
+      </div>
+    </div>
+
+    <!-- Badge -->
+    <div class="aka-vertical-navigation-item-badge" *ngIf="item.badge">
+      <div class="aka-vertical-navigation-item-badge-content" [ngClass]="item.badge.classes">
+        {{item.badge.title}}
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <!-- Arrow -->
+    <mat-icon class="aka-vertical-navigation-item-arrow icon-size-4" icIcon="outlineChevronRight"></mat-icon>
+
+  </div>
+
+</div>
+
+<div class="aka-vertical-navigation-item-children" *ngIf="!isCollapsed" @expandCollapse>
+
+  <ng-container *ngFor="let item of item.children; trackBy: trackByFn">
+
+    <!-- Skip the hidden items -->
+    <ng-container *ngIf="(item.hidden && !item.hidden(item)) || !item.hidden">
+
+      <ng-container *akaRole="item.roles">
+
+        <ng-container *akaCan="item.permissions">
+
+          <!-- Basic -->
+          <aka-vertical-navigation-basic-item *ngIf="item.type === 'basic'" [item]="item" [name]="name">
+          </aka-vertical-navigation-basic-item>
+
+          <!-- Collapsable -->
+          <aka-vertical-navigation-collapsable-item *ngIf="item.type === 'collapsable'" [item]="item" [name]="name"
+            [autoCollapse]="autoCollapse"></aka-vertical-navigation-collapsable-item>
+
+          <!-- Divider -->
+          <aka-vertical-navigation-divider-item *ngIf="item.type === 'divider'" [item]="item" [name]="name">
+          </aka-vertical-navigation-divider-item>
+
+          <!-- Group -->
+          <aka-vertical-navigation-group-item *ngIf="item.type === 'group'" [item]="item" [name]="name">
+          </aka-vertical-navigation-group-item>
+
+          <!-- Spacer -->
+          <aka-vertical-navigation-spacer-item *ngIf="item.type === 'spacer'" [item]="item" [name]="name">
+          </aka-vertical-navigation-spacer-item>
+
+        </ng-container>
+
+      </ng-container>
+
+    </ng-container>
+
+  </ng-container>
+
+</div>

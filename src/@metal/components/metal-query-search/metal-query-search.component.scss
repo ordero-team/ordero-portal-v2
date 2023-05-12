@@ -1,0 +1,16 @@
+:host {
+  .mat-icon {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+  }
+
+  input {
+    width: 120px;
+  }
+
+  .mat-icon:last-child {
+    margin-left: 12px;
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,79 @@
+aka-vertical-navigation {
+
+    /* Futuristic appearance overrides */
+    &.aka-vertical-navigation-appearance-futuristic {
+
+        /* Aside, basic, collapsable, group */
+        aka-vertical-navigation-aside-item,
+        aka-vertical-navigation-basic-item,
+        aka-vertical-navigation-collapsable-item,
+        aka-vertical-navigation-group-item {
+            margin-bottom: 4px;
+
+            > .aka-vertical-navigation-item-wrapper {
+                margin: 0 16px;
+
+                .aka-vertical-navigation-item {
+                    padding-left: 16px;
+                    padding-right: 16px;
+                }
+            }
+        }
+
+        /* Collapsable */
+        aka-vertical-navigation-collapsable-item {
+
+            > .aka-vertical-navigation-item-children {
+
+                .aka-vertical-navigation-item {
+                    padding: 10px 16px;
+                }
+            }
+
+            /* 1st level */
+            .aka-vertical-navigation-item-children {
+
+                .aka-vertical-navigation-item {
+                    padding-left: 56px;
+                }
+
+                /* 2nd level */
+                .aka-vertical-navigation-item-children {
+
+                    .aka-vertical-navigation-item {
+                        padding-left: 72px;
+                    }
+
+                    /* 3rd level */
+                    .aka-vertical-navigation-item-children {
+
+                        .aka-vertical-navigation-item {
+                            padding-left: 88px;
+                        }
+
+                        /* 4th level */
+                        .aka-vertical-navigation-item-children {
+
+                            .aka-vertical-navigation-item {
+                                padding-left: 104px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /* Navigation items common */
+        .aka-vertical-navigation-item {
+            border-radius: 6px;
+        }
+
+        /* Aside */
+        .aka-vertical-navigation-aside-wrapper {
+
+            > aka-vertical-navigation-aside-item {
+                padding: 8px 0;
+            }
+        }
+    }
+}

@@ -1,0 +1,109 @@
+:host {
+
+  //  Dropzone
+  .upload-section {
+    @apply w-full; 
+    
+    ::ng-deep {
+      ngx-dropzone {
+        // background: white;
+        border: 3px dashed;
+        box-sizing: border-box;
+        border-radius: 8px;
+        width: 120px;
+        height: 120px;
+        transition: all .2s;
+        transition: background-color 0s;
+        @apply border-2 border-dashed border-gray-300 bg-white dark:bg-black dark:bg-opacity-30;
+
+        &:hover {
+          @apply border-primary-500 #{'!important'};
+        }
+
+        ngx-dropzone-label {
+          width: 100%;
+          height: 100%;
+          margin: 0 !important;
+          position: relative;
+
+          .upload-label {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            @apply text-primary-500;
+
+            .plus-icon {
+              font-size: 36px;
+              height: 36px;
+              width: 36px;
+              @apply text-primary-500 dark:text-primary-700;
+            }
+
+            p {
+              font-weight: normal;
+              font-size: 14px;
+            }
+          }
+
+          .upload-preview {
+            width: 100%;
+            height: 100%;
+            border-radius: 4px;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            position: relative;
+            transition: all .2s;
+          }
+        }
+
+        &.with-image {
+          .upload-label {
+            visibility: hidden;
+            opacity: 0;
+            transition: all .2s;
+            position: absolute;
+            top: 0;
+            width: 100%;
+            z-index: 2;
+          }
+
+          &:hover {
+            border-color: transparent !important;
+
+            ngx-dropzone-label {
+              &:before {
+                content: "";
+                background-color: #27222F;
+                opacity: 0.7;
+                width: 100%;
+                height: 100%;
+                display: block;
+                position: absolute;
+                top: 0;
+                z-index: 1;
+              }
+            }
+            .upload-label {
+              visibility: visible;
+              opacity: 1;
+              color: #FFFFFF;
+
+              .plus-icon {
+                color: #FFFFFF;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .hint {
+      font-size: 12px;
+      line-height: 20px;
+      margin-top: 15px;
+    }
+  }
+}

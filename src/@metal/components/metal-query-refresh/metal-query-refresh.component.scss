@@ -1,0 +1,45 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  .mat-icon-button {
+    height: 32px;
+    width: 32px;
+    min-height: 32px;
+  }
+
+  mat-progress-spinner {
+    margin-left: 8px;
+  }
+
+  .state-wrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 10px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    background-color: rgba(var(--aka-primary), 0.1);
+    font-weight: 500;
+    color: var(--aka-primary);
+
+    mat-icon {
+      width: 18px;
+      height: 18px;
+      margin-right: 4px;
+      font-size: 18px;
+    }
+
+    &.error {
+      color: var(--aka-warn);
+      background-color: rgba(var(--aka-warn), 0.1);
+      cursor: default;
+
+      a {
+        margin-left: 4px;
+      }
+    }
+  }
+}

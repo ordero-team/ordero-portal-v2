@@ -1,0 +1,66 @@
+<ng-container *ngIf="state">
+  <div class="query-filter-bar p-6 sm:py-2 sm:px-6">
+    <!-- <ng-content></ng-content> -->
+    <!-- @TODO: Changed to ng-container to retrieve current state. So, it can be accessed to child component -->
+    <ng-container *ngTemplateOutlet="queryFilterBarTemplate; context: { $implicit: state }"></ng-container>
+    <div class="flex-1"></div>
+    <ps-metal-query-search [state]="state"></ps-metal-query-search>
+    <ng-content select=".query-suffix"></ng-content>
+  </div>
+  <!-- <div class="query-filter-active" *ngIf="activeModelRefs.length">
+    <ng-container *ngFor="let ref of activeModelRefs; let lastFilter = last">
+      <div class="active-filter">
+        <span class="active-filter-label">{{ref.label || ref.key}}</span>
+        <ng-container *ngIf="ref.type === 'multiple'">
+          <div class="active-filter-values">
+            <ng-container *ngFor="let value of ref.value; let lastValue = last">
+              <div class="active-filter-value">
+                <span [ngClass]="{'-capital': ref.humanize, '-upper': ref.uppercase}">{{(translations[value] ||
+                  ref.translations[value] || value)|humanize:ref.humanize}}</span>
+                <mat-icon matTooltip="Remove" (click)="state.splice(ref.key,value)">close</mat-icon>
+              </div>
+              <span class="active-filter-operator" *ngIf="!lastValue">or</span>
+            </ng-container>
+          </div>
+          <mat-icon class="clear-current-filter" *ngIf="ref.value && ref.value.length > 1"
+            [matTooltip]="'Clear all ' + (ref.label||ref.key) + ' Filters'" (click)="state.remove(ref.key)">close
+          </mat-icon>
+        </ng-container>
+        <ng-container *ngIf="ref.type === 'range'">
+          <span class="active-filter-operator">BETWEEN</span>
+          <div class="active-filter-value">
+            <span>{{ref.value[0]}}</span>
+          </div>
+          <span class="active-filter-operator">and</span>
+          <div class="active-filter-value">
+            <span>{{ref.value[1]}}</span>
+          </div>
+          <mat-icon class="clear-current-filter" matTooltip="Remove" (click)="state.remove(ref.key)">close</mat-icon>
+        </ng-container>
+        <ng-container *ngIf="ref.type === 'date-range'">
+          <span class="active-filter-operator">from</span>
+          <div class="active-filter-value">
+            <span>{{ref.value[0]}}</span>
+          </div>
+          <span class="active-filter-operator">to</span>
+          <div class="active-filter-value">
+            <span>{{ref.value[1]}}</span>
+          </div>
+          <mat-icon class="clear-current-filter" matTooltip="Remove" (click)="state.remove(ref.key)">close</mat-icon>
+        </ng-container>
+        <ng-container *ngIf="ref.type !== 'multiple' && ref.type !== 'range' && ref.type !== 'date-range'">
+          <div class="active-filter-value">
+            <span [ngClass]="{'-capital': ref.humanize, '-upper': ref.uppercase}">{{(translations[ref.value] ||
+              ref.translations[ref.value] || ref.value)|humanize:ref.humanize}}</span>
+            <mat-icon matTooltip="Remove" (click)="state.remove(ref.key)">close</mat-icon>
+          </div>
+        </ng-container>
+      </div>
+      <span class="active-filter-operator separator" *ngIf="!lastFilter">and</span>
+    </ng-container>
+    <ng-container *ngIf="activeModelRefs.length">
+      <mat-icon class="clear-filter" color="warn" matTooltip="Clear All Filters" (click)="state.clear()">delete_sweep
+      </mat-icon>
+    </ng-container>
+  </div> -->
+</ng-container>

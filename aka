@@ -1,0 +1,171 @@
+#!/usr/bin/env node
+const program = require('commander');
+const fs = require('fs');
+const { spawnSync } = require('child_process');
+
+const { stdin, stdout, stderr } = process;
+const stdio = [stdin, stdout, stderr];
+const stdop = { stdio };
+const angular = './node_modules/@angular/cli/bin/ng';
+
+program.version('0.0.1').usage('<commands> [options]').description('Kelola SaaS Client - Command Control');
+
+program
+  .command('gm [name]')
+  .description('Generate angular module.')
+  .option('-p, --page', 'Generate in pages directory')
+  .option('-r, --routing', 'Setup with routing')
+  .option('-f, --full', 'Full mode setup')
+  .action(gm);
+
+program
+  .command('gc [name]')
+  .description('Generate angular component.')
+  .option('-c, --core', 'For core component')
+  .option('-s, --shared', 'For shared component')
+  .option('-l, --layout', 'For layout component')
+  .option('-p, --page', 'For page component')
+  .action(gc);
+
+program
+  .command('gd [name]')
+  .description('Generate angular directive.')
+  .option('-c, --core', 'For shared directive')
+  .option('-s, --shared', 'For shared directive')
+  .action(gd);
+
+program
+  .command('gp [name]')
+  .description('Generate angular pipe.')
+  .option('-c, --core', 'For shared pipe')
+  .option('-s, --shared', 'For shared pipe')
+  .action(gp);
+
+program
+  .command('gs [name]')
+  .description('Generate angular service.')
+  .option('-c, --core', 'For shared service')
+  .option('-s, --shared', 'For shared service')
+  .option('-r, --resource', 'For resource service')
+  .option('-l, --collection', 'For collection service')
+  .action(gs);
+
+program
+  .command('gg [name]')
+  .description('Generate angular guard.')
+  .option('-s, --shared', 'For shared guard')
+  .option('-c, --core', 'For core guard')
+  .action(gg);
+
+program.parse(process.argv);
+
+if (!process.argv.slice(2).length) {
+  program.outputHelp();
+  return;
+}
+
+function gm(env, options) {
+  env = options.page ? `pages/${env}` : env;
+  const comarg = ['g', 'module', env];
+  if (options.routing) {
+    spawnSync('node', [angular, ...comarg, '--routing'], stdop);
+  } else if (options.full) {
+    spawnSync('node', [angular, ...comarg, '--routing'], stdop);
+    spawnSync('node', [angular, 'g', 'component', env], stdop);
+  } else {
+    spawnSync('node', [angular, ...comarg], stdop);
+  }
+}
+
+function gc(env, options) {
+  let comarg = ['g', 'component', env];
+  if (options.core) {
+    comarg = ['g', 'component', `core/components/${env}`];
+  } else if (options.shared) {
+    comarg = ['g', 'component', `shared/components/${env}`];
+  } else if (options.layout) {
+    comarg = ['g', 'component', `layouts/${env}`];
+  } else if (options.page) {
+    comarg = ['g', 'component', `pages/${env}`];
+  }
+  spawnSync('node', [angular, ...comarg], stdop);
+}
+
+function gd(env, options) {
+  let comarg = ['g', 'directive', env];
+  if (options.core) {
+    comarg = ['g', 'directive', `core/directives/${env}`];
+  } else if (options.shared) {
+    comarg = ['g', 'directive', `shared/directives/${env}`];
+  }
+  spawnSync('node', [angular, ...comarg], stdop);
+}
+
+function gp(env, options) {
+  let comarg = ['g', 'pipe', env];
+  if (options.core) {
+    comarg = ['g', 'pipe', `core/pipes/${env}`];
+  } else if (options.shared) {
+    comarg = ['g', 'pipe', `shared/pipes/${env}`];
+  }
+  spawnSync('node', [angular, ...comarg], stdop);
+}
+
+function gs(env, options) {
+  let comarg = ['g', 'service', env];
+  if (options.core) {
+    comarg = ['g', 'service', `core/services/${env}`];
+  } else if (options.shared) {
+    comarg = ['g', 'service', `shared/services/${env}`];
+  } else if (options.resource) {
+    comarg = ['g', 'service', `resources/${env}`];
+  } else if (options.collection) {
+    comarg = ['g', 'service', `collections/${env}`];
+  }
+  spawnSync('node', [angular, ...comarg], stdop);
+
+  // do it automatically
+  if (options.resource || options.collection) {
+    convertServiceToResource(env, options.resource ? 'resource' : 'collection');
+  }
+}
+
+function gg(env, options) {
+  let comarg = ['g', 'service', `${env}-guard`];
+  if (options.core) {
+    comarg = ['g', 'service', `core/guards/${env}-guard`];
+  } else if (options.shared) {
+    comarg = ['g', 'service', `shared/guards/${env}-guard`];
+  }
+  spawnSync('node', [angular, ...comarg], stdop);
+}
+
+function convertServiceToResource(env, dir) {
+  fs.renameSync(`./src/app/${dir}s/${env}.service.ts`, `./src/app/${dir}s/${env}.${dir}.ts`);
+  fs.renameSync(`./src/app/${dir}s/${env}.service.spec.ts`, `./src/app/${dir}s/${env}.${dir}.spec.ts`);
+
+  const [first, ...rest] = dir;
+
+  fs.readFile(`./src/app/${dir}s/${env}.${dir}.ts`, 'utf8', function (err, data) {
+    if (err) {
+      return console.log(err);
+    }
+    const result = data.replace(/service/g, dir).replace(/Service/g, [first.toUpperCase(), ...rest].join(''));
+    fs.writeFile(`./src/app/${dir}s/${env}.${dir}.ts`, result, 'utf8', function (err) {
+      if (err) {
+        return console.log(err);
+      }
+    });
+  });
+  fs.readFile(`./src/app/${dir}s/${env}.${dir}.spec.ts`, 'utf8', function (err, data) {
+    if (err) {
+      return console.log(err);
+    }
+    const result = data.replace(/service/g, dir).replace(/Service/g, [first.toUpperCase(), ...rest].join(''));
+    fs.writeFile(`./src/app/${dir}s/${env}.${dir}.spec.ts`, result, 'utf8', function (err) {
+      if (err) {
+        return console.log(err);
+      }
+    });
+  });
+}

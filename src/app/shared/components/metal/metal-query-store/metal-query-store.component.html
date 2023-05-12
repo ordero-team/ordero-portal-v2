@@ -1,0 +1,9 @@
+<aka-select-store
+  [(ngModel)]="store"
+  name="store"
+  [required]="false"
+  [placeholder]="'Choose Store'"
+  fieldClass="aka-mat-dense w-full block"
+  [withPrefix]="true"
+  (change)="apply($event)"
+></aka-select-store>

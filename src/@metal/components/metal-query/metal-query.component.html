@@ -1,0 +1,83 @@
+<ng-container *ngIf="query">
+  <div class="query-head">
+    <div class="query-bulk-actions" *ngIf="displayedBulkActions.length && selectedRecords.length">
+      <ng-container *ngFor="let action of displayedBulkActions">
+        <ng-container *ngIf="action.children && action.children.length > 0">
+          <button mat-button class="aka-mat-button-small" [matMenuTriggerFor]="actionMenu">
+            <mat-icon *ngIf="action.icon" [icIcon]="action.icon" [color]="action.color"></mat-icon>
+            <span>{{ action.text }}</span>
+          </button>
+          <mat-menu #actionMenu="matMenu" [overlapTrigger]="false" xPosition="after" yPosition="below" [class]="menuClass">
+            <ng-container *ngFor="let child of action.children">
+              <button mat-menu-item [disabled]="child.disabled" (click)="triggerBulkAction($event, child)">
+                <mat-icon *ngIf="child.icon" [icIcon]="child.icon" [color]="child.color"></mat-icon>
+                <span class="{{ child.color ? '-' + child.color + '-' : '' }} ml-2">{{ child.text }}</span>
+              </button>
+            </ng-container>
+          </mat-menu>
+        </ng-container>
+
+        <ng-container *ngIf="!action.children || !action.children.length">
+          <button
+            *ngIf="action.icon"
+            mat-button
+            class="aka-mat-button-small"
+            [color]="action.color"
+            [disabled]="action.disabled"
+            (click)="triggerBulkAction($event, action)"
+          >
+            <mat-icon *ngIf="action.icon" [icIcon]="action.icon" [color]="action.color"></mat-icon>
+            <span class="ml-2">{{ action.text }}</span>
+          </button>
+          <span *ngIf="!action.icon"></span>
+        </ng-container>
+      </ng-container>
+    </div>
+    <div class="query-filter" [ngStyle]="filterBarStyle">
+      <ng-content select="ps-metal-query-filter"></ng-content>
+    </div>
+  </div>
+  <div class="query-list">
+    <div class="query-table">
+      <ps-metal-query-table
+        [query]="query"
+        [rows]="displayedRows"
+        [selectedRecords]="selectedRecords"
+        [cellRefs]="cellRefs"
+        [displayedBulkActions]="displayedBulkActions"
+      ></ps-metal-query-table>
+      <ng-content></ng-content>
+    </div>
+    <ps-metal-error [error]="query.error" *ngIf="query.error && query.syncMethod === 'init'">
+      <ng-container *ngIf="query.status === 'ready'">
+        <button mat-flat-button color="primary" *ngIf="query.error.code !== 404" (click)="query.fetch()">
+          <span>RETRY</span>
+        </button>
+        <button mat-flat-button color="primary" *ngIf="query.error.code === 404" [routerLink]="['/']">
+          <span>BACK TO DASHBOARD</span>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="query.status === 'sync'">
+        <mat-progress-spinner color="primary" diameter="32" mode="indeterminate"></mat-progress-spinner>
+      </ng-container>
+    </ps-metal-error>
+  </div>
+  <div class="query-foot">
+    <ps-metal-query-refresh [query]="query"></ps-metal-query-refresh>
+    <div class="query-selected-count" *ngIf="selectedRecords.length">
+      {{ selectedInfo.selected }}
+      of {{ selectedInfo.indexed ? selectedInfo.indexed : selectedInfo.total }}
+      selected
+    </div>
+    <ng-container *psMetalServerCache>
+      <ps-metal-query-export
+        *ngIf="query.status === 'ready' && !query.error && query.meta && query.meta.totalRecords"
+        [title]="title || query.collection.configs.name"
+        [query]="query"
+        [headers]="exportHeaders"
+      ></ps-metal-query-export>
+    </ng-container>
+    <div class="flex-1"></div>
+    <ps-metal-query-pagination *ngIf="query.meta" [query]="query"></ps-metal-query-pagination>
+  </div>
+</ng-container>

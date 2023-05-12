@@ -1,0 +1,6 @@
+<div class="ps-input-style">
+  <mat-icon class="prefix">search</mat-icon>
+  <input type="text" [(ngModel)]="state.parentQuery.filters.search" />
+  <span class="suffix helper dark:border-gray-600">CTRL + /</span>
+  <mat-icon *ngIf="__hasValue" matTooltip="Clear" (click)="reset()">close</mat-icon>
+</div>

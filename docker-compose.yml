@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+  portal:
+    container_name: ordero-portal
+    image: ordero-portal:latest
+    restart: on-failure
+    environment:
+      APP_NAME: ${APP_NAME}
+      API_URL: ${API_URL}
+      ENV_NAME: ${ENV_NAME}
+      ENCRYPT_KEY: ${ENCRYPT_KEY}
+      PRODUCTION: ${PRODUCTION}
+      DEBUG: ${DEBUG}
+      HMR: ${HMR}
+      SENTRY_DSN: ${SENTRY_DSN}
+      SOCKET_TYPE: ${SOCKET_TYPE}
+      CENTRIFUGO_URL: ${CENTRIFUGO_URL}
+    volumes:
+      - ordero:/portal
+    ports:
+      - "3000:9000"
+    expose:
+      - "9000"
+    networks:
+      net:
+        ipv4_address: ${NETWORK_IP}
+
+volumes:
+  ordero:
+    name: ordero
+    driver: local
+
+networks:
+  net:
+    name: net

@@ -1,0 +1,4 @@
+<img *ngIf="image" src="{{ image }}" />
+<h3 *ngIf="title" [innerHTML]="title"></h3>
+<span *ngIf="message" [innerHTML]="message"></span>
+<ng-content></ng-content>

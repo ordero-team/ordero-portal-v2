@@ -1,0 +1,41 @@
+<!-- Title -->
+<div class="mt-8 text-4xl font-extrabold leading-tight tracking-tight">Sign in</div>
+
+<form role="form" [akaForm]="formData" (ngSubmit)="submit()" class="mt-8">
+  <!-- Email field -->
+  <mat-form-field class="w-full" akaProps>
+    <mat-label>Email</mat-label>
+    <input id="email" type="email" name="email" [(ngModel)]="formData.email" matInput />
+  </mat-form-field>
+
+  <!-- Password field -->
+  <mat-form-field class="w-full" akaProps>
+    <mat-label>Password</mat-label>
+    <input id="password" matInput type="password" name="password" [(ngModel)]="formData.password" #passwordField />
+    <button
+      mat-icon-button
+      type="button"
+      (click)="passwordField.type === 'password' ? (passwordField.type = 'text') : (passwordField.type = 'password')"
+      matSuffix
+    >
+      <mat-icon class="icon-size-5" [icIcon]="passwordField.type === 'password' ? 'eye' : 'eyeOff'"></mat-icon>
+    </button>
+  </mat-form-field>
+
+  <!-- Actions -->
+  <div class="mt-1.5 inline-flex w-full items-end justify-end">
+    <a class="text-md font-medium text-primary hover:underline" [routerLink]="['/forgot-password']">Forgot password?</a>
+  </div>
+
+  <!-- Submit button -->
+  <button
+    type="submit"
+    class="aka-mat-button-large mt-6 w-full"
+    mat-flat-button
+    [color]="'primary'"
+    [disabled]="formData.$disabled || formData.$loading"
+    [akaLoading]="formData.$loading"
+  >
+    Sign In
+  </button>
+</form>

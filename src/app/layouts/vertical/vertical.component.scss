@@ -1,0 +1,70 @@
+:host {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  width: 100%;
+
+  .layout-content {
+    position: relative;
+    display: flex;
+    flex: 1 1 auto;
+    width: 100%;
+  }
+
+  .account-badge {
+    @apply flex items-center rounded-md gap-2 mr-2 text-gray-600 transition duration-200;
+    padding-block: 0.5em;
+    padding-inline: 0.5em;
+
+    div.account-icon {
+      @apply flex justify-center items-center w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700;
+
+      mat-icon {
+        @apply icon-size-6 relative z-10;
+      }
+    }
+
+    .account-info {
+      @apply flex flex-col;
+
+      .account-title {
+        @apply text-sm text-default;
+      }
+
+      .account-desc {
+        @apply text-md font-semibold text-default;
+      }
+    }
+  }
+
+  ::ng-deep {
+    aka-vertical-navigation {
+      &.dark {
+        background-color: #2F4858;
+        @apply dark:bg-gray-900 #{'!important'};
+
+        /* Group */
+        aka-vertical-navigation-group-item {
+          .aka-vertical-navigation-item-wrapper .aka-vertical-navigation-item {
+            .aka-vertical-navigation-item-title-wrapper {
+              .aka-vertical-navigation-item-title {
+                @apply text-primary-400;
+              }
+            }
+          }
+
+          aka-vertical-navigation-basic-item,
+          aka-vertical-navigation-collapsable-item {
+            .aka-vertical-navigation-item-wrapper .aka-vertical-navigation-item {
+              .aka-vertical-navigation-item-title-wrapper {
+                .aka-vertical-navigation-item-title {
+                  @apply text-white dark:text-white;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

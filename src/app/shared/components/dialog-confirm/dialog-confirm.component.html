@@ -1,0 +1,30 @@
+<aka-card>
+  <aka-card-head>
+    <aka-card-title>
+      <h3 class="text-xl font-semibold">{{ data.title || 'Are you sure?' }}</h3>
+    </aka-card-title>
+  </aka-card-head>
+  <aka-card-content>
+    <p [innerHTML]="data.message"></p>
+    <div class="confirm-warning" *ngIf="data.showWarning">
+      <mat-icon class="icon-size-5" icIcon="roundWarningAmber"></mat-icon>
+      <span class="ml-1 text-md">{{ data.warningMessage || "Warning: This action can't be undone." }}</span>
+    </div>
+  </aka-card-content>
+  <aka-card-foot>
+    <span class="flex-1"></span>
+    <button type="button" mat-button (click)="cancel()" tabindex="-1">CANCEL</button>
+    <button
+      *ngIf="data.showConfirm"
+      type="submit"
+      class="uppercase"
+      mat-flat-button
+      tabindex="-1"
+      [color]="data.confirmColor || 'primary'"
+      (click)="confirm()"
+      autofocus
+    >
+      {{ data.confirmLabel }}
+    </button>
+  </aka-card-foot>
+</aka-card>

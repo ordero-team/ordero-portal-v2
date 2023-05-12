@@ -1,0 +1,10 @@
+<aka-select-order-status
+  fieldClass="aka-mat-dense w-full block"
+  name="order_status"
+  [(ngModel)]="order_status"
+  [required]="false"
+  [placeholder]="'Filter Order Status'"
+  [withPrefix]="true"
+  [status]="status"
+  (change)="apply($event)"
+></aka-select-order-status>

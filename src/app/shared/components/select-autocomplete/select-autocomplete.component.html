@@ -1,0 +1,41 @@
+<mat-form-field class="{{ class || '' }}">
+  <mat-label *ngIf="label">{{ label }}</mat-label>
+  <input
+    type="text"
+    matInput
+    [required]="required"
+    [placeholder]="placeholder"
+    [formControl]="inputCtrl"
+    [matAutocomplete]="auto"
+    (blur)="blur()"
+  />
+  <button
+    mat-button
+    *ngIf="!loading && inputCtrl.value && !inputCtrl.disabled"
+    matSuffix
+    mat-icon-button
+    aria-label="Clear"
+    (click)="clear()"
+  >
+    <mat-icon icIcon="baselineClose"></mat-icon>
+  </button>
+  <mat-icon matPrefix [icIcon]="suffixIcon ? suffixIcon : ''" *ngIf="withPrefix"></mat-icon>
+  <mat-icon *ngIf="!loading" matSuffix icIcon="roundKeyboardArrowDown"></mat-icon>
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    (optionSelected)="onSelect($event)"
+    (optionActivated)="onActive($event)"
+    (closed)="autoselect()"
+  >
+    <mat-option
+      class="aka-highlight-option"
+      *ngFor="let option of filteredOptions | orderBy: 'label'"
+      [value]="option"
+      [class.mat-active]="selected && selected.value === option.value"
+    >
+      {{ option.label }}
+    </mat-option>
+  </mat-autocomplete>
+  <mat-progress-spinner *ngIf="loading" matSuffix diameter="16" mode="indeterminate"></mat-progress-spinner>
+  <mat-hint align="start" *ngIf="hint">{{ hint }}</mat-hint>
+</mat-form-field>

@@ -1,0 +1,13 @@
+<div class="metal-error-head">
+  <img *ngIf="darkMode" src="/assets/images/mascot-away-dark.svg" alt="" class="metal-error-background">
+  <img *ngIf="!darkMode" src="/assets/images/mascot-away-light.svg" alt="" class="metal-error-background">
+  <div class="metal-error-code">
+    <span>{{error.code}}</span>
+  </div>
+</div>
+<div class="metal-error-body">
+  <div class="metal-error-message">
+    <span>{{error.message}}</span>
+  </div>
+  <ng-content></ng-content>
+</div>

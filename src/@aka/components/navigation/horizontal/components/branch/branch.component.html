@@ -1,0 +1,115 @@
+<div
+  *ngIf="!child"
+  [ngClass]="{'aka-horizontal-navigation-menu-active': trigger.menuOpen,
+                 'aka-horizontal-navigation-menu-active-forced': item.active}"
+  [matMenuTriggerFor]="matMenu"
+  (onMenuOpen)="triggerChangeDetection()"
+  (onMenuClose)="triggerChangeDetection()"
+  #trigger="matMenuTrigger">
+  <ng-container *ngTemplateOutlet="itemTemplate; context: {$implicit: item}"></ng-container>
+</div>
+
+<mat-menu
+  class="aka-horizontal-navigation-menu-panel"
+  [overlapTrigger]="false"
+  #matMenu="matMenu">
+
+  <ng-container *ngFor="let item of item.children">
+
+    <!-- Skip the hidden items -->
+    <ng-container *ngIf="(item.hidden && !item.hidden(item)) || !item.hidden">
+
+      <!-- Basic -->
+      <div
+        class="aka-horizontal-navigation-menu-item"
+        *ngIf="item.type === 'basic'"
+        [disabled]="item.disabled"
+        mat-menu-item>
+        <aka-horizontal-navigation-basic-item
+          [item]="item"
+          [name]="name"></aka-horizontal-navigation-basic-item>
+      </div>
+
+      <!-- Branch: aside, collapsable, group -->
+      <div
+        class="aka-horizontal-navigation-menu-item"
+        *ngIf="item.type === 'aside' || item.type === 'collapsable' || item.type === 'group'"
+        [disabled]="item.disabled"
+        [matMenuTriggerFor]="branch.matMenu"
+        mat-menu-item>
+        <ng-container *ngTemplateOutlet="itemTemplate; context: {$implicit: item}"></ng-container>
+        <aka-horizontal-navigation-branch-item
+          [child]="true"
+          [item]="item"
+          [name]="name"
+          #branch></aka-horizontal-navigation-branch-item>
+      </div>
+
+      <!-- Divider -->
+      <div
+        class="aka-horizontal-navigation-menu-item"
+        *ngIf="item.type === 'divider'"
+        mat-menu-item>
+        <aka-horizontal-navigation-divider-item
+          [item]="item"
+          [name]="name"></aka-horizontal-navigation-divider-item>
+      </div>
+
+    </ng-container>
+
+  </ng-container>
+
+</mat-menu>
+
+<!-- Item template -->
+<ng-template
+  let-item
+  #itemTemplate>
+
+  <div
+    class="aka-horizontal-navigation-item-wrapper"
+    [class.aka-horizontal-navigation-item-has-subtitle]="!!item.subtitle"
+    [ngClass]="item.classes?.wrapper">
+
+    <div
+      class="aka-horizontal-navigation-item"
+      [ngClass]="{'aka-horizontal-navigation-item-disabled': item.disabled,
+                         'aka-horizontal-navigation-item-active-forced': item.active}">
+
+      <!-- Icon -->
+      <mat-icon
+        class="aka-horizontal-navigation-item-icon"
+        [ngClass]="item.classes?.icon"
+        *ngIf="item.icon"
+        [svgIcon]="item.icon"></mat-icon>
+
+      <!-- Title & Subtitle -->
+      <div class="aka-horizontal-navigation-item-title-wrapper">
+        <div class="aka-horizontal-navigation-item-title">
+                    <span [ngClass]="item.classes?.title">
+                        {{item.title}}
+                    </span>
+        </div>
+        <div
+          class="aka-horizontal-navigation-item-subtitle text-hint"
+          *ngIf="item.subtitle">
+                    <span [ngClass]="item.classes?.subtitle">
+                        {{item.subtitle}}
+                    </span>
+        </div>
+      </div>
+
+      <!-- Badge -->
+      <div
+        class="aka-horizontal-navigation-item-badge"
+        *ngIf="item.badge">
+        <div
+          class="aka-horizontal-navigation-item-badge-content"
+          [ngClass]="item.badge.classes">
+          {{item.badge.title}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ng-template>

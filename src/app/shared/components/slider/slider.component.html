@@ -1,0 +1,31 @@
+<div class="aka-slider-wrap relative">
+  <div class="aka-slider-content" [ngStyle]="styles" [ngClass]="{ 'slider-with-thumb': withThumb }">
+    <ng-content></ng-content>
+    <ng-container *ngIf="withThumb">
+      <aka-slider-thumb [items]="items" [current]="current" (change)="current = $event"></aka-slider-thumb>
+    </ng-container>
+  </div>
+  <div class="aka-slider-pagination" *ngIf="items.length > 1 && type !== 'none'">
+    <span
+      *ngFor="let item of items; let i = index"
+      class="{{ type }} {{ item.class }}"
+      [ngClass]="{ active: current === i }"
+      (click)="current = i"
+    >
+      {{ i + 1 }}
+    </span>
+  </div>
+
+  <mat-icon
+    *ngIf="navs && items.length > 1"
+    class="aka-slider-nav-left"
+    (click)="prev()"
+    icIcon="outlineKeyboardArrowLeft"
+  ></mat-icon>
+  <mat-icon
+    *ngIf="navs && items.length > 1"
+    class="aka-slider-nav-right"
+    (click)="next()"
+    icIcon="outlineKeyboardArrowRight"
+  ></mat-icon>
+</div>

@@ -1,0 +1,35 @@
+:host {
+  agm-map {
+    height: 400px;
+  }
+
+  .map-with-marker {
+    position: relative;
+  }
+
+  .map-center-marker {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+  }
+
+  .img-marker {
+    width: 15%;
+  }
+
+  .form-group.autocomplete.btn.btn-center-marker {
+    border: solid 1px #243D97;
+    background-color: #243D97;
+    color: white;
+    font-size: 12px;
+    width: 140px;
+    height: 32px;
+    border-radius: 10px;
+  }
+}

@@ -1,0 +1,31 @@
+
+.gallery-wrap {
+  position: relative;
+
+  .image-wrap {
+    img {
+      display: block;
+      max-width: 500px;
+      height: auto;
+      margin: 0 auto;
+    }
+  }
+
+  .image-navigator {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: absolute;
+    top: 50%;
+    margin-top: -16px;
+    width: 100%;
+
+    mat-icon {
+      cursor: pointer;
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+      color: #000000;
+    }
+  }
+}

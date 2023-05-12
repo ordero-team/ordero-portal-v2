@@ -1,0 +1,117 @@
+<div class="bg-card border-b px-4 py-2 dark:bg-transparent md:px-6">
+  <aka-route-activator></aka-route-activator>
+  <div class="flex w-full justify-between">
+    <div class="flex items-center gap-2">
+      <aka-breadcrumb-item>
+        <!--            <a mat-icon-button (click)="back()">-->
+        <!--              <mat-icon [icIcon]="twoToneArrowBack"></mat-icon>-->
+        <!--            </a>-->
+        <button
+          *ngIf="isLoaded && subNavMode === 'over'"
+          mat-icon-button
+          class="button-open-drawer"
+          (click)="subNavOpen ? subNavService.close() : subNavService.open()"
+        >
+          <mat-icon icIcon="menuIcon"></mat-icon>
+        </button>
+      </aka-breadcrumb-item>
+      <div class="ml-2 flex w-full items-center font-medium md:ml-0">
+        <ng-container *ngFor="let crumb of crumbs; let last = last; let first = first">
+          <aka-breadcrumb-item>
+            <mat-icon *ngIf="!first" class="text-secondary ml-1 icon-size-5" icIcon="outlineChevronRight"></mat-icon>
+            <a
+              *ngIf="!last"
+              [routerLink]="crumb.display.link"
+              [ngClass]="{
+                disabled: crumb.display.disabled,
+                'ml-1': !first
+              }"
+            >
+              {{ getTitle(crumb) }}
+            </a>
+            <span *ngIf="last" class="text-secondary">{{ getTitle(crumb) }}</span>
+          </aka-breadcrumb-item>
+        </ng-container>
+      </div>
+    </div>
+
+    <ng-container *ngIf="actions">
+      <div class="flex">
+        <div class="action-group action-tool items-center gap-2" *ngFor="let group of actions">
+          <ng-container *ngFor="let btn of group">
+            <!-- Button With Text -->
+            <ng-container *ngIf="!btn.hidden">
+              <ng-container *ngIf="!btn.iconOnly">
+                <ng-container *ngIf="btn.click">
+                  <button
+                    *akaCan="btn.permissions"
+                    mat-flat-button
+                    class="action-btn"
+                    [color]="btn.color"
+                    [disabled]="btn.disabled"
+                    (click)="btn.click()"
+                  >
+                    <mat-icon *ngIf="btn.icon" [icIcon]="btn.icon"></mat-icon>
+                    <span>{{ btn.text || btn.tips }}</span>
+                  </button>
+                </ng-container>
+
+                <ng-container *ngIf="btn.link">
+                  <a
+                    *akaCan="btn.permissions"
+                    mat-flat-button
+                    routerLinkActive="current"
+                    class="action-btn"
+                    [color]="btn.color"
+                    [routerLink]="[btn.link]"
+                    [class.disabled]="btn.disabled"
+                  >
+                    <mat-icon *ngIf="btn.icon" [icIcon]="btn.icon"></mat-icon>
+                    <span>{{ btn.text || btn.tips }}</span>
+                  </a>
+                </ng-container>
+              </ng-container>
+              <!-- Button Icon Only -->
+              <ng-container *ngIf="btn.iconOnly">
+                <ng-container *ngIf="btn.click">
+                  <button
+                    *akaCan="btn.permissions"
+                    mat-icon-button
+                    [matTooltip]="btn.tips"
+                    [color]="btn.color"
+                    [disabled]="btn.disabled"
+                    [class.no-color]="!btn.color"
+                    (click)="btn.click()"
+                  >
+                    <mat-icon [icIcon]="btn.icon"></mat-icon>
+                  </button>
+                </ng-container>
+
+                <ng-container *ngIf="btn.link">
+                  <a
+                    *akaCan="btn.permissions"
+                    mat-icon-button
+                    routerLinkActive="current"
+                    [matTooltip]="btn.tips"
+                    [color]="btn.color"
+                    [routerLink]="[btn.link]"
+                    [class.disabled]="btn.disabled"
+                    [class.no-color]="!btn.color"
+                  >
+                    <mat-icon [icIcon]="btn.icon"></mat-icon>
+                  </a>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="groups">
+      <ng-container *ngFor="let group of groups">
+        <ng-container [ngTemplateOutlet]="group.template"></ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

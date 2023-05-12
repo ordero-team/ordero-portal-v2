@@ -1,0 +1,91 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  color: rgba(var(--aka-text-default-rgb), var(--tw-text-opacity));
+
+  .pagination-state, .pagination-nav, .pagination-limit {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pagination-state {
+    .mat-icon.small {
+      opacity: 0.5;
+      margin-left: 6px;
+      transition: all 0.3s ease-in-out;
+      cursor: default;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .pagination-nav {
+    ul {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+
+      li {
+        display: block;
+        margin: 0 2px;
+      }
+
+      a {
+        display: block;
+        border-radius: 3px;
+        transition: all 0.2s ease-in-out;
+        text-decoration: none;
+        padding: 7px 9px;
+        cursor: pointer;
+        color: rgba(var(--aka-text-default-rgb), var(--tw-text-opacity));
+
+        &:hover, &.current {
+          color: #fff;
+          background-color: var(--aka-primary);
+        }
+
+        &.disabled, &.current {
+          pointer-events: none;
+        }
+      }
+    }
+  }
+
+  .pagination-state, .pagination-limit {
+    white-space: nowrap;
+  }
+
+  .pagination-limit {
+    margin-right: 8px;
+
+    .pagination-limit-label {
+      margin: 0 4px;
+    }
+
+    mat-form-field {
+      width: 80px;
+      margin: 0 4px 0 4px;
+
+      ::ng-deep {
+        .mat-form-field-wrapper {
+          margin-bottom: 0;
+          .mat-form-field-flex {
+            min-height: 32px;
+          }
+        }
+      }
+    }
+  }
+}

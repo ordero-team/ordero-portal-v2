@@ -1,0 +1,1340 @@
+aka-alert {
+  display: block;
+
+  /* Common */
+  .aka-alert-container {
+    position: relative;
+    display: flex;
+    padding: 16px;
+    font-size: 14px;
+    line-height: 1;
+
+    /* All icons */
+    .mat-icon {
+      color: currentColor !important;
+    }
+
+    /* Icon */
+    .aka-alert-icon {
+      display: flex;
+      align-items: flex-start;
+
+      .aka-alert-custom-icon,
+      .aka-alert-default-icon {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+
+        &:not(:empty) {
+          display: flex;
+          margin-right: 12px;
+        }
+      }
+
+      .aka-alert-default-icon {
+
+        .mat-icon {
+          @apply icon-size-5;
+        }
+      }
+
+      .aka-alert-custom-icon {
+        display: none;
+
+        &:not(:empty) {
+          display: flex;
+
+          + .aka-alert-default-icon {
+            display: none;
+          }
+        }
+      }
+    }
+
+    /* Content */
+    .aka-alert-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      line-height: 1;
+
+      /* Title */
+      .aka-alert-title {
+        display: none;
+        font-weight: 600;
+        line-height: 20px;
+
+        &:not(:empty) {
+          display: block;
+
+          /* Alert that comes after the title */
+          + .aka-alert-message {
+
+            &:not(:empty) {
+              margin-top: 4px;
+            }
+          }
+        }
+      }
+
+      /* Alert */
+      .aka-alert-message {
+        display: none;
+        line-height: 20px;
+
+        &:not(:empty) {
+          display: block;
+        }
+      }
+    }
+
+    /* Dismiss button */
+    .aka-alert-dismiss-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 32px !important;
+      min-width: 32px !important;
+      height: 32px !important;
+      min-height: 32px !important;
+      line-height: 32px !important;
+
+      .mat-icon {
+        @apply icon-size-4;
+      }
+    }
+  }
+
+  /* Dismissible */
+  &.aka-alert-dismissible {
+
+    .aka-alert-container {
+
+      .aka-alert-content {
+        margin-right: 32px;
+      }
+    }
+  }
+
+  &:not(.aka-alert-dismissible) {
+
+    .aka-alert-container {
+
+      .aka-alert-dismiss-button {
+        display: none !important;
+      }
+    }
+  }
+
+  /* Border */
+  &.aka-alert-appearance-border {
+
+    .aka-alert-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 6px;
+      @apply shadow-md bg-card;
+
+      .aka-alert-border {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+      }
+
+      .aka-alert-message {
+        @apply text-gray-600;
+      }
+    }
+
+    /* Primary */
+    &.aka-alert-type-primary {
+
+      .aka-alert-container {
+
+        .aka-alert-border {
+          @apply bg-primary;
+        }
+
+        .aka-alert-title,
+        .aka-alert-icon {
+          @apply text-primary;
+        }
+
+        .dark & {
+          @apply bg-gray-700;
+
+          .aka-alert-border {
+            @apply bg-primary-400;
+          }
+
+          .aka-alert-title,
+          .aka-alert-icon {
+            @apply text-primary-400;
+          }
+
+          .aka-alert-message {
+            @apply text-gray-300;
+          }
+
+          code {
+            @apply bg-gray-400 text-gray-800;
+          }
+        }
+      }
+    }
+
+    /* Accent */
+    &.aka-alert-type-accent {
+
+      .aka-alert-container {
+
+        .aka-alert-border {
+          @apply bg-accent;
+        }
+
+        .aka-alert-title,
+        .aka-alert-icon {
+          @apply text-accent;
+        }
+
+        .dark & {
+          @apply bg-gray-700;
+
+          .aka-alert-border {
+            @apply bg-accent-400;
+          }
+
+          .aka-alert-title,
+          .aka-alert-icon {
+            @apply text-accent-400;
+          }
+
+          .aka-alert-message {
+            @apply text-gray-300;
+          }
+
+          code {
+            @apply bg-gray-400 text-gray-800;
+          }
+        }
+      }
+    }
+
+    /* Warn */
+    &.aka-alert-type-warn {
+
+      .aka-alert-container {
+
+        .aka-alert-border {
+          @apply bg-warn;
+        }
+
+        .aka-alert-title,
+        .aka-alert-icon {
+          @apply text-warn;
+        }
+
+        .dark & {
+          @apply bg-gray-700;
+
+          .aka-alert-border {
+            @apply bg-warn-400;
+          }
+
+          .aka-alert-title,
+          .aka-alert-icon {
+            @apply text-warn-400;
+          }
+
+          .aka-alert-message {
+            @apply text-gray-300;
+          }
+
+          code {
+            @apply bg-gray-400 text-gray-800;
+          }
+        }
+      }
+    }
+
+    /* Basic */
+    &.aka-alert-type-basic {
+
+      .aka-alert-container {
+
+        .aka-alert-border {
+          @apply bg-gray-600;
+        }
+
+        .aka-alert-title,
+        .aka-alert-icon {
+          @apply text-gray-600;
+        }
+
+        .dark & {
+          @apply bg-gray-700;
+
+          .aka-alert-border {
+            @apply bg-gray-400;
+          }
+
+          .aka-alert-title,
+          .aka-alert-icon {
+            @apply text-gray-400;
+          }
+
+          .aka-alert-message {
+            @apply text-gray-300;
+          }
+
+          code {
+            @apply bg-gray-400 text-gray-800;
+          }
+        }
+      }
+    }
+
+    /* Info */
+    &.aka-alert-type-info {
+
+      .aka-alert-container {
+
+        .aka-alert-border {
+          @apply bg-blue-600;
+        }
+
+        .aka-alert-title,
+        .aka-alert-icon {
+          @apply text-blue-700;
+        }
+
+        .dark & {
+          @apply bg-gray-700;
+
+          .aka-alert-border {
+            @apply bg-blue-400;
+          }
+
+          .aka-alert-title,
+          .aka-alert-icon {
+            @apply text-blue-400;
+          }
+
+          .aka-alert-message {
+            @apply text-gray-300;
+          }
+
+          code {
+            @apply bg-gray-400 text-gray-800;
+          }
+        }
+      }
+    }
+
+    /* Success */
+    &.aka-alert-type-success {
+
+      .aka-alert-container {
+
+        .aka-alert-border {
+          @apply bg-green-500;
+        }
+
+        .aka-alert-title,
+        .aka-alert-icon {
+          @apply text-green-500;
+        }
+
+        .dark & {
+          @apply bg-gray-700;
+
+          .aka-alert-border {
+            @apply bg-green-400;
+          }
+
+          .aka-alert-title,
+          .aka-alert-icon {
+            @apply text-green-400;
+          }
+
+          .aka-alert-message {
+            @apply text-gray-300;
+          }
+
+          code {
+            @apply bg-gray-400 text-gray-800;
+          }
+        }
+      }
+    }
+
+    /* Warning */
+    &.aka-alert-type-warning {
+
+      .aka-alert-container {
+
+        .aka-alert-border {
+          @apply bg-amber-500;
+        }
+
+        .aka-alert-title,
+        .aka-alert-icon {
+          @apply text-amber-500;
+        }
+
+        .dark & {
+          @apply bg-gray-700;
+
+          .aka-alert-border {
+            @apply bg-amber-400;
+          }
+
+          .aka-alert-title,
+          .aka-alert-icon {
+            @apply text-amber-400;
+          }
+
+          .aka-alert-message {
+            @apply text-gray-300;
+          }
+
+          code {
+            @apply bg-gray-400 text-gray-800;
+          }
+        }
+      }
+    }
+
+    /* Error */
+    &.aka-alert-type-error {
+
+      .aka-alert-container {
+
+        .aka-alert-border {
+          @apply bg-red-600;
+        }
+
+        .aka-alert-title,
+        .aka-alert-icon {
+          @apply text-red-700;
+        }
+
+        .dark & {
+          @apply bg-gray-700;
+
+          .aka-alert-border {
+            @apply bg-red-400;
+          }
+
+          .aka-alert-title,
+          .aka-alert-icon {
+            @apply text-red-400;
+          }
+
+          .aka-alert-message {
+            @apply text-gray-300;
+          }
+
+          code {
+            @apply bg-gray-400 text-gray-800;
+          }
+        }
+      }
+    }
+  }
+
+  /* Fill */
+  &.aka-alert-appearance-fill {
+
+    .aka-alert-container {
+      border-radius: 6px;
+
+      .aka-alert-dismiss-button {
+        @apply text-white;
+      }
+    }
+
+    /* Primary */
+    &.aka-alert-type-primary {
+
+      .aka-alert-container {
+        @apply bg-primary-600;
+
+        .aka-alert-icon {
+          @apply text-white;
+        }
+
+        .aka-alert-title {
+          @apply text-white;
+        }
+
+        .aka-alert-message {
+          @apply text-primary-100;
+        }
+
+        code {
+          @apply text-primary-800 bg-primary-200;
+        }
+      }
+    }
+
+    /* Accent */
+    &.aka-alert-type-accent {
+
+      .aka-alert-container {
+        @apply bg-accent-600;
+
+        .aka-alert-icon {
+          @apply text-white;
+        }
+
+        .aka-alert-title {
+          @apply text-white;
+        }
+
+        .aka-alert-message {
+          @apply text-accent-100;
+        }
+
+        code {
+          @apply text-accent-800 bg-accent-200;
+        }
+      }
+    }
+
+    /* Warn */
+    &.aka-alert-type-warn {
+
+      .aka-alert-container {
+        @apply bg-warn-600;
+
+        .aka-alert-icon {
+          @apply text-white;
+        }
+
+        .aka-alert-title {
+          @apply text-white;
+        }
+
+        .aka-alert-message {
+          @apply text-warn-100;
+        }
+
+        code {
+          @apply text-warn-800 bg-warn-200;
+        }
+      }
+    }
+
+    /* Basic */
+    &.aka-alert-type-basic {
+
+      .aka-alert-container {
+        @apply bg-gray-600;
+
+        .aka-alert-icon {
+          @apply text-white;
+        }
+
+        .aka-alert-title {
+          @apply text-white;
+        }
+
+        .aka-alert-message {
+          @apply text-gray-100;
+        }
+
+        code {
+          @apply bg-gray-200 text-gray-800;
+        }
+      }
+    }
+
+    /* Info */
+    &.aka-alert-type-info {
+
+      .aka-alert-container {
+        @apply bg-blue-600;
+
+        .aka-alert-icon {
+          @apply text-white;
+        }
+
+        .aka-alert-title {
+          @apply text-white;
+        }
+
+        .aka-alert-message {
+          @apply text-blue-100;
+        }
+
+        code {
+          @apply bg-blue-200 text-blue-800;
+        }
+      }
+    }
+
+    /* Success */
+    &.aka-alert-type-success {
+
+      .aka-alert-container {
+        @apply bg-green-600;
+
+        .aka-alert-icon {
+          @apply text-white;
+        }
+
+        .aka-alert-title {
+          @apply text-white;
+        }
+
+        .aka-alert-message {
+          @apply text-green-100;
+        }
+
+        code {
+          @apply bg-green-200 text-gray-800;
+        }
+      }
+    }
+
+    /* Warning */
+    &.aka-alert-type-warning {
+
+      .aka-alert-container {
+        @apply bg-amber-500;
+
+        .aka-alert-icon {
+          @apply text-white;
+        }
+
+        .aka-alert-title {
+          @apply text-white;
+        }
+
+        .aka-alert-message {
+          @apply text-amber-100;
+        }
+
+        code {
+          @apply bg-amber-200 text-amber-800;
+        }
+      }
+    }
+
+    /* Error */
+    &.aka-alert-type-error {
+
+      .aka-alert-container {
+        @apply bg-red-600;
+
+        .aka-alert-icon {
+          @apply text-white;
+        }
+
+        .aka-alert-title {
+          @apply text-white;
+        }
+
+        .aka-alert-message {
+          @apply text-red-100;
+        }
+
+        code {
+          @apply bg-red-200 text-red-800;
+        }
+      }
+    }
+  }
+
+  /* Outline */
+  &.aka-alert-appearance-outline {
+
+    .aka-alert-container {
+      border-radius: 6px;
+    }
+
+    /* Primary */
+    &.aka-alert-type-primary {
+
+      .aka-alert-container {
+        @apply bg-primary-50 ring-1 ring-primary-400 ring-inset;
+
+        .aka-alert-icon {
+          @apply text-primary-600;
+        }
+
+        .aka-alert-title,
+        .aka-alert-dismiss-button {
+          @apply text-primary-900;
+        }
+
+        .aka-alert-message {
+          @apply text-primary-700;
+        }
+
+        code {
+          @apply text-primary-800 bg-primary-200;
+        }
+
+        .dark & {
+          @apply bg-primary-600;
+
+          .aka-alert-icon {
+            @apply text-white;
+          }
+
+          .aka-alert-title,
+          .aka-alert-dismiss-button {
+            @apply text-white;
+          }
+
+          .aka-alert-message {
+            @apply text-primary-200;
+          }
+        }
+      }
+    }
+
+    /* Accent */
+    &.aka-alert-type-accent {
+
+      .aka-alert-container {
+        @apply bg-accent-100 ring-1 ring-accent-400 ring-inset;
+
+        .aka-alert-icon {
+          @apply text-accent-600;
+        }
+
+        .aka-alert-title,
+        .aka-alert-dismiss-button {
+          @apply text-accent-900;
+        }
+
+        .aka-alert-message {
+          @apply text-accent-700;
+        }
+
+        code {
+          @apply text-accent-800 bg-accent-200;
+        }
+
+        .dark & {
+          @apply bg-accent-600;
+
+          .aka-alert-icon {
+            @apply text-white;
+          }
+
+          .aka-alert-title,
+          .aka-alert-dismiss-button {
+            @apply text-white;
+          }
+
+          .aka-alert-message {
+            @apply text-accent-200;
+          }
+        }
+      }
+    }
+
+    /* Warn */
+    &.aka-alert-type-warn {
+
+      .aka-alert-container {
+        @apply bg-warn-50 ring-1 ring-warn-400 ring-inset;
+
+        .aka-alert-icon {
+          @apply text-warn-600;
+        }
+
+        .aka-alert-title,
+        .aka-alert-dismiss-button {
+          @apply text-warn-900;
+        }
+
+        .aka-alert-message {
+          @apply text-warn-700;
+        }
+
+        code {
+          @apply text-warn-800 bg-warn-200;
+        }
+
+        .dark & {
+          @apply bg-warn-600;
+
+          .aka-alert-icon {
+            @apply text-white;
+          }
+
+          .aka-alert-title,
+          .aka-alert-dismiss-button {
+            @apply text-white;
+          }
+
+          .aka-alert-message {
+            @apply text-warn-200;
+          }
+        }
+      }
+    }
+
+    /* Basic */
+    &.aka-alert-type-basic {
+
+      .aka-alert-container {
+        @apply bg-gray-100 ring-1 ring-gray-400 ring-inset;
+
+        .aka-alert-icon {
+          @apply text-gray-600;
+        }
+
+        .aka-alert-title,
+        .aka-alert-dismiss-button {
+          @apply text-gray-900;
+        }
+
+        .aka-alert-message {
+          @apply text-gray-700;
+        }
+
+        code {
+          @apply bg-gray-200 text-gray-800;
+        }
+
+        .dark & {
+          @apply bg-gray-600;
+
+          .aka-alert-icon {
+            @apply text-white;
+          }
+
+          .aka-alert-title,
+          .aka-alert-dismiss-button {
+            @apply text-white;
+          }
+
+          .aka-alert-message {
+            @apply text-gray-200;
+          }
+        }
+      }
+    }
+
+    /* Info */
+    &.aka-alert-type-info {
+
+      .aka-alert-container {
+        @apply bg-blue-50 ring-1 ring-blue-400 ring-inset;
+
+        .aka-alert-icon {
+          @apply text-blue-600;
+        }
+
+        .aka-alert-title,
+        .aka-alert-dismiss-button {
+          @apply text-blue-900;
+        }
+
+        .aka-alert-message {
+          @apply text-blue-700;
+        }
+
+        code {
+          @apply bg-blue-200 text-blue-800;
+        }
+
+        .dark & {
+          @apply bg-blue-600;
+
+          .aka-alert-icon {
+            @apply text-white;
+          }
+
+          .aka-alert-title,
+          .aka-alert-dismiss-button {
+            @apply text-white;
+          }
+
+          .aka-alert-message {
+            @apply text-blue-200;
+          }
+        }
+      }
+    }
+
+    /* Success */
+    &.aka-alert-type-success {
+
+      .aka-alert-container {
+        @apply bg-green-50 ring-1 ring-green-400 ring-inset;
+
+        .aka-alert-icon {
+          @apply text-green-600;
+        }
+
+        .aka-alert-title,
+        .aka-alert-dismiss-button {
+          @apply text-green-900;
+        }
+
+        .aka-alert-message {
+          @apply text-green-700;
+        }
+
+        code {
+          @apply bg-green-200 text-green-800;
+        }
+
+        .dark & {
+          @apply bg-green-600;
+
+          .aka-alert-icon {
+            @apply text-white;
+          }
+
+          .aka-alert-title,
+          .aka-alert-dismiss-button {
+            @apply text-white;
+          }
+
+          .aka-alert-message {
+            @apply text-green-200;
+          }
+        }
+      }
+    }
+
+    /* Warning */
+    &.aka-alert-type-warning {
+
+      .aka-alert-container {
+        @apply bg-amber-50 ring-1 ring-amber-400 ring-inset;
+
+        .aka-alert-icon {
+          @apply text-amber-600;
+        }
+
+        .aka-alert-title,
+        .aka-alert-dismiss-button {
+          @apply text-amber-900;
+        }
+
+        .aka-alert-message {
+          @apply text-amber-700;
+        }
+
+        code {
+          @apply bg-amber-200 text-amber-800;
+        }
+
+        .dark & {
+          @apply bg-amber-600;
+
+          .aka-alert-icon {
+            @apply text-white;
+          }
+
+          .aka-alert-title,
+          .aka-alert-dismiss-button {
+            @apply text-white;
+          }
+
+          .aka-alert-message {
+            @apply text-amber-200;
+          }
+        }
+      }
+    }
+
+    /* Error */
+    &.aka-alert-type-error {
+
+      .aka-alert-container {
+        @apply bg-red-50 ring-1 ring-red-400 ring-inset;
+
+        .aka-alert-icon {
+          @apply text-red-600;
+        }
+
+        .aka-alert-title,
+        .aka-alert-dismiss-button {
+          @apply text-red-900;
+        }
+
+        .aka-alert-message {
+          @apply text-red-700;
+        }
+
+        code {
+          @apply bg-red-200 text-red-800;
+        }
+
+        .dark & {
+          @apply bg-red-600;
+
+          .aka-alert-icon {
+            @apply text-white;
+          }
+
+          .aka-alert-title,
+          .aka-alert-dismiss-button {
+            @apply text-white;
+          }
+
+          .aka-alert-message {
+            @apply text-red-200;
+          }
+        }
+      }
+    }
+  }
+
+  /* Soft */
+  &.aka-alert-appearance-soft {
+
+    .aka-alert-container {
+      border-radius: 6px;
+    }
+
+    /* Primary */
+    &.aka-alert-type-primary {
+
+      .aka-alert-container {
+        @apply bg-primary-50;
+
+        .aka-alert-icon {
+          @apply text-primary-600;
+        }
+
+        .aka-alert-title,
+        .aka-alert-dismiss-button {
+          @apply text-primary-900;
+        }
+
+        .aka-alert-message {
+          @apply text-primary-700;
+        }
+
+        code {
+          @apply text-primary-800 bg-primary-200;
+        }
+
+        .dark & {
+          @apply bg-primary-600;
+
+          .aka-alert-icon {
+            @apply text-white;
+          }
+
+          .aka-alert-title,
+          .aka-alert-dismiss-button {
+            @apply text-white;
+          }
+
+          .aka-alert-message {
+            @apply text-primary-200;
+          }
+        }
+      }
+    }
+
+    /* Accent */
+    &.aka-alert-type-accent {
+
+      .aka-alert-container {
+        @apply bg-accent-100;
+
+        .aka-alert-icon {
+          @apply text-accent-600;
+        }
+
+        .aka-alert-title,
+        .aka-alert-dismiss-button {
+          @apply text-accent-900;
+        }
+
+        .aka-alert-message {
+          @apply text-accent-700;
+        }
+
+        code {
+          @apply text-accent-800 bg-accent-200;
+        }
+
+        .dark & {
+          @apply bg-accent-600;
+
+          .aka-alert-icon {
+            @apply text-white;
+          }
+
+          .aka-alert-title,
+          .aka-alert-dismiss-button {
+            @apply text-white;
+          }
+
+          .aka-alert-message {
+            @apply text-accent-200;
+          }
+        }
+      }
+    }
+
+    /* Warn */
+    &.aka-alert-type-warn {
+
+      .aka-alert-container {
+        @apply bg-warn-50;
+
+        .aka-alert-icon {
+          @apply text-warn-600;
+        }
+
+        .aka-alert-title,
+        .aka-alert-dismiss-button {
+          @apply text-warn-900;
+        }
+
+        .aka-alert-message {
+          @apply text-warn-700;
+        }
+
+        code {
+          @apply text-warn-800 bg-warn-200;
+        }
+
+        .dark & {
+          @apply bg-warn-600;
+
+          .aka-alert-icon {
+            @apply text-white;
+          }
+
+          .aka-alert-title,
+          .aka-alert-dismiss-button {
+            @apply text-white;
+          }
+
+          .aka-alert-message {
+            @apply text-warn-200;
+          }
+        }
+      }
+    }
+
+    /* Basic */
+    &.aka-alert-type-basic {
+
+      .aka-alert-container {
+        @apply bg-gray-100;
+
+        .aka-alert-icon {
+          @apply text-gray-600;
+        }
+
+        .aka-alert-title,
+        .aka-alert-dismiss-button {
+          @apply text-gray-900;
+        }
+
+        .aka-alert-message {
+          @apply text-gray-700;
+        }
+
+        code {
+          @apply bg-gray-200 text-gray-800;
+        }
+
+        .dark & {
+          @apply bg-gray-600;
+
+          .aka-alert-icon {
+            @apply text-white;
+          }
+
+          .aka-alert-title,
+          .aka-alert-dismiss-button {
+            @apply text-white;
+          }
+
+          .aka-alert-message {
+            @apply text-gray-200;
+          }
+        }
+      }
+    }
+
+    /* Info */
+    &.aka-alert-type-info {
+
+      .aka-alert-container {
+        @apply bg-blue-50;
+
+        .aka-alert-icon {
+          @apply text-blue-600;
+        }
+
+        .aka-alert-title,
+        .aka-alert-dismiss-button {
+          @apply text-blue-900;
+        }
+
+        .aka-alert-message {
+          @apply text-blue-700;
+        }
+
+        code {
+          @apply bg-blue-200 text-blue-800;
+        }
+
+        .dark & {
+          @apply bg-blue-600;
+
+          .aka-alert-icon {
+            @apply text-white;
+          }
+
+          .aka-alert-title,
+          .aka-alert-dismiss-button {
+            @apply text-white;
+          }
+
+          .aka-alert-message {
+            @apply text-blue-200;
+          }
+        }
+      }
+    }
+
+    /* Success */
+    &.aka-alert-type-success {
+
+      .aka-alert-container {
+        @apply bg-green-50;
+
+        .aka-alert-icon {
+          @apply text-green-600;
+        }
+
+        .aka-alert-title,
+        .aka-alert-dismiss-button {
+          @apply text-green-900;
+        }
+
+        .aka-alert-message {
+          @apply text-green-700;
+        }
+
+        code {
+          @apply bg-green-200 text-green-800;
+        }
+
+        .dark & {
+          @apply bg-green-600;
+
+          .aka-alert-icon {
+            @apply text-white;
+          }
+
+          .aka-alert-title,
+          .aka-alert-dismiss-button {
+            @apply text-white;
+          }
+
+          .aka-alert-message {
+            @apply text-green-200;
+          }
+        }
+      }
+    }
+
+    /* Warning */
+    &.aka-alert-type-warning {
+
+      .aka-alert-container {
+        @apply bg-amber-50;
+
+        .aka-alert-icon {
+          @apply text-amber-600;
+        }
+
+        .aka-alert-title,
+        .aka-alert-dismiss-button {
+          @apply text-amber-900;
+        }
+
+        .aka-alert-message {
+          @apply text-amber-700;
+        }
+
+        code {
+          @apply bg-amber-200 text-amber-800;
+        }
+
+        .dark & {
+          @apply bg-amber-600;
+
+          .aka-alert-icon {
+            @apply text-white;
+          }
+
+          .aka-alert-title,
+          .aka-alert-dismiss-button {
+            @apply text-white;
+          }
+
+          .aka-alert-message {
+            @apply text-amber-200;
+          }
+        }
+      }
+    }
+
+    /* Error */
+    &.aka-alert-type-error {
+
+      .aka-alert-container {
+        @apply bg-red-50;
+
+        .aka-alert-icon {
+          @apply text-red-600;
+        }
+
+        .aka-alert-title,
+        .aka-alert-dismiss-button {
+          @apply text-red-900;
+        }
+
+        .aka-alert-message {
+          @apply text-red-700;
+        }
+
+        code {
+          @apply bg-red-200 text-red-800;
+        }
+
+        .dark & {
+          @apply bg-red-600;
+
+          .aka-alert-icon {
+            @apply text-white;
+          }
+
+          .aka-alert-title,
+          .aka-alert-dismiss-button {
+            @apply text-white;
+          }
+
+          .aka-alert-message {
+            @apply text-red-200;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,3 @@
+<button type="button" mat-icon-button [matTooltip]="tooltip || 'Copy to Clipboard'" (click)="clipboard.copy(value)">
+  <mat-icon>{{ icon || 'file_copy' }}</mat-icon>
+</button>

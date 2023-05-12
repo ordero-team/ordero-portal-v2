@@ -1,0 +1,13 @@
+:host {
+  width: 100%;
+  overflow-y: auto;
+
+  .slider-thumb-image {
+    @apply bg-cover bg-center w-14 h-14 border-2 cursor-pointer;
+
+    &:hover,
+    &.active {
+      @apply border-primary-500;
+    }
+  }
+}

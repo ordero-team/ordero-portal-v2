@@ -1,0 +1,11 @@
+:host {
+  @apply w-64 -mb-4;
+
+  ::ng-deep {
+    mat-form-field {
+      .mat-form-field-flex {
+        width: 100% !important;
+      }
+    }
+  }
+}

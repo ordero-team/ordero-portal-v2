@@ -1,0 +1,21 @@
+<aka-card>
+  <aka-card-head *ngIf="data.title">
+    <aka-card-title>{{ data.title }}</aka-card-title>
+    <ng-container *ngIf="data.actionRef">
+      <ng-container *ngTemplateOutlet="data.actionRef"></ng-container>
+    </ng-container>
+  </aka-card-head>
+  <aka-card-content>
+    <ng-container *ngIf="data.contentRef">
+      <ng-container *ngTemplateOutlet="data.contentRef"></ng-container>
+    </ng-container>
+  </aka-card-content>
+  <ng-container *ngIf="data.footRef">
+    <aka-card-foot>
+      <ng-container *ngTemplateOutlet="data.footRef"></ng-container>
+    </aka-card-foot>
+  </ng-container>
+</aka-card>
+<button *ngIf="!data.static" type="button" mat-icon-button class="exit-button" matTooltip="Close" (click)="dialog.close()">
+  <mat-icon icIcon="baselineClose"></mat-icon>
+</button>

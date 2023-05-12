@@ -1,0 +1,30 @@
+<div class="upload-section {{ class }}">
+  <ngx-dropzone
+    #dropzoneElement
+    [accept]="imageTypes"
+    [maxFileSize]="maxFileSize"
+    [multiple]="multiple"
+    [disabled]="disabled || isLoading"
+    [disableClick]="disableClick"
+    (change)="onSelect($event)"
+    [class.with-image]="currentImage"
+  >
+    <ngx-dropzone-label *ngIf="withLabel">
+      <ng-container *ngIf="currentImage">
+        <div class="upload-preview" [style.backgroundImage]="'url(' + currentImage + ')'"></div>
+        <div class="upload-label">
+          <mat-icon [icIcon]="editIcon" class="plus-icon"></mat-icon>
+          <p class="mt-2">{{ editLabel }}</p>
+        </div>
+      </ng-container>
+
+      <div class="upload-label" *ngIf="!currentImage">
+        <mat-icon [icIcon]="icon" *ngIf="icon" class="plus-icon"></mat-icon>
+        <p *ngIf="label" class="mt-2">{{ label }}</p>
+      </div>
+    </ngx-dropzone-label>
+  </ngx-dropzone>
+  <p class="hint" *ngIf="showHint">
+    {{ textHint }}
+  </p>
+</div>

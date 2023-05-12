@@ -1,0 +1,42 @@
+<div class="pagination-state" *ngIf="info.totalRecords >= 1">
+  {{info.offsetStart.toLocaleString()}}-{{info.offsetEnd.toLocaleString()}}
+  <ng-container *ngIf="info.indexed && info.indexed < info.totalRecords">
+    of {{info.indexed.toLocaleString()}} ({{info.totalRecords.toLocaleString()}})
+    <mat-icon class="small"
+              matTooltip="We are only showing {{info.indexed.toLocaleString()}} records due to performance reason.">
+      info
+    </mat-icon>
+  </ng-container>
+  <ng-container *ngIf="!info.indexed || info.indexed > info.totalRecords">
+    of {{info.totalRecords.toLocaleString()}}
+  </ng-container>
+</div>
+<div class="pagination-nav" *ngIf="info.totalRecords >= 1">
+  <button mat-icon-button [disabled]="info.page < 2" (click)="prev()">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  <ul>
+    <li *ngFor="let segment of segments">
+      <a [ngClass]="{current: info.page === segment.label, disabled:segment.disabled}"
+         (click)="goto(segment.label)">{{segment.label.toLocaleString()}}</a>
+    </li>
+  </ul>
+  <button mat-icon-button [disabled]="info.page >= info.totalPages" (click)="next()">
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+</div>
+<div class="pagination-limit">
+  <span class="pagination-limit-label">Items per page:</span>
+  <mat-form-field>
+    <mat-select [(ngModel)]="query.filters.limit" (selectionChange)="goto(1)">
+      <mat-option [value]="5">5</mat-option>
+      <mat-option [value]="10">10</mat-option>
+      <mat-option [value]="25">25</mat-option>
+      <mat-option [value]="50">50</mat-option>
+      <mat-option [value]="100">100</mat-option>
+      <mat-option [value]="150">150</mat-option>
+      <mat-option [value]="200">200</mat-option>
+      <mat-option [value]="250">250</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>

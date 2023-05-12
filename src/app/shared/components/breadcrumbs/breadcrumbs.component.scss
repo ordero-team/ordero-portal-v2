@@ -1,0 +1,109 @@
+:host {
+  > div {
+    display: flex;
+    min-height: 53px;
+  }
+
+  aka-breadcrumb-item {
+    &:first-child {
+      margin-right: 0;
+    }
+
+    mat-icon {
+      margin-top: 2px;
+    }
+  }
+
+  .action-group {
+    margin: 0 var(--padding);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &:last-child {
+      margin-right: 20px;
+    }
+
+    &:empty {
+      display: none;
+    }
+
+    &.action-tool {
+      margin: 0 13px;
+      position: relative;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &:not(:last-child) {
+        margin-right: 0;
+        padding-right: 13px;
+
+        &:after {
+          content: "";
+          width: 1px;
+          height: 70%;
+          background-color: var(--aka-divider);
+          position: absolute;
+          top: 6px;
+          right: 0px;
+        }
+      }
+    }
+
+    .mat-icon-button, .mat-stroked-button {
+      &:not(:last-child) {
+        margin-right: 10px;
+      }
+    }
+
+    mat-icon {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      line-height: 24px;
+    }
+
+    .action-btn {
+      line-height: 32px;
+      padding: 0 16px;
+      height: 32px;
+      max-height: 32px;
+      min-height: 32px;
+
+      ::ng-deep {
+        .mat-button-wrapper {
+          font-size: 13px;
+          font-weight: 400;
+          height: 32px;
+        }
+
+        mat-icon {
+          margin-right: 5px;
+          font-size: 18px;
+          width: 18px;
+          height: 18px;
+          line-height: 18px;
+        }
+      }
+    }
+
+    .mat-icon-button {
+      width: 36px;
+      height: 36px;
+      max-height: 36px;
+      min-height: 36px;
+
+      ::ng-deep {
+        .mat-button-focus-overlay {
+          opacity: 0 !important;
+        }
+      }
+
+      &.no-color {
+        color: var(--sidenav-item-icon-color);
+      }
+    }
+  }
+}

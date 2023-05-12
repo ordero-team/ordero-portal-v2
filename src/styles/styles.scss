@@ -1,0 +1,306 @@
+/* ----------------------------------------------------------------------------------------------------- */
+/*  @ Import/write your custom styles here.
+/*  @ Styles from this file will override 'vendors.scss' and Aka's base styles.
+/* ----------------------------------------------------------------------------------------------------- */
+
+// ===================== TYPOGRAPHY ===================== //
+a {
+  color: rgba(var(--aka-primary-rgb), var(--tw-text-opacity));
+
+  &:hover {
+    color: rgba(var(--aka-primary-800-rgb), var(--tw-text-opacity));
+
+    &:not(&.mat-flat-button) {
+      @apply dark:text-primary-600 #{'!important'};
+    }
+  }
+}
+
+// ===================== CARD ===================== //
+.aka-card-wrap {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: rgba(var(--aka-bg-card-rgb), var(--tw-bg-opacity));
+  transition: all 0.3s ease-in-out;
+  transition: background-color 0s !important;
+}
+
+.aka-card-head {
+  padding: 10px 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  & ~ .aka-card-content {
+    padding-top: 0;
+  }
+}
+
+.aka-card-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+  color: rgba(var(--aka-text-default-rgb), var(--tw-text-opacity));
+  padding: 10px 0;
+  flex: 1;
+}
+
+.aka-card-content {
+  padding: 24px;
+  flex: 1;
+  color: rgba(var(--aka-text-default-rgb), var(--tw-text-opacity));
+}
+
+.aka-card-inner {
+  flex: 1;
+  border-bottom: 1px solid rgba(var(--aka-border-rgb), var(--tw-border-opacity));
+
+  aka-table {
+    .ps-table {
+      th {
+        border-top: 1px solid rgba(var(--aka-border-rgb), var(--tw-border-opacity));
+      }
+
+      &:last-child {
+        margin-bottom: 12px;
+      }
+    }
+
+    aka-empty-page {
+      padding-bottom: 12px;
+    }
+  }
+}
+
+.aka-card-foot {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 24px 24px 24px;
+
+  button.mat-button, button.mat-raised-button, button.mat-flat-button {
+    margin-left: 10px;
+  }
+}
+
+// ===================== FORM & ERROR MESSAGE ===================== //
+aka-form-message {
+  position: relative;
+  top: -10px;
+  padding: 0;
+  margin-top: 0;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+
+  > div {
+    display: contents; /* Remove the div from flow to stop the subscript animation */
+  }
+
+  .mat-error,
+  .mat-hint {
+    display: block;
+    margin-top: 4px;
+  }
+
+  .mat-hint {
+    @apply text-hint #{'!important'};
+  }
+}
+
+.aka-sort-head {
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  transition: background-color 0s !important;
+
+  .ps-table-sort {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &:hover {
+    mat-icon {
+      color: var(--aka-text-default);
+    }
+  }
+
+  &::after {
+    font-family: "Material Icons";
+    position: absolute;
+    right: 10px;
+    height: 24px;
+    width: 24px;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &.aka-sort-asc {
+    &::after {
+      content: "\e5c5";
+    }
+  }
+
+  &.aka-sort-desc {
+    &::after {
+      content: "\e5c7";
+    }
+  }
+
+}
+
+.aka-form-manage-layout {
+  @apply flex flex-col flex-auto min-w-0 h-full relative;
+
+  .aka-form-manage-container {
+    @apply flex-auto p-6 sm:p-10;
+
+    .aka-form-manage-head {
+      @apply prose prose-sm max-w-full mb-8;
+
+      h2 {
+        text-transform: capitalize;
+      }
+    }
+  }
+}
+
+.aka-field-suffix {
+  .mat-form-field-suffix {
+    @apply border-l ml-1.5;
+  }
+}
+
+// ===================== METAL QUERY TABLE ===================== //
+.deleted-sign {
+  margin-top: 0 !important;
+  margin-left: 0 !important;
+}
+
+// ===================== LOADING BUTTON ===================== //
+.mat-loading-button {
+  &:before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    display: none;
+    background: #fff;
+    border-radius: inherit;
+    opacity: .35;
+    transition: opacity .2s;
+    content: '';
+  }
+
+  .mat-button-wrapper {
+    position: relative;
+    transition: padding 0.3s;
+  }
+
+  .ld {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    margin-top: -0.5em;
+    opacity: 0;
+    z-index: -100;
+    -webkit-transition: opacity 0.1s;
+    transition: opacity 0.1s;
+    transition-timing-function: ease-in;
+  }
+
+  &.running {
+    cursor: default;
+    pointer-events: none;
+
+    &:before {
+      display: block;
+    }
+
+    .mat-button-wrapper {
+      padding-left: 20px;
+    }
+
+    .ld {
+      opacity: 1;
+      z-index: auto;
+      left: 15px;
+    }
+  }
+}
+
+.ld-ring {
+  width: 1em;
+  height: 1em;
+  position: relative;
+  color: inherit;
+  display: inline-block;
+
+  &:after {
+    position: absolute;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    content: " ";
+    display: inline-block;
+    background: center center no-repeat;
+    background-size: cover;
+    border-radius: 50%;
+    border: 0.15em solid;
+    border-color: currentColor currentColor currentColor transparent;
+    -webkit-background-clip: padding-box;
+    box-sizing: border-box;
+  }
+
+  &.ld-spin {
+    -webkit-animation: ld-spin 1s infinite;
+    animation: ld-spin 1s infinite;
+  }
+}
+
+@keyframes ld-spin {
+  0% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes ld-spin {
+  0% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+

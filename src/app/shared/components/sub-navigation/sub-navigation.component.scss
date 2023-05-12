@@ -1,0 +1,9 @@
+aka-vertical-navigation {
+  margin: 10px !important;
+
+  ::ng-deep {
+    .aka-vertical-navigation-wrapper {
+      border-right-width: 0;
+    }
+  }
+}

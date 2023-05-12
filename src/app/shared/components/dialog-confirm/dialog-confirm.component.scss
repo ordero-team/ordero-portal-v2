@@ -1,0 +1,62 @@
+:host {
+  display: block;
+  min-width: 480px;
+  position: relative;
+
+  & > .exit-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+  }
+
+  .confirm-warning {
+    display: flex;
+    flex-direction: row;
+    margin-top: 17px;
+    position: relative;
+    //padding: .75rem;
+    border-radius: 8px;
+    color: #FFBD54;
+    border: 1px solid #FFBD54;
+    background-color: #FFF2DD;
+    align-items: center;
+
+    mat-icon {
+      color: #FFBD54;
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+      margin-right: 5px;
+    }
+
+    span {
+      line-height: 16px;
+    }
+  }
+
+  ::ng-deep {
+    aka-card .aka-card-wrap {
+      .aka-card-head {
+        padding: 0 0 24px 0 !important;
+
+        .aka-card-title {
+          padding: 0 !important;
+        }
+      }
+
+      .aka-card-content {
+        padding: 0 !important;
+      }
+
+      .aka-card-foot {
+        padding: 24px 0 0 0 !important;
+      }
+    }
+  }
+}
+
+//::ng-deep {
+//  .mat-dialog-container {
+//    padding: 0 !important;
+//  }
+//}

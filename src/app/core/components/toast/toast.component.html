@@ -1,0 +1,18 @@
+<div class="toast-item btn-dismiss" *ngIf="service.messages.length > 1" (click)="service.remove()">Dismiss All</div>
+<div class="toast-wrap" *ngIf="service.messages.length">
+  <ng-container *ngFor="let message of service.limitedMessages">
+    <div class="toast-item" [ngClass]="message.classes">
+      <div class="toast-head">
+        <mat-icon [icIcon]="message.icon" class="toast-icon"></mat-icon>
+        <h4>{{ message.title }}</h4>
+        <div class="toast-exit" (click)="service.remove(message)">
+          <mat-icon icIcon="xIcon"></mat-icon>
+        </div>
+      </div>
+      <div class="toast-body">
+        <p [innerHTML]="message.detail"></p>
+      </div>
+    </div>
+  </ng-container>
+</div>
+<div class="toast-item btn-more" *ngIf="service.showLimit" (click)="service.showLimit = false">View More</div>

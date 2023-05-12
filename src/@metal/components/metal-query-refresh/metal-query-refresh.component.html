@@ -1,0 +1,18 @@
+<div class="icon-wrap">
+  <button *ngIf="query.status === 'ready'" mat-icon-button matTooltip="Refresh"
+          (click)="query.fetch()">
+    <mat-icon>autorenew</mat-icon>
+  </button>
+  <mat-progress-spinner *ngIf="query.status !== 'ready'"
+                        mode="indeterminate"
+                        color="primary"
+                        diameter="24"></mat-progress-spinner>
+</div>
+<div class="state-wrap" *ngIf="query.status !== 'ready'">
+  <span>{{query.syncMethod === 'update' ? 'Syncing' : 'Fetching'}} data...</span>
+</div>
+<div class="state-wrap error" *ngIf="query.error && !query.hasFilterChanges">
+  <mat-icon>warning</mat-icon>
+  <span [matTooltip]="query.error.message">Something went wrong!</span>
+  <a (click)="query.fetch()">RETRY</a>
+</div>

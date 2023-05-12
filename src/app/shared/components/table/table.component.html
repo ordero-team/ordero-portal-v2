@@ -1,0 +1,29 @@
+<table class="ps-table ps-table-simple {{ class ? class : '' }}" *ngIf="rows && rows.length">
+  <thead>
+    <tr class="ps-table-header-row">
+      <ng-container *ngFor="let col of colRefs">
+        <ng-container *ngTemplateOutlet="col.headCellRef"></ng-container>
+      </ng-container>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let row of rows; let i = index">
+      <tr class="ps-table-row">
+        <ng-container *ngFor="let col of colRefs">
+          <ng-container *ngTemplateOutlet="col.cellRef; context: { $implicit: row, index: i }"></ng-container>
+        </ng-container>
+      </tr>
+      <ng-container *ngIf="row.isExpanded">
+        <tr class="ps-table-row" [ngClass]="{ 'ps-table-row-expanded': row.isExpanded }">
+          <ng-container *ngFor="let col of expandColRefs">
+            <ng-container *ngTemplateOutlet="col.cellRef; context: { $implicit: row, index: i }"></ng-container>
+          </ng-container>
+        </tr>
+      </ng-container>
+    </ng-container>
+  </tbody>
+</table>
+
+<aka-empty-page [message]="emptyMessage" *ngIf="!rows || !rows.length" class="my-4">
+  <ng-content select=".empty-page"></ng-content>
+</aka-empty-page>

@@ -1,0 +1,10 @@
+:host {
+  span {
+    @apply text-warn;
+    position: relative;
+    top: -2px;
+    font-size: 12px;
+    left: 2px;
+    line-height: 12px
+  }
+}

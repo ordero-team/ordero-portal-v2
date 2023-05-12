@@ -1,0 +1,7 @@
+<div class="aka-slider-item-wrap" *ngIf="!img">
+  <ng-content></ng-content>
+</div>
+<div class="aka-slider-item-image-wrap" *ngIf="img">
+  <!--  <img [src]="img" alt="" (click)="zoomIn()">-->
+  <div class="m-auto h-20 w-20 bg-cover bg-center bg-no-repeat" (click)="zoomIn()" [akaLazyload]="img"></div>
+</div>

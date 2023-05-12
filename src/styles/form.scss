@@ -1,0 +1,44 @@
+// ===================== FORM ERROR MESSAGE ===================== //
+aka-form-message {
+  position: relative;
+  top: -10px;
+  padding: 0;
+  margin-top: 0;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+
+  > div {
+    display: contents; /* Remove the div from flow to stop the subscript animation */
+  }
+
+  .mat-error,
+  .mat-hint {
+    display: block;
+    margin-top: 4px;
+  }
+
+  .mat-hint {
+    @apply text-hint #{'!important'};
+  }
+}
+
+.aka-form-manage-layout {
+  @apply flex flex-col flex-auto min-w-0 h-full relative;
+
+  .aka-form-manage-container {
+    @apply flex-auto p-6 sm:p-10;
+
+    .aka-form-manage-head {
+      @apply prose prose-sm max-w-full mb-8;
+
+      h2 {
+        text-transform: capitalize;
+      }
+    }
+  }
+}
+
+.aka-form-row {
+  @apply flex flex-col md:flex-row;
+}

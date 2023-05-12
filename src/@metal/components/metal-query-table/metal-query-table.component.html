@@ -1,0 +1,126 @@
+<table
+  class="ps-table {{ class || '' }}"
+  [ngClass]="{ initializing: query.status === 'init' || (query.status === 'sync' && query.syncMethod === 'init') }"
+>
+  <thead>
+    <tr class="ps-table-header-row">
+      <th
+        class="ps-table-header-cell"
+        [ngClass]="{
+          'ps-table-actions': !displayedBulkActions || !displayedBulkActions.length,
+          'ps-table-select': displayedBulkActions && displayedBulkActions.length
+        }"
+      >
+        <mat-checkbox
+          *ngIf="displayedBulkActions && displayedBulkActions.length"
+          color="primary"
+          (change)="allRowsSelected ? query.records.deselectAll() : query.records.selectAll()"
+          [checked]="allRowsSelected"
+          [indeterminate]="fewRowsSelected"
+          [disabled]="!rows.length"
+        ></mat-checkbox>
+      </th>
+      <ng-container *ngFor="let col of cellRefs || columnRefs">
+        <ng-container *ngIf="col.head">
+          <ng-container *ngTemplateOutlet="col.head"></ng-container>
+        </ng-container>
+        <ng-container *ngIf="!col.head">
+          <th class="ps-table-header-cell{{ col.class ? ' ' + col.class : '' }}">
+            <div class="ps-table-sort" *ngIf="col.sortBy">
+              <span>{{ col.psQCell || '' }}</span>
+              <mat-icon *ngIf="col.sortBy">arrow_drop_down</mat-icon>
+            </div>
+            <ng-container *ngIf="!col.sortBy">{{ col.psQCell || '' }}</ng-container>
+          </th>
+        </ng-container>
+      </ng-container>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="let row of rows; let i = index; trackBy: trackRow"
+      class="ps-table-row"
+      [ngClass]="{ deleted: row.record.deleted }"
+    >
+      <td class="ps-table-cell ps-table-row-head">
+        <div class="ps-table-actions-wrap" [ngClass]="{ selectable: displayedBulkActions && displayedBulkActions.length }">
+          <mat-checkbox
+            *ngIf="
+              displayedBulkActions && displayedBulkActions.length && row.record.status !== 'sync' && !row.record.deleted
+            "
+            color="primary"
+            [(ngModel)]="row.record.selected"
+          ></mat-checkbox>
+          <mat-progress-spinner
+            *ngIf="row.record.status === 'sync'"
+            color="primary"
+            mode="indeterminate"
+            diameter="16"
+          ></mat-progress-spinner>
+          <mat-icon
+            class="ps-row-actions-menu-trigger"
+            *ngIf="row.actions.length && !row.record.deleted && row.record.status === 'ready'"
+            [matMenuTriggerFor]="rowMenu"
+            (click)="activeRow = row"
+          >
+            more_vert
+          </mat-icon>
+          <mat-icon
+            class="deleted-sign"
+            color="warn"
+            matTooltip="This record is no longer exist."
+            *ngIf="row.record.deleted"
+          >
+            link_off
+          </mat-icon>
+        </div>
+      </td>
+      <ng-container *ngFor="let col of cellRefs || columnRefs">
+        <ng-container *ngIf="col.head">
+          <ng-container
+            *ngTemplateOutlet="col.body; context: { $implicit: row.record.data, index: i, record: row.record }"
+          ></ng-container>
+        </ng-container>
+        <ng-container *ngIf="!col.head">
+          <ng-container
+            *ngTemplateOutlet="col.body; context: { $implicit: row.record.data, index: i, record: row.record }"
+          ></ng-container>
+        </ng-container>
+      </ng-container>
+    </tr>
+    <ng-container *ngIf="query.status === 'init' && !rows.length">
+      <tr class="ps-table-row" *ngFor="let i of dummies; let odd = odd">
+        <td class="ps-table-cell ps-table-select">
+          <mat-checkbox></mat-checkbox>
+        </td>
+        <ng-container *ngFor="let col of cellRefs || columnRefs">
+          <td class="ps-table-cell skeleton">
+            <span>Lorem</span>
+            <span *ngIf="odd">ipsum dolor</span>
+            <span>sit</span>
+          </td>
+        </ng-container>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>
+<div class="ps-table-empty" *ngIf="query.status === 'ready' && !rows.length && !query.error">
+  <img
+    [src]="(darkMode.darkMode$ | async) ? '/assets/images/pages/empty_list_dark.svg' : '/assets/images/pages/empty_list.svg'"
+    alt="No Data"
+  />
+  <h3>It's Lonely Here</h3>
+  <p>Can't find records matching the selected filters.</p>
+</div>
+<mat-menu #rowMenu class="ps-row-action-menu {{ menuClass }}" (closed)="activeRow = undefined">
+  <ng-container *ngIf="activeRow">
+    <ng-container *ngFor="let action of activeRow.actions">
+      <button class="ps-select-option" [ngClass]="action.color" mat-menu-item (click)="triggerRowAction(action, $event)">
+        <!-- @TODO: Default icIcon -->
+        <mat-icon *ngIf="action.icon && !action.icon.endsWith('.svg')" [icIcon]="action.icon"></mat-icon>
+        <mat-icon *ngIf="action.icon && action.icon.endsWith('.svg')" [svgIcon]="action.icon.replace('.svg', '')"></mat-icon>
+        <span *ngIf="action.text">{{ action.text }}</span>
+      </button>
+    </ng-container>
+  </ng-container>
+</mat-menu>

@@ -1,0 +1,43 @@
+<mat-form-field class="w-full {{ class }}">
+  <mat-label *ngIf="inputLabel">{{ inputLabel }}</mat-label>
+  <mat-icon matPrefix [icIcon]="prefixIcon ? prefixIcon : 'baselineSearch'" *ngIf="withPrefix"></mat-icon>
+  <input
+    autocomplete="off"
+    matInput
+    [required]="required"
+    [placeholder]="placeholder"
+    [formControl]="inputCtrl"
+    [matAutocomplete]="auto"
+    [title]="placeholder || inputLabel"
+    (focus)="onFocus()"
+    (blur)="blur()"
+  />
+
+  <ng-container *ngIf="clearable">
+    <button
+      mat-button
+      *ngIf="!loading && inputCtrl.value"
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="clear()"
+      tabindex="-1"
+    >
+      <mat-icon icIcon="baselineClose"></mat-icon>
+    </button>
+  </ng-container>
+
+  <mat-progress-spinner *ngIf="loading" matSuffix diameter="16" mode="indeterminate"></mat-progress-spinner>
+  <mat-hint align="start" *ngIf="hint">{{ hint }}</mat-hint>
+  <mat-autocomplete
+    class="{{ panelClass || '' }}"
+    #auto="matAutocomplete"
+    (optionSelected)="selected($event)"
+    (optionActivated)="activate($event)"
+    (closed)="autoselect()"
+  >
+    <mat-option class="aka-highlight-option" *ngFor="let option of records | orderBy: sortBy" [value]="option">
+      <ng-container *ngTemplateOutlet="valOption; context: { $implicit: option }"></ng-container>
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

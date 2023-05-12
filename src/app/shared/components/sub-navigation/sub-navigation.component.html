@@ -1,0 +1,30 @@
+<mat-drawer-container class="h-full flex-auto">
+  <!-- Drawer -->
+  <mat-drawer
+    class="w-60 dark:bg-gray-900"
+    [autoFocus]="false"
+    [mode]="drawerMode"
+    [opened]="drawerOpened"
+    (closed)="subNavService.close()"
+    (opened)="subNavService.open()"
+    #matDrawer
+  >
+    <aka-vertical-navigation
+      [appearance]="'classic'"
+      [navigation]="menuData"
+      [inner]="true"
+      [mode]="'side'"
+      [name]="'sidebar-navigation'"
+      [opened]="true"
+    ></aka-vertical-navigation>
+  </mat-drawer>
+
+  <!-- Drawer content -->
+  <mat-drawer-content class="flex flex-col">
+    <!-- Main -->
+    <div class="flex-auto" [class.overflow-hidden]="disableScroll$ | async">
+      <!-- CONTENT GOES HERE -->
+      <router-outlet></router-outlet>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

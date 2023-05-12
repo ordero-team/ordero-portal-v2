@@ -1,0 +1,101 @@
+<div
+  *ngIf="service.queues.length"
+  class="flex flex-col rounded-md bg-white shadow-md dark:bg-gray-900"
+  @fadeInBottom
+  @fadeOutBottom
+>
+  <div class="flex items-center justify-between gap-6 px-6 pb-3" [ngClass]="{ 'pt-3': !showQueues, 'pt-6': showQueues }">
+    <div class="text-lg font-bold leading-relaxed">
+      {{ service.finished.length }} of {{ service.queues.length }} queue{{ service.queues.length > 1 ? 's' : '' }} success
+    </div>
+    <div class="flex items-center">
+      <button type="button" aria-hidden="true" (click)="showQueues = !showQueues">
+        <mat-icon [icIcon]="showQueues ? 'chevronDown' : 'chevronUp'" size="16"></mat-icon>
+      </button>
+      <button
+        *ngIf="service.finished.length || service.warning.length || service.cancelled.length || service.failed.length"
+        type="button"
+        class="close ml-2"
+        aria-hidden="true"
+        (click)="service.clear()"
+      >
+        <mat-icon [icIcon]="'baselineClose'" size="16"></mat-icon>
+      </button>
+    </div>
+  </div>
+  <div *ngIf="showQueues" class="flex items-center justify-between">
+    <div class="queues w-full rounded-bl-md">
+      <div *ngFor="let queue of service.queues" class="queue w-full border-l-4 px-6 py-3" [ngClass]="queue.status">
+        <div class="infos">
+          <mat-icon *ngIf="queue.configs.icon" [icIcon]="queue.configs.icon"></mat-icon>
+          <div class="text">
+            <p [innerHTML]="queue.configs.label"></p>
+          </div>
+        </div>
+        <div class="status" [ngClass]="queue.status">
+          <div *ngIf="queue.status !== 'started'" class="flex flex-row items-center">
+            <mat-icon [class]="queue.status" [icIcon]="queue.icon" [matTooltip]="toCapitalize(queue.status)"></mat-icon>
+
+            <ng-container *ngIf="queue.configs.data?.payload?.type === 'download'">
+              <mat-icon
+                *ngIf="queue.status === 'finished'"
+                [icIcon]="'documentDownload'"
+                [matTooltip]="'Download'"
+                (click)="onDownload(queue)"
+                class="ml-2 cursor-pointer"
+              ></mat-icon>
+            </ng-container>
+
+            <ng-container *ngIf="queue.configs.data?.payload?.type === 'dialog'">
+              <mat-icon
+                *ngIf="queue.status === 'warning' || queue.status === 'failed'"
+                [icIcon]="'eye'"
+                [matTooltip]="'Show Details'"
+                (click)="onOpenDialog(queue)"
+                class="ml-2 cursor-pointer"
+              ></mat-icon>
+            </ng-container>
+          </div>
+
+          <mat-spinner *ngIf="queue.status === 'started'" color="primary" [diameter]="20" class="pr-7"></mat-spinner>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Alert Dialog  -->
+<ng-template #alertDialog let-data>
+  <div mat-dialog-title class="flex flex-row items-center" [class.mb-3]="data.payload?.body?.length || data.error">
+    <mat-icon
+      class="mr-2"
+      [icIcon]="data.status === 'warning' ? 'roundWarningAmber' : 'roundWarningAmber'"
+      [class.text-yellow-500]="data.status === 'warning'"
+      [class.text-red-700]="data.status === 'fail'"
+    ></mat-icon>
+    {{ toCapitalize(data.status) }}
+  </div>
+
+  <mat-dialog-content class="mat-typography">
+    <ng-container *ngIf="data.status === 'warning'">
+      <ng-container *ngIf="data.payload?.body?.length; else noPayload">
+        <p [class.mb-3]="data.payload?.body?.length">
+          Sorry, there is something wrong while {{ data.type.toString().split('_').join('\n') }}.
+        </p>
+        <ngx-json-viewer [json]="data.payload?.body"></ngx-json-viewer>
+      </ng-container>
+
+      <ng-template #noPayload>
+        <p>No data can be shown</p>
+      </ng-template>
+    </ng-container>
+
+    <ng-container *ngIf="data.status === 'fail'">
+      <p>{{ data.error }}</p>
+    </ng-container>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close tabindex="-1">CLOSE</button>
+  </mat-dialog-actions>
+</ng-template>

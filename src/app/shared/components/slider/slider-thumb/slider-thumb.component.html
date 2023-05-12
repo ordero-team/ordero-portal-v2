@@ -1,0 +1,9 @@
+<div class="flex flex-row items-center justify-center gap-2 py-2">
+  <div
+    *ngFor="let item of items; let i = index"
+    class="slider-thumb-image"
+    [ngClass]="{ active: current === i }"
+    [akaLazyload]="item.img"
+    (click)="setActive(i)"
+  ></div>
+</div>

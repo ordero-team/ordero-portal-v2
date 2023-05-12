@@ -1,0 +1,10 @@
+<aka-select-company
+  [(ngModel)]="state.parentQuery.filters.company"
+  name="company"
+  [required]="false"
+  [placeholder]="'Choose Company'"
+  class="aka-mat-dense"
+  (change)="apply(false)"
+  [withPrefix]="true"
+  suffixIcon="storeOutline"
+></aka-select-company>
