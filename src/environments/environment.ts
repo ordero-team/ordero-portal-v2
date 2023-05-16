@@ -1,8 +1,8 @@
 export const environment = {
-  appName: 'Kelola SaaS (Client)',
-  apiUrl: 'https://api-saas.kelola.id',
+  appName: 'Ordero Portal',
+  apiUrl: 'http://localhost:4000/client',
   envName: 'local',
-  production: false,
+  production: true,
   hmr: false,
   debug: 'true',
   encryptKey: '9gRtNQyXFi46e7GLpEUGzT3sDhDC3nkaUjgv4ErU5DSMT5hGKESlBwV5XSShwlN6',

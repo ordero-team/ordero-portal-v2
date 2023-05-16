@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { PermissionGuardService } from '@app/core/guards/permission-guard.service';
 import { appIcons } from '@ch/icon.helper';
 import { INavRoute } from '@cs/navigation.service';
 
@@ -15,8 +14,6 @@ export const DashboardNavRoute: INavRoute = {
   name: 'dashboard',
   title: 'dashboard',
   icon: appIcons.outlineHome,
-  canActivate: [PermissionGuardService],
-  permissions: ['staff_dashboard@read'],
 };
 
 export const DashboardRoute: INavRoute = {

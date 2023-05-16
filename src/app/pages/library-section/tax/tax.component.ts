@@ -1,0 +1,12 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'aka-tax',
+  templateUrl: './tax.component.html',
+  styleUrls: ['./tax.component.scss'],
+})
+export class TaxComponent implements OnInit {
+  constructor() {}
+
+  ngOnInit(): void {}
+}

@@ -16,6 +16,7 @@ import outlineAddPhotoAlternate from '@iconify-icons/ic/outline-add-photo-altern
 import outlineAllInbox from '@iconify-icons/ic/outline-all-inbox';
 import outlineArchive from '@iconify-icons/ic/outline-archive';
 import outlineCancel from '@iconify-icons/ic/outline-cancel';
+import outlineCategory from '@iconify-icons/ic/outline-category';
 import outlineChevronLeft from '@iconify-icons/ic/outline-chevron-left';
 import outlineChevronRight from '@iconify-icons/ic/outline-chevron-right';
 import outlineDescription from '@iconify-icons/ic/outline-description';
@@ -32,6 +33,7 @@ import outlinePeople from '@iconify-icons/ic/outline-people';
 import outlinePhotoCamera from '@iconify-icons/ic/outline-photo-camera';
 import outlinePrint from '@iconify-icons/ic/outline-print';
 import outlineRemoveRedEye from '@iconify-icons/ic/outline-remove-red-eye';
+import outlineTableRestaurant from '@iconify-icons/ic/outline-table-restaurant';
 import balanceWalletIcon from '@iconify-icons/ic/round-account-balance-wallet';
 import roundAddCircle from '@iconify-icons/ic/round-add-circle';
 import roundApartment from '@iconify-icons/ic/round-apartment';
@@ -255,6 +257,8 @@ export const appIcons = {
   baselineUnarchive,
   baselineReportProblem,
   outlineCancel,
+  outlineTableRestaurant,
+  outlineCategory,
 
   // Material Design Icon
   baselineSettings,

@@ -87,7 +87,6 @@ export class AuthService {
 
   async logout() {
     try {
-      await this.auth.logout();
       this.clearState();
     } catch (error) {
       throw error;

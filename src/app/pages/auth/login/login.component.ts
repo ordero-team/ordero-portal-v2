@@ -11,7 +11,7 @@ import { Form, FormRecord } from '@lib/form';
 })
 export class AuthLoginComponent implements OnInit {
   @Form({
-    email: 'required|email',
+    username: 'required|email',
     password: 'required|minLength:6',
   })
   formData: FormRecord;

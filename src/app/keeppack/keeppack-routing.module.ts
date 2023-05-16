@@ -3,6 +3,7 @@ import { ExtraOptions, PreloadAllModules, RouterModule } from '@angular/router';
 import { AuthGuardService, GuestGuardService } from '@app/core/guards/auth-guard.service';
 import { EmptyComponent } from '@app/layouts/empty/empty.component';
 import { VerticalComponent } from '@app/layouts/vertical/vertical.component';
+import { LibrarySectionNavRoute } from '@app/pages/library-section/library-section.component';
 
 import { MainSectionNavRoute } from '@app/pages/main-section/main-section.component';
 import { SettingNavRoute } from '@app/pages/setting/setting.component';
@@ -31,6 +32,16 @@ const routes: INavMainRoutes = [
         loadChildren: () => import('@pg/main-section/dashboard/dashboard.module').then((m) => m.DashboardModule),
       },
       {
+        path: 'table',
+        title: 'table.parent',
+        loadChildren: () => import('@pg/main-section/table/table.module').then((m) => m.TableModule),
+      },
+      {
+        path: 'categories',
+        title: 'category.parent',
+        loadChildren: () => import('@pg/library-section/category/category.module').then((m) => m.CategoryModule),
+      },
+      {
         path: 'settings',
         title: 'setting.parent',
         loadChildren: () => import('@pg/setting/setting.module').then((m) => m.SettingModule),
@@ -57,7 +68,7 @@ const routerConfig: ExtraOptions = {
   relativeLinkResolution: 'legacy',
 };
 
-const navRoutes: INavRoute[] = [MainSectionNavRoute, SettingNavRoute];
+const navRoutes: INavRoute[] = [MainSectionNavRoute, LibrarySectionNavRoute, SettingNavRoute];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, routerConfig)],
