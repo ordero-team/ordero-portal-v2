@@ -1,42 +1,42 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthCollection } from '@app/collections/auth.collection';
-import { Profile, ProfileCollection } from '@cl/profile.collection';
-import { FetchMeAction, LoginAction, LogoutAction } from '@ct/auth/auth.actions';
-import { AuthState } from '@ct/auth/auth.state';
+import { OwnerProfileCollection } from '@app/collections/owner/profile.collection';
+import { OwnerFetchMeAction, OwnerLoginAction, OwnerLogoutAction } from '@app/core/states/owner/owner.actions';
+import { OwnerState } from '@app/core/states/owner/owner.state';
+import { Profile } from '@cl/profile.collection';
+import { LoginAction } from '@ct/auth/auth.actions';
 import { Store } from '@ngxs/store';
+import { OwnerAuthCollection } from '../../../collections/owner/auth.collection';
 
 @Injectable({ providedIn: 'root' })
-export class AuthService {
+export class OwnerAuthService {
   redirectUrl: string;
 
-  get access_token() {
-    return this.store.selectSnapshot(AuthState.accessToken);
-  }
+  private $path = 'restaurant';
 
-  get pubsub_token() {
-    return this.store.selectSnapshot(AuthState.pubsubToken);
+  get access_token() {
+    return this.store.selectSnapshot(OwnerState.accessToken);
   }
 
   get currentUser(): Profile {
-    return this.store.selectSnapshot(AuthState.currentUser);
+    return this.store.selectSnapshot(OwnerState.currentUser);
   }
 
   constructor(
     private router: Router,
     private store: Store,
-    private auth: AuthCollection,
-    private profile: ProfileCollection,
+    private auth: OwnerAuthCollection,
+    private profile: OwnerProfileCollection,
     private route: ActivatedRoute
   ) {}
 
   async login(payload) {
     try {
-      const { access_token, pubsub_token } = await this.auth.login(payload);
+      const { access_token } = await this.auth.login(payload);
 
       // Dispatch AUTH TOKEN
-      await this.store.dispatch(new LoginAction({ access_token, pubsub_token })).toPromise();
-      await this.store.dispatch(new FetchMeAction()).toPromise();
+      await this.store.dispatch(new OwnerLoginAction({ access_token })).toPromise();
+      await this.store.dispatch(new OwnerFetchMeAction()).toPromise();
       // Redirect previous link
       const params = this.route.snapshot.queryParams;
       if (params['redirectURL']) {
@@ -95,24 +95,24 @@ export class AuthService {
 
   clearState(reload = false) {
     // Clear state for user and company
-    this.store.dispatch(new LogoutAction());
+    this.store.dispatch(new OwnerLogoutAction());
     this.toGuestArea(reload);
   }
 
   toDashboardArea() {
-    this.router.navigate([`/dashboard`]);
+    this.router.navigate([this.$path, `/dashboard`]);
   }
 
   toHomePage() {
-    this.router.navigate([`/`]);
+    this.router.navigate([this.$path]);
   }
 
   toGuestArea(reload) {
     // Use this line if you want to reload the public page'
     if (reload && window) {
-      window.location.href = '/login';
+      window.location.href = this.$path + '/login';
     } else {
-      this.router.navigate(['/login']);
+      this.router.navigate([this.$path, '/login']);
     }
   }
 
