@@ -21,7 +21,7 @@ export class AuthGuardService implements CanActivate, CanActivateChild {
 
     this.auth.clearState();
     // Redirect previous link
-    this.router.navigate(['login'], { queryParams: { redirectURL: state.url } });
+    // this.router.navigate(['login'], { queryParams: { redirectURL: state.url } });
     return false;
   }
 
@@ -35,7 +35,7 @@ export class AuthGuardService implements CanActivate, CanActivateChild {
 
     this.auth.clearState();
     // Redirect previous link
-    this.router.navigate(['login'], { queryParams: { redirectURL: state.url } });
+    // this.router.navigate(['login'], { queryParams: { redirectURL: state.url } });
     return false;
   }
 }

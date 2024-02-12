@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { OwnerAuthGuardService } from './owner-guard.service';
+import { OwnerOriginService } from './origin.service';
 
-describe('OwnerAuthGuardService', () => {
-  let service: OwnerAuthGuardService;
+describe('OwnerOriginService', () => {
+  let service: OwnerOriginService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(OwnerAuthGuardService);
+    service = TestBed.inject(OwnerOriginService);
   });
 
   it('should be created', () => {

@@ -110,9 +110,9 @@ export class AuthService {
   toGuestArea(reload) {
     // Use this line if you want to reload the public page'
     if (reload && window) {
-      window.location.href = '/login';
+      // window.location.href = '/login';
     } else {
-      this.router.navigate(['/login']);
+      // this.router.navigate(['/login']);
     }
   }
 

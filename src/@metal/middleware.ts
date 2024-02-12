@@ -28,6 +28,24 @@ export const tokenizer: MetalTransactionMiddleware<any> = (trx, next) => {
 };
 
 /**
+ * Add X-Auth-Token to the header.
+ * @param trx
+ * @param next
+ */
+export const ownerTokenizer: MetalTransactionMiddleware<any> = (trx, next) => {
+  const auth: any = LocalStorage.getItem('owner');
+
+  if (auth) {
+    const { access_token } = JSON.parse(auth);
+    if (access_token) {
+      trx.configs.headers['Authorization'] = `Bearer ${access_token}`;
+    }
+  }
+
+  return next();
+};
+
+/**
  * Transform all requests params.
  * @param trx
  * @param next

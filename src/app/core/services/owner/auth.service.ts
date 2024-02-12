@@ -4,7 +4,6 @@ import { OwnerProfileCollection } from '@app/collections/owner/profile.collectio
 import { OwnerFetchMeAction, OwnerLoginAction, OwnerLogoutAction } from '@app/core/states/owner/owner.actions';
 import { OwnerState } from '@app/core/states/owner/owner.state';
 import { Profile } from '@cl/profile.collection';
-import { LoginAction } from '@ct/auth/auth.actions';
 import { Store } from '@ngxs/store';
 import { OwnerAuthCollection } from '../../../collections/owner/auth.collection';
 
@@ -20,6 +19,10 @@ export class OwnerAuthService {
 
   get currentUser(): Profile {
     return this.store.selectSnapshot(OwnerState.currentUser);
+  }
+
+  get currentRestaurant() {
+    return this.store.selectSnapshot(OwnerState.currentRestaurant);
   }
 
   constructor(
@@ -100,7 +103,7 @@ export class OwnerAuthService {
   }
 
   toDashboardArea() {
-    this.router.navigate([this.$path, `/dashboard`]);
+    this.router.navigate([this.$path, this.currentRestaurant.slug, 'dashboard']);
   }
 
   toHomePage() {
@@ -110,9 +113,9 @@ export class OwnerAuthService {
   toGuestArea(reload) {
     // Use this line if you want to reload the public page'
     if (reload && window) {
-      window.location.href = this.$path + '/login';
+      window.location.href = this.$path + '/auth/login';
     } else {
-      this.router.navigate([this.$path, '/login']);
+      this.router.navigate([this.$path, 'auth', 'login']);
     }
   }
 
@@ -123,7 +126,7 @@ export class OwnerAuthService {
   async fetchMe() {
     // Get Profile
     const user = await this.profile.findOne('');
-    await this.store.dispatch(new LoginAction({ user }));
+    await this.store.dispatch(new OwnerLoginAction({ user }));
     return user;
   }
 }

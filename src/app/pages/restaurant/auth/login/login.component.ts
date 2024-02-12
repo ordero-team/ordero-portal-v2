@@ -35,8 +35,8 @@ export class RestaurantLoginComponent implements OnInit {
 }
 
 export const RestaurantLoginNavRoute: INavRoute = {
-  name: 'restaurant.auth.login',
   path: 'login',
+  name: 'restaurant.auth.login',
   title: 'auth.login',
 };
 

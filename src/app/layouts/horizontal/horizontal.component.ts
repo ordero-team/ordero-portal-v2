@@ -1,55 +1,34 @@
 import { AkaNavigationService } from '@aka/components/navigation/navigation.service';
-import { AkaVerticalNavigationAppearance } from '@aka/components/navigation/navigation.types';
-import { AkaMediaWatcherService } from '@aka/services/media-watcher/media-watcher.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { SetMenuCollapsed } from '@app/core/states/ui/ui.actions';
-import { UIState } from '@app/core/states/ui/ui.state';
-import { DialogComponent } from '@app/shared/components/dialog/dialog.component';
-import { AuthService } from '@cs/auth.service';
-import { NavigationService } from '@cs/navigation.service';
-import { Form, FormRecord } from '@lib/form';
+import { AkaNavigationItem } from '@aka/components/navigation/navigation.types';
+import { AkaMediaWatcherService } from '@aka/services/tailwind';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NavigationService } from '@app/core/services/navigation.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Select, Store } from '@ngxs/store';
-import { User } from '@sentry/browser';
-import { Observable } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @UntilDestroy()
 @Component({
-  selector: 'aka-vertical-layout',
-  templateUrl: './vertical.component.html',
-  styleUrls: ['./vertical.component.scss'],
+  selector: 'aka-horizontal-layout',
+  templateUrl: './horizontal.component.html',
+  styleUrls: ['./horizontal.component.scss'],
 })
-export class VerticalComponent implements OnInit {
-  @Select(UIState.getIsMenuCollapsed) isMenuCollapsed$: Observable<boolean>;
-
-  @Form({
-    warehouse: '',
-  })
-  formData: FormRecord;
-
-  user: User;
-  navigations: any[] = [];
+export class HorizonalLayoutComponent implements OnInit, OnDestroy {
   isScreenSmall: boolean;
-  navigationAppearance: AkaVerticalNavigationAppearance;
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  @ViewChild('warehouseDialog', { static: true }) warehouseDialog: DialogComponent;
+  navigations: AkaNavigationItem[] = [];
 
   /**
    * Constructor
    */
   constructor(
+    private _activatedRoute: ActivatedRoute,
+    private _router: Router,
     private _akaMediaWatcherService: AkaMediaWatcherService,
     private _akaNavigationService: AkaNavigationService,
-    private _activatedRoute: ActivatedRoute,
-    private navService: NavigationService,
-    public auth: AuthService,
-    private store: Store
-  ) {
-    this.isMenuCollapsed$.pipe(untilDestroyed(this)).subscribe((collapsed) => {
-      this.navigationAppearance = collapsed ? 'default' : 'dense';
-    });
-  }
+    private navService: NavigationService
+  ) {}
 
   // -----------------------------------------------------------------------------------------------------
   // @ Accessors
@@ -70,13 +49,22 @@ export class VerticalComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
-    this.navigations = this.navService.buildNav(this._activatedRoute);
+    this.navigations = this.navService.buildNav() as any[];
 
     // Subscribe to media changes
     this._akaMediaWatcherService.onMediaChange$.pipe(untilDestroyed(this)).subscribe(({ matchingAliases }) => {
       // Check if the screen is small
       this.isScreenSmall = !matchingAliases.includes('md');
     });
+  }
+
+  /**
+   * On destroy
+   */
+  ngOnDestroy(): void {
+    // Unsubscribe from all subscriptions
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -96,9 +84,5 @@ export class VerticalComponent implements OnInit {
       // Toggle the opened status
       navigation.toggle();
     }
-  }
-
-  toggleNavigationAppearance(): void {
-    this.store.dispatch(new SetMenuCollapsed(this.navigationAppearance !== 'default'));
   }
 }

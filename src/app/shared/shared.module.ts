@@ -79,6 +79,7 @@ import { IconModule } from '@visurel/iconify-angular';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { MapComponent } from './components/map/map.component';
+import { OwnerUserMenuComponent } from './components/owner/user-menu/user-menu.component';
 
 const modules = [
   CommonModule,
@@ -167,6 +168,9 @@ const declarations = [
   DialogConfirmComponent,
 
   MapComponent,
+
+  // Owner
+  OwnerUserMenuComponent,
 ];
 
 @NgModule({

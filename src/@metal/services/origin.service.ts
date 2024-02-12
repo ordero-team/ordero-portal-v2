@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { finalizer, http, parametrize, tokenizer } from '@mtl/middleware';
-import { DriverService } from '@mtl/services/driver.service';
 import { environment } from '@env/environment';
 import { MetalOrigin, MetalOriginConfig } from '@lib/metal-data';
+import { finalizer, http, parametrize, tokenizer } from '@mtl/middleware';
+import { DriverService } from '@mtl/services/driver.service';
 
 declare let window: any;
 const ENV: any = window.ENV || {};
 
-const config: MetalOriginConfig = {
+export const OriginConfig: MetalOriginConfig = {
   name: 'main',
   baseURL: ENV.API_URL || environment.apiUrl,
   headers: {
@@ -26,7 +26,7 @@ export class OriginService extends MetalOrigin<DriverService> {
 
   constructor(driver: DriverService) {
     super(driver, {
-      ...config,
+      ...OriginConfig,
       get slowNetworkSimulation() {
         return driver.settings.slowNetworkSimulation;
       },

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { OwnerOriginService } from '@app/core/services/owner/origin.service';
 import { MetalCollection, MetalCollectionConfig } from '@lib/metal-data';
 import { MetalAPIData } from '@mtl/interfaces';
-import { OriginService } from '@mtl/services/origin.service';
 
 export interface Auth extends MetalAPIData {
   email: string;
@@ -18,8 +18,8 @@ const AuthConfig: MetalCollectionConfig<Auth> = {
 @Injectable({
   providedIn: 'root',
 })
-export class OwnerAuthCollection extends MetalCollection<Auth, OriginService> {
-  constructor(public origin: OriginService) {
+export class OwnerAuthCollection extends MetalCollection<Auth, OwnerOriginService> {
+  constructor(public origin: OwnerOriginService) {
     super(origin, AuthConfig);
   }
 

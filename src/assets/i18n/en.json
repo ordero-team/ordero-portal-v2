@@ -53,6 +53,9 @@
       },
       "security": {
         "parent": "Security"
+      },
+      "restaurant": {
+        "parent": "Restaurant"
       }
     }
   },
@@ -64,7 +67,6 @@
     "warehouse_section": "Warehouse Section",
     "admin_section": "Admin Section",
     "staff_section": "General Section",
-    "dashboard": "Dashboard",
     "setting": {
       "parent": "Settings",
       "account": {
@@ -83,6 +85,12 @@
       "parent": "Category",
       "list": "List Category",
       "detail": "Detail Category"
+    },
+    "restaurant": {
+      "parent": "Restaurant"
+    },
+    "dashboard": {
+      "parent": "Dashboard"
     },
     "subtitle": {
       "main": ""

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { OwnerOriginService } from '@app/core/services/owner/origin.service';
 import { MetalCollection, MetalCollectionConfig } from '@lib/metal-data';
 import { MetalAPIData } from '@mtl/interfaces';
-import { OriginService } from '@mtl/services/origin.service';
 
 export interface OwnerProfile extends MetalAPIData {
   email: string;
@@ -12,13 +12,14 @@ export interface OwnerProfile extends MetalAPIData {
     name?: string;
     permissions?: string;
   };
-  warehouse?: {
+  location?: {
     id?: string;
     name?: string;
   };
   status?: string;
   phone?: string;
   address?: any;
+  restaurant?: any;
 }
 
 const ProfileConfig: MetalCollectionConfig<OwnerProfile> = {
@@ -29,8 +30,8 @@ const ProfileConfig: MetalCollectionConfig<OwnerProfile> = {
 @Injectable({
   providedIn: 'root',
 })
-export class OwnerProfileCollection extends MetalCollection<OwnerProfile, OriginService> {
-  constructor(public origin: OriginService) {
+export class OwnerProfileCollection extends MetalCollection<OwnerProfile, OwnerOriginService> {
+  constructor(public origin: OwnerOriginService) {
     super(origin, ProfileConfig);
   }
 

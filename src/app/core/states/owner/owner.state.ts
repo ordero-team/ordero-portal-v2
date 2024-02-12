@@ -20,6 +20,11 @@ export class OwnerState implements NgxsOnInit {
     return state.user;
   }
 
+  @Selector()
+  static currentRestaurant(state: OwnerStateModle) {
+    return state.user.restaurant;
+  }
+
   constructor(private toast: ToastService, private profile: OwnerProfileCollection) {}
 
   ngxsOnInit({ dispatch, getState }: StateContext<OwnerStateModle>) {
@@ -42,7 +47,7 @@ export class OwnerState implements NgxsOnInit {
 
   @Action(OwnerFetchMeAction)
   fetchMe({ setState, getState, dispatch }: StateContext<OwnerStateModle>) {
-    return from(this.profile.findOne('', { params: { include: 'restaurant' } })).pipe(
+    return from(this.profile.findOne('', { params: { include: 'role,restaurant' } })).pipe(
       map((res) => {
         const { role = {}, ...rest } = res;
         setState({ ...getState(), user: { role, ...rest } });

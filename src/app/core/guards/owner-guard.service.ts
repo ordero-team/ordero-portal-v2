@@ -6,14 +6,38 @@ import { OwnerAuthService } from '../services/owner/auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class OwnerGuardGuardService {
+export class OwnerAuthGuardService {
   private $path = 'restaurant';
 
   constructor(private auth: OwnerAuthService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (this.auth.isAuthenticated()) {
-      return true;
+      const { status } = this.auth.currentUser;
+      const { slug } = this.auth.currentRestaurant;
+      let url = '';
+
+      // Verify and Replace current slug
+      if (slug !== route.params.rid) {
+        this.router.navigateByUrl(url);
+        return false;
+      }
+
+      if (typeof status !== 'undefined') {
+        // Check if company Status is active
+        switch (status) {
+          case 'active':
+            return true; // Navigate to dashboard page
+
+          case 'blocked':
+          case 'inactive':
+            url = `/error`;
+            break;
+        }
+
+        this.router.navigateByUrl(url);
+        return false;
+      }
     }
 
     this.auth.clearState();
