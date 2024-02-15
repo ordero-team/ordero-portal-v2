@@ -17,7 +17,7 @@ const envConfigFile = `export const environment = {
   envName: '${process.env.ENV_NAME}',
   production: ${process.env.PRODUCTION},
   hmr: ${process.env.HMR},
-  debug: '${process.env.DEBUG}',
+  debug: ${process.env.DEBUG},
   encryptKey: '${process.env.ENCRYPT_KEY || ''}',
   sentryDsn: '${process.env.SENTRY_DSN || ''}',
   socketType: '${process.env.SOCKET_TYPE || ''}',

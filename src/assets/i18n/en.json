@@ -29,13 +29,16 @@
       "parent": "Auth",
       "login": "Login",
       "forgot-password": "Forgot Password",
-      "reset-password": "Reset Password"
+      "reset-password": "Reset Password",
+      "verify": "Verify Account"
     },
     "error": {
       "notFound": "Not Found Error",
       "unauthorized": "Unauthorized Access"
     },
-    "dashboard": "Dashboard",
+    "dashboard": {
+      "parent": "Dashboard"
+    },
     "table": {
       "parent": "Table",
       "list": "List Table",

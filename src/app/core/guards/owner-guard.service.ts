@@ -1,48 +1,21 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { get } from 'lodash';
 import { Observable } from 'rxjs';
 import { OwnerAuthService } from '../services/owner/auth.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class OwnerAuthGuardService {
   private $path = 'restaurant';
 
   constructor(private auth: OwnerAuthService, private router: Router) {}
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  canActivate() {
     if (this.auth.isAuthenticated()) {
-      const { status } = this.auth.currentUser;
-      const { slug } = this.auth.currentRestaurant;
-      let url = '';
-
-      // Verify and Replace current slug
-      if (slug !== route.params.rid) {
-        this.router.navigateByUrl(url);
-        return false;
-      }
-
-      if (typeof status !== 'undefined') {
-        // Check if company Status is active
-        switch (status) {
-          case 'active':
-            return true; // Navigate to dashboard page
-
-          case 'blocked':
-          case 'inactive':
-            url = `/error`;
-            break;
-        }
-
-        this.router.navigateByUrl(url);
-        return false;
-      }
+      return true;
     }
 
     this.auth.clearState();
-    // Redirect previous link
-    this.router.navigate([this.$path, 'auth', 'login'], { queryParams: { redirectURL: state.url } });
     return false;
   }
 
@@ -65,8 +38,41 @@ export class OwnerAuthGuardService {
 export class OwnerGuestGuardService implements CanActivate {
   constructor(private auth: OwnerAuthService) {}
 
-  canActivate() {
+  canActivate(route: ActivatedRouteSnapshot) {
     if (!this.auth.isAuthenticated()) {
+      if (get(route, 'routeConfig.path') === 'restaurant') {
+        this.auth.toGuestArea(false);
+        return false;
+      }
+
+      return true;
+    }
+
+    this.auth.toDashboardArea();
+    return false;
+  }
+}
+
+@Injectable({ providedIn: 'root' })
+export class OwnerVerifiedGuardService implements CanActivate {
+  constructor(private auth: OwnerAuthService) {}
+
+  canActivate() {
+    if (!['verify'].includes(this.auth.currentUser.status)) {
+      return true;
+    }
+
+    this.auth.toVerifyArea();
+    return false;
+  }
+}
+
+@Injectable({ providedIn: 'root' })
+export class OwnerUnverifiedGuardService implements CanActivate {
+  constructor(private auth: OwnerAuthService) {}
+
+  canActivate() {
+    if (['verify'].includes(this.auth.currentUser.status)) {
       return true;
     }
 

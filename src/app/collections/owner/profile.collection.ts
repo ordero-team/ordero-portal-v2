@@ -35,8 +35,17 @@ export class OwnerProfileCollection extends MetalCollection<OwnerProfile, OwnerO
     super(origin, ProfileConfig);
   }
 
-  updatePassword(payload: any) {
-    return this.update('', payload, { suffix: 'password' });
+  // Verify
+  async resendCode() {
+    return await this.create(null, { suffix: 'resend-code' });
+  }
+
+  async verifyCode(code: string) {
+    return await this.create({ code } as any, { suffix: 'verify' });
+  }
+
+  async updatePassword(payload: any) {
+    return await this.update('', payload, { suffix: 'password' });
   }
 
   async updateAvatar(payload: File) {

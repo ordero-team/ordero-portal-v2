@@ -1,0 +1,175 @@
+<div class="flex min-w-0 flex-auto flex-col items-center sm:flex-row sm:justify-center md:items-start md:justify-start">
+  <div
+    class="relative hidden h-full w-1/2 flex-auto items-center justify-center overflow-hidden bg-primary-900 p-16 dark:border-r md:flex lg:px-28"
+  >
+    <!-- Background -->
+    <svg
+      viewBox="0 0 960 540"
+      width="100%"
+      height="100%"
+      preserveAspectRatio="xMidYMax slice"
+      xmlns="http://www.w3.org/2000/svg"
+      class="ng-tns-c145-297 pointer-events-none absolute inset-0"
+    >
+      <g fill="none" stroke="currentColor" stroke-width="100" class="ng-tns-c145-297 text-gray-700 opacity-25">
+        <circle r="234" cx="196" cy="23" class="ng-tns-c145-297"></circle>
+        <circle r="234" cx="790" cy="491" class="ng-tns-c145-297"></circle>
+      </g>
+    </svg>
+    <svg
+      viewBox="0 0 220 192"
+      width="220"
+      height="192"
+      fill="none"
+      class="ng-tns-c145-297 absolute -right-16 -top-16 text-gray-700"
+    >
+      <defs class="ng-tns-c145-297">
+        <pattern
+          id="837c3e70-6c3a-44e6-8854-cc48c737b659"
+          x="0"
+          y="0"
+          width="20"
+          height="20"
+          patternUnits="userSpaceOnUse"
+          class="ng-tns-c145-297"
+        >
+          <rect x="0" y="0" width="4" height="4" fill="currentColor" class="ng-tns-c145-297"></rect>
+        </pattern>
+      </defs>
+      <rect width="220" height="192" fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)" class="ng-tns-c145-297"></rect>
+    </svg>
+    <!-- Content -->
+    <div class="relative z-10 w-full max-w-2xl">
+      <div class="text-4xl font-bold leading-tight text-white">
+        <div>
+          We help ecommerce business to store stock, pick, pack, and deliver it for them automatically. Provide them with
+          real-time stock management and most importantly, total peace of mind.
+        </div>
+      </div>
+      <div class="mt-3 text-lg text-white opacity-70">#FokusJualanAja</div>
+    </div>
+  </div>
+  <div
+    class="w-full px-4 py-8 dark:bg-gray-900 sm:w-auto sm:rounded-2xl sm:bg-gray-50 sm:p-12 sm:shadow md:flex md:h-full md:w-2/3 md:items-center md:justify-start md:rounded-none md:p-16 md:shadow-none"
+  >
+    <div class="mx-auto w-full max-w-96 sm:mx-0 sm:w-96">
+      <!-- Logo -->
+      <div class="flex flex-row items-center justify-between">
+        <!-- Logo -->
+        <div class="w-40">
+          <!-- <img
+            [src]="
+              darkMode.isDarkTheme
+                ? 'assets/images/logo/logo-kelola-saas-text.svg'
+                : 'assets/images/logo/logo-kelola-saas-text-dark.svg'
+            "
+          /> -->
+        </div>
+
+        <toggle-dark-mode [iconOnly]="true"></toggle-dark-mode>
+      </div>
+
+      <!-- Title -->
+      <div class="mt-8 text-4xl font-extrabold leading-tight tracking-tight">Start Your Journey</div>
+      <div class="mt-0.5 flex items-baseline font-medium">
+        <div>Already Have an Account?</div>
+        <a class="ml-1 text-primary hover:underline" [routerLink]="['..', 'login']">
+          {{ 'general.button.signIn' | translate }}
+        </a>
+      </div>
+
+      <form role="form" [akaForm]="formData" (ngSubmit)="submit()" class="mt-8">
+        <div class="flex flex-col sm:flex-row">
+          <!-- Name field -->
+          <mat-form-field class="w-full sm:w-1/2 sm:pr-2" akaProps>
+            <mat-label>{{ 'general.form.name' | translate }}</mat-label>
+            <input id="name" type="text" name="name" [(ngModel)]="formData.name" akaAutofocus matInput />
+          </mat-form-field>
+
+          <!-- Phone Number field -->
+          <mat-form-field class="w-full sm:w-1/2" akaProps>
+            <mat-label>{{ 'general.form.phoneNumber' | translate }}</mat-label>
+            <input
+              matInput
+              name="phone"
+              type="text"
+              [ngModel]="formData.phone | phoneNumber"
+              (ngModelChange)="formData.phone = $event"
+            />
+          </mat-form-field>
+        </div>
+
+        <!-- Email field -->
+        <mat-form-field class="w-full" akaProps>
+          <mat-label>{{ 'general.form.emailAddress' | translate }}</mat-label>
+          <input id="email" type="email" name="email" [(ngModel)]="formData.email" matInput />
+        </mat-form-field>
+
+        <div class="flex flex-col sm:flex-row">
+          <!-- Password field -->
+          <mat-form-field class="w-full sm:w-1/2 sm:pr-2" akaProps>
+            <mat-label>{{ 'general.form.password' | translate }}</mat-label>
+            <input id="password" matInput type="password" name="password" [(ngModel)]="formData.password" #passwordField />
+            <button
+              mat-icon-button
+              type="button"
+              (click)="passwordField.type === 'password' ? (passwordField.type = 'text') : (passwordField.type = 'password')"
+              tabindex="-1"
+              matSuffix
+            >
+              <mat-icon class="icon-size-5" [icIcon]="passwordField.type === 'password' ? 'eye' : 'eyeOff'"></mat-icon>
+            </button>
+          </mat-form-field>
+
+          <mat-form-field class="w-full sm:w-1/2" akaProps>
+            <mat-label>{{ 'general.form.confirmPassword' | translate }}</mat-label>
+            <input
+              id="password_confirmation"
+              matInput
+              type="password"
+              name="password_confirmation"
+              [(ngModel)]="formData.password_confirmation"
+              #passwordConfirmationField
+            />
+            <button
+              mat-icon-button
+              type="button"
+              (click)="
+                passwordConfirmationField.type === 'password'
+                  ? (passwordConfirmationField.type = 'text')
+                  : (passwordConfirmationField.type = 'password')
+              "
+              tabindex="-1"
+              matSuffix
+            >
+              <mat-icon
+                class="icon-size-5"
+                [icIcon]="passwordConfirmationField.type === 'password' ? 'eye' : 'eyeOff'"
+              ></mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+
+        <div class="flex flex-col sm:flex-row">
+          <!-- Company field -->
+          <mat-form-field class="w-full" akaProps>
+            <mat-label>Restaurant Name</mat-label>
+            <input id="restaurant" type="text" name="restaurant" [(ngModel)]="formData.restaurant" matInput />
+          </mat-form-field>
+        </div>
+
+        <!-- Submit button -->
+        <button
+          type="submit"
+          class="aka-mat-button-large mt-6 w-full"
+          mat-flat-button
+          [color]="'primary'"
+          [disabled]="formData.$disabled || formData.$loading"
+          [akaLoading]="formData.$loading"
+        >
+          {{ 'general.button.signUp' | translate }}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

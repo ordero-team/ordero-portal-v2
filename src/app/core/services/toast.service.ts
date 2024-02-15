@@ -1,7 +1,7 @@
 import { ErrorHandler, Injectable } from '@angular/core';
 import { appIcons } from '@ch/icon.helper';
-import { get, has } from 'lodash';
 import { Icon } from '@visurel/iconify-angular';
+import { get, has } from 'lodash';
 
 export interface IToastMessage {
   title: string;
@@ -56,7 +56,7 @@ export class ToastService {
       icon: appIcons.exclamationCircle,
       classes: '',
       error: error || {},
-      timeout: 0,
+      timeout: 5000,
     };
     if (typeof opts === 'string') {
       Object.assign(toast, { detail: opts });

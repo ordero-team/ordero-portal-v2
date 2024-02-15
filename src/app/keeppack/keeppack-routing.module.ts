@@ -1,6 +1,11 @@
 import { NgModule } from '@angular/core';
 import { ExtraOptions, PreloadAllModules, RouterModule } from '@angular/router';
-import { OwnerAuthGuardService, OwnerGuestGuardService } from '@app/core/guards/owner-guard.service';
+import {
+  OwnerAuthGuardService,
+  OwnerGuestGuardService,
+  OwnerVerifiedGuardService,
+} from '@app/core/guards/owner-guard.service';
+import { RestaurantGuardService } from '@app/core/guards/restaurant-guard.service';
 import { RoleStateModel } from '@app/core/states/role/role.actions';
 import { EmptyComponent } from '@app/layouts/empty/empty.component';
 import { VerticalComponent } from '@app/layouts/vertical/vertical.component';
@@ -25,7 +30,6 @@ const routes: INavMainRoutes = [
   {
     path: 'restaurant/auth',
     title: 'auth.parent',
-    canActivate: [OwnerGuestGuardService],
     component: EmptyComponent,
     loadChildren: () => import('@pg/restaurant/auth/auth.module').then((m) => m.RestaurantAuthModule),
   },
@@ -39,7 +43,7 @@ const routes: INavMainRoutes = [
   {
     path: 'restaurant/:rid/dashboard',
     title: 'dashboard.parent',
-    canActivate: [OwnerAuthGuardService],
+    canActivate: [OwnerAuthGuardService, OwnerVerifiedGuardService, RestaurantGuardService],
     component: VerticalComponent,
     loadChildren: () => import('@pg/restaurant/main/dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
@@ -47,7 +51,7 @@ const routes: INavMainRoutes = [
   {
     path: 'restaurant/:rid/settings',
     title: 'setting.parent',
-    canActivate: [OwnerAuthGuardService],
+    canActivate: [OwnerVerifiedGuardService, RestaurantGuardService],
     component: VerticalComponent,
     loadChildren: () => import('@pg/restaurant/main/setting/setting.module').then((m) => m.SettingModule),
   },
@@ -96,6 +100,7 @@ const routes: INavMainRoutes = [
     redirectTo: 'error',
   },
 ];
+
 const routerConfig: ExtraOptions = {
   scrollPositionRestoration: 'enabled',
   preloadingStrategy: PreloadAllModules,

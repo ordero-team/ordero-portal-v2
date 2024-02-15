@@ -7,6 +7,15 @@ import { Profile } from '@cl/profile.collection';
 import { Store } from '@ngxs/store';
 import { OwnerAuthCollection } from '../../../collections/owner/auth.collection';
 
+export interface IOwnerRegisterPayload {
+  email: string;
+  name: string;
+  phone: string;
+  password: string;
+  password_confirmation: string;
+  restaurant: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class OwnerAuthService {
   redirectUrl: string;
@@ -23,6 +32,10 @@ export class OwnerAuthService {
 
   get currentRestaurant() {
     return this.store.selectSnapshot(OwnerState.currentRestaurant);
+  }
+
+  get isVerify() {
+    return this.store.selectSnapshot(OwnerState.currentUser).status === 'verify';
   }
 
   constructor(
@@ -49,16 +62,24 @@ export class OwnerAuthService {
       if (this.redirectUrl) {
         this.router.navigateByUrl(this.redirectUrl).catch(() => this.toDashboardArea());
       } else {
-        this.toDashboardArea();
+        if (this.isVerify) {
+          this.toVerifyArea();
+        } else {
+          this.toDashboardArea();
+        }
       }
     } catch (error) {
       throw error;
     }
   }
 
-  async register(payload) {
+  async register(payload: IOwnerRegisterPayload) {
     try {
-      await this.auth.register(payload);
+      const { access_token } = await this.auth.register(payload);
+
+      // Dispatch AUTH TOKEN
+      await this.store.dispatch(new OwnerLoginAction({ access_token })).toPromise();
+      await this.store.dispatch(new OwnerFetchMeAction()).toPromise();
     } catch (error) {
       throw error;
     }
@@ -107,7 +128,11 @@ export class OwnerAuthService {
   }
 
   toHomePage() {
-    this.router.navigate([this.$path]);
+    this.router.navigate(['']);
+  }
+
+  toVerifyArea() {
+    this.router.navigate([this.$path, 'auth', 'verify']);
   }
 
   toGuestArea(reload) {

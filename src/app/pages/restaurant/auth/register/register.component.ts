@@ -6,14 +6,18 @@ import { ToastService } from '@app/core/services/toast.service';
 import { Form, FormRecord } from '@lib/form';
 
 @Component({
-  selector: 'aka-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  selector: 'aka-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss'],
 })
-export class RestaurantLoginComponent implements OnInit {
+export class RestaurantRegisterComponent implements OnInit {
   @Form({
-    username: 'required|email',
+    email: 'required|email',
+    name: 'required',
+    phone: 'required',
     password: 'required|minLength:6',
+    password_confirmation: 'required|minLength:6|equalTo:password',
+    restaurant: 'required',
   })
   formData: FormRecord;
 
@@ -27,7 +31,8 @@ export class RestaurantLoginComponent implements OnInit {
   async submit() {
     this.formData.$loading = true;
     try {
-      await this.auth.login(this.formData.$payload);
+      await this.auth.register(this.formData.$payload);
+      this.toast.info('Successfully registered');
     } catch (error) {
       this.toast.error('Something bad happened!', error);
     }
@@ -35,14 +40,14 @@ export class RestaurantLoginComponent implements OnInit {
   }
 }
 
-export const RestaurantLoginNavRoute: INavRoute = {
-  path: 'login',
-  name: 'restaurant.auth.login',
-  title: 'auth.login',
+export const RestaurantRegisterNavRoute: INavRoute = {
+  path: 'register',
+  name: 'restaurant.auth.register',
+  title: 'auth.register',
 };
 
-export const RestaurantLoginRoute: INavRoute = {
-  ...RestaurantLoginNavRoute,
-  component: RestaurantLoginComponent,
+export const RestaurantRegisterRoute: INavRoute = {
+  ...RestaurantRegisterNavRoute,
+  component: RestaurantRegisterComponent,
   canActivate: [OwnerGuestGuardService],
 };
