@@ -2,6 +2,7 @@ import { AkaNavigationService } from '@aka/components/navigation/navigation.serv
 import { AkaVerticalNavigationAppearance } from '@aka/components/navigation/navigation.types';
 import { AkaMediaWatcherService } from '@aka/services/media-watcher/media-watcher.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { SetMenuCollapsed } from '@app/core/states/ui/ui.actions';
 import { UIState } from '@app/core/states/ui/ui.state';
 import { DialogComponent } from '@app/shared/components/dialog/dialog.component';
@@ -40,6 +41,7 @@ export class VerticalComponent implements OnInit {
   constructor(
     private _akaMediaWatcherService: AkaMediaWatcherService,
     private _akaNavigationService: AkaNavigationService,
+    private _activatedRoute: ActivatedRoute,
     private navService: NavigationService,
     public auth: AuthService,
     private store: Store
@@ -68,7 +70,7 @@ export class VerticalComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
-    this.navigations = this.navService.buildNav();
+    this.navigations = this.navService.buildNav(this._activatedRoute);
 
     // Subscribe to media changes
     this._akaMediaWatcherService.onMediaChange$.pipe(untilDestroyed(this)).subscribe(({ matchingAliases }) => {

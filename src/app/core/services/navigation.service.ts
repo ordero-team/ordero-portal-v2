@@ -52,7 +52,7 @@ export class NavigationService {
 
   buildNav(route?: ActivatedRoute) {
     let params = '';
-    if (route && route.hasOwnProperty('snapshot')) {
+    if (route && has(route, 'snapshot')) {
       params = paramsTree(route.snapshot);
     }
 
@@ -60,7 +60,7 @@ export class NavigationService {
   }
 
   buildMenu(configs: INavRoute[], parentPath = '', params = '') {
-    const results: INavRoutes = [];
+    const results: INavRoute[] = [];
     const filters = configs.filter((item) => !item.hideMainNav);
     for (const config of filters) {
       const item = this.buildItem(config, parentPath, params);
@@ -72,18 +72,7 @@ export class NavigationService {
 
   buildItem(config: INavRoute, parentPath = '', params = '') {
     let children: INavRoute[] = [];
-    const {
-      name,
-      title,
-      subtitle = null,
-      icon,
-      path: oriPath,
-      roles,
-      permissions,
-      children: kids = [],
-      type = 'basic',
-    } = config;
-
+    const { name, title, icon, path: oriPath, permissions, children: kids = [], type = 'basic' } = config;
     const path = buildPath([parentPath, oriPath]);
     if (kids.length) {
       children = this.buildMenu(kids, path);
@@ -97,13 +86,10 @@ export class NavigationService {
       icon,
       link,
       type,
-      roles,
       permissions,
       children,
       title: this.translateService.instant(`nav.${title}`),
-      subtitle: subtitle ? this.translateService.instant(`nav.subtitle.${subtitle}`) : null,
     };
-
     return item;
   }
 

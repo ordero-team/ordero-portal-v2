@@ -1,0 +1,34 @@
+<!-- Button -->
+<button mat-icon-button [matMenuTriggerFor]="userActions">
+  <span class="relative">
+    <img
+      class="h-7 w-7 rounded-full"
+      *ngIf="showAvatar && (currentUser$ | async)?.avatar?.thumb"
+      [src]="(currentUser$ | async)?.avatar?.thumb"
+    />
+    <mat-icon icIcon="userCircle" *ngIf="!showAvatar || !(currentUser$ | async)?.avatar?.thumb"></mat-icon>
+  </span>
+</button>
+
+<mat-menu [xPosition]="'before'" #userActions="matMenu">
+  <button mat-menu-item>
+    <span class="flex flex-col leading-none">
+      <span>Signed in as</span>
+      <span class="font-md mt-1.5 font-medium">{{ (currentUser$ | async)?.name }}</span>
+    </span>
+  </button>
+  <mat-divider class="my-2"></mat-divider>
+  <button [routerLink]="['/settings/account']" mat-menu-item>
+    <mat-icon icIcon="userCircle"></mat-icon>
+    <span>Account</span>
+  </button>
+  <button [routerLink]="['/settings/security']" mat-menu-item>
+    <mat-icon icIcon="vpnKey"></mat-icon>
+    <span>Security</span>
+  </button>
+  <mat-divider class="my-2"></mat-divider>
+  <button mat-menu-item (click)="authService.logout()" class="text-warn">
+    <mat-icon icIcon="logoutIcon" class="text-warn"></mat-icon>
+    <span>Sign out</span>
+  </button>
+</mat-menu>

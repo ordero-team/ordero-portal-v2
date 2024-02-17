@@ -1,6 +1,6 @@
 export const environment = {
-  appName: 'Ordero Portal',
-  apiUrl: 'http://localhost:4000/client',
+  appName: 'Ordero',
+  apiUrl: 'http://172.30.0.6:4002',
   envName: 'local',
   production: true,
   hmr: false,

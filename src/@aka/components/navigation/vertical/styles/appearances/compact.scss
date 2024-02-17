@@ -1,107 +1,116 @@
 /* Variables */
-$aka-vertical-navigation-compact-width: 120;
+$aka-vertical-navigation-compact-width: 115;
 
 aka-vertical-navigation {
 
-    /* Compact appearance overrides */
-    &.aka-vertical-navigation-appearance-compact {
-        width: #{$aka-vertical-navigation-compact-width}px;
-        min-width: #{$aka-vertical-navigation-compact-width}px;
-        max-width: #{$aka-vertical-navigation-compact-width}px;
+  /* Compact appearance overrides */
+  &.aka-vertical-navigation-appearance-compact {
+    width: #{$aka-vertical-navigation-compact-width}px;
+    min-width: #{$aka-vertical-navigation-compact-width}px;
+    max-width: #{$aka-vertical-navigation-compact-width}px;
 
-        /* Left positioned */
-        &.aka-vertical-navigation-position-left {
+    /* Left positioned */
+    &.aka-vertical-navigation-position-left {
 
-            /* Side mode */
-            &.aka-vertical-navigation-mode-side {
-                margin-left: -#{$aka-vertical-navigation-compact-width}px;
-            }
+      /* Side mode */
+      &.aka-vertical-navigation-mode-side {
+        margin-left: -#{$aka-vertical-navigation-compact-width}px;
+      }
 
-            /* Opened */
-            &.aka-vertical-navigation-opened {
-                margin-left: 0;
-            }
-        }
-
-        /* Right positioned */
-        &.aka-vertical-navigation-position-right {
-
-            /* Side mode */
-            &.aka-vertical-navigation-mode-side {
-                margin-right: -#{$aka-vertical-navigation-compact-width}px;
-            }
-
-            /* Opened */
-            &.aka-vertical-navigation-opened {
-                margin-right: 0;
-            }
-
-            /* Aside wrapper */
-            .aka-vertical-navigation-aside-wrapper {
-                left: auto;
-                right: #{$aka-vertical-navigation-compact-width}px;
-            }
-        }
-
-        /* Wrapper */
-        .aka-vertical-navigation-wrapper {
-
-            /* Content */
-            .aka-vertical-navigation-content {
-
-                > aka-vertical-navigation-aside-item,
-                > aka-vertical-navigation-basic-item {
-
-                    .aka-vertical-navigation-item {
-                        flex-direction: column;
-                        justify-content: center;
-                        height: 96px;
-                        min-height: 96px;
-                        max-height: 96px;
-                        padding: 0 16px;
-
-                        .aka-vertical-navigation-item-icon {
-                            margin-right: 0;
-                            margin-bottom: 8px;
-                            @apply icon-size-8;
-                        }
-
-                        .aka-vertical-navigation-item-title-wrapper {
-
-                            .aka-vertical-navigation-item-title {
-                                text-align: center;
-                                font-weight: 500;
-                            }
-
-                            .aka-vertical-navigation-item-subtitle {
-                                display: none !important;
-                            }
-                        }
-
-                        .aka-vertical-navigation-item-badge {
-                            position: absolute;
-                            top: 12px;
-                            left: 64px;
-                        }
-                    }
-                }
-
-                > aka-vertical-navigation-collapsable-item {
-                    display: none
-                }
-
-                > aka-vertical-navigation-group-item {
-
-                    > .aka-vertical-navigation-item-wrapper {
-                        display: none
-                    }
-                }
-            }
-        }
-
-        /* Aside wrapper */
-        .aka-vertical-navigation-aside-wrapper {
-            left: #{$aka-vertical-navigation-compact-width}px;
-        }
+      /* Opened */
+      &.aka-vertical-navigation-opened {
+        margin-left: 0;
+      }
     }
+
+    /* Right positioned */
+    &.aka-vertical-navigation-position-right {
+
+      /* Side mode */
+      &.aka-vertical-navigation-mode-side {
+        margin-right: -#{$aka-vertical-navigation-compact-width}px;
+      }
+
+      /* Opened */
+      &.aka-vertical-navigation-opened {
+        margin-right: 0;
+      }
+
+      /* Aside wrapper */
+      .aka-vertical-navigation-aside-wrapper {
+        left: auto;
+        right: #{$aka-vertical-navigation-compact-width}px;
+      }
+    }
+
+    /* Wrapper */
+    .aka-vertical-navigation-wrapper {
+
+      /* Content */
+      .aka-vertical-navigation-content {
+
+        > aka-vertical-navigation-aside-item,
+        > aka-vertical-navigation-basic-item {
+
+            .aka-vertical-navigation-item-wrapper {
+                margin: 0;
+            }
+
+          .aka-vertical-navigation-item {
+            flex-direction: column;
+            justify-content: center;
+            //height: 96px;
+            //min-height: 96px;
+            //max-height: 96px;
+            height: 87px;
+            min-height: 87px;
+            max-height: 87px;
+            padding: 0 16px;
+            // border-radius: 0 !important;
+            @apply my-1;
+
+            .aka-vertical-navigation-item-icon {
+              margin-right: 0;
+              margin-bottom: 4px;
+              @apply icon-size-6;
+            }
+
+            .aka-vertical-navigation-item-title-wrapper {
+
+              .aka-vertical-navigation-item-title {
+                text-align: center;
+                font-weight: 500;
+              }
+
+              .aka-vertical-navigation-item-subtitle {
+                display: none !important;
+              }
+            }
+
+            .aka-vertical-navigation-item-badge {
+              position: absolute;
+              top: 12px;
+              left: 64px;
+            }
+          }
+        }
+
+        > aka-vertical-navigation-collapsable-item {
+          display: none
+        }
+
+        > aka-vertical-navigation-group-item {
+
+          > .aka-vertical-navigation-item-wrapper {
+            display: none
+          }
+        }
+      }
+    }
+
+    /* Aside wrapper */
+    .aka-vertical-navigation-aside-wrapper {
+      left: #{$aka-vertical-navigation-compact-width}px;
+    }
+  }
 }
