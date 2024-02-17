@@ -54,7 +54,7 @@ export class RestaurantVerifyComponent implements OnInit {
     try {
       await this.collection.verifyCode(get(this.formData.$payload, 'code'));
       this.toast.info(`Your account has been successfully verified`);
-      this.store.dispatch([new OwnerFetchMeAction()]);
+      await this.store.dispatch([new OwnerFetchMeAction()]).toPromise();
       this.auth.toDashboardArea();
     } catch (error) {
       this.toast.error('Something bad happened', error);

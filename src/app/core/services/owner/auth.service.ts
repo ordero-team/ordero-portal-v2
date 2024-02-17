@@ -80,6 +80,7 @@ export class OwnerAuthService {
       // Dispatch AUTH TOKEN
       await this.store.dispatch(new OwnerLoginAction({ access_token })).toPromise();
       await this.store.dispatch(new OwnerFetchMeAction()).toPromise();
+      this.toDashboardArea();
     } catch (error) {
       throw error;
     }
@@ -124,7 +125,7 @@ export class OwnerAuthService {
   }
 
   toDashboardArea() {
-    this.router.navigate([this.$path, this.currentRestaurant.slug, 'dashboard']);
+    this.router.navigate([`/${this.$path}/${this.currentRestaurant.slug}/dashboard`]);
   }
 
   toHomePage() {
