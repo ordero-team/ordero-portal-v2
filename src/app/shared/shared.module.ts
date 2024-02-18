@@ -81,6 +81,8 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { MapComponent } from './components/map/map.component';
 import { OwnerUserMenuComponent } from './components/owner/user-menu/user-menu.component';
 import { LocationFormComponent } from './components/form/location-form/location-form.component';
+import { SelectLocationComponent } from './components/select-location/select-location.component';
+import { TableFormComponent } from './components/form/table-form/table-form.component';
 
 const modules = [
   CommonModule,
@@ -175,6 +177,10 @@ const declarations = [
 
   // Form
   LocationFormComponent,
+  TableFormComponent,
+
+  // Select
+  SelectLocationComponent,
 ];
 
 @NgModule({
