@@ -6,8 +6,10 @@ import { MetalAPIData } from '@mtl/interfaces';
 export type TableStatus = 'available' | 'in_use' | 'reserved' | 'unavailaable' | 'empty';
 
 export interface OwnerTable extends MetalAPIData {
-  name: string;
+  number: string;
   status: TableStatus;
+
+  location?: any;
   restaurant_id?: string;
 }
 

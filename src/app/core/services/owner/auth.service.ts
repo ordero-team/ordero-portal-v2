@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { OwnerAuthCollection } from '@app/collections/owner/auth.collection';
 import { OwnerProfile, OwnerProfileCollection } from '@app/collections/owner/profile.collection';
 import { OwnerFetchMeAction, OwnerLoginAction, OwnerLogoutAction } from '@app/core/states/owner/owner.actions';
 import { OwnerState } from '@app/core/states/owner/owner.state';
-import { Profile } from '@cl/profile.collection';
 import { Store } from '@ngxs/store';
-import { OwnerAuthCollection } from '../../../collections/owner/auth.collection';
 
 export interface IOwnerRegisterPayload {
   email: string;

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OwnerLocation, OwnerLocationCollection } from '@app/collections/owner/location.collection';
 import { OwnerAuthService } from '@app/core/services/owner/auth.service';

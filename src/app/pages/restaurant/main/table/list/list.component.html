@@ -10,7 +10,7 @@
       </a>
     </td>
   </ng-container>
-  <ng-container psQCell="">
+  <ng-container psQCell="Status">
     <td psQCol *psQBody="let table; as: type">
       <aka-state-label [state]="table.status"></aka-state-label>
     </td>
@@ -24,10 +24,6 @@
 
 <aka-dialog #createDialog="akaDialog" class="small">
   <ng-container *akaDialogContent>
-    <!-- <aka-table-form
-      [record]="createDialog._data"
-      (onClose)="createDialog.hide()"
-      (onSuccess)="onSuccess()"
-    ></aka-table-form> -->
+    <aka-table-form [record]="createDialog._data" (onClose)="createDialog.hide()" (onSuccess)="onSuccess()"></aka-table-form>
   </ng-container>
 </aka-dialog>

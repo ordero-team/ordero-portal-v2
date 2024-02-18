@@ -2,8 +2,7 @@ import { AkaNavigationService } from '@aka/components/navigation/navigation.serv
 import { AkaMediaWatcherService } from '@aka/services/tailwind';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OwnerLocation, OwnerProfile, OwnerProfileCollection } from '@app/collections/owner/profile.collection';
-import { AuthService } from '@app/core/services/auth.service';
+import { OwnerLocation, OwnerProfileCollection } from '@app/collections/owner/profile.collection';
 import { NavigationService } from '@app/core/services/navigation.service';
 import { OwnerAuthService } from '@app/core/services/owner/auth.service';
 import { ToastService } from '@app/core/services/toast.service';

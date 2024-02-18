@@ -45,7 +45,7 @@ export class TableListComponent implements OnInit {
   constructor(private collection: OwnerTableCollection, private auth: OwnerAuthService) {}
 
   ngOnInit() {
-    this.query = this.collection.query().params({ restaurant_id: this.auth.currentRestaurant.id, include: '' });
+    this.query = this.collection.query().params({ restaurant_id: this.auth.currentRestaurant.id, include: 'location' });
   }
 
   onSuccess() {
