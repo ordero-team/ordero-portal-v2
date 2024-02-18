@@ -3,6 +3,11 @@ import { OwnerOriginService } from '@app/core/services/owner/origin.service';
 import { MetalCollection, MetalCollectionConfig } from '@lib/metal-data';
 import { MetalAPIData } from '@mtl/interfaces';
 
+export interface OwnerLocation {
+  id?: string;
+  name?: string;
+}
+
 export interface OwnerProfile extends MetalAPIData {
   email: string;
   name: string;
@@ -12,10 +17,7 @@ export interface OwnerProfile extends MetalAPIData {
     name?: string;
     permissions?: string;
   };
-  location?: {
-    id?: string;
-    name?: string;
-  };
+  location?: OwnerLocation;
   status?: string;
   phone?: string;
   address?: any;

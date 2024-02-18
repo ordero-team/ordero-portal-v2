@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { OwnerProfileCollection } from '@app/collections/owner/profile.collection';
+import { OwnerLocation, OwnerProfileCollection } from '@app/collections/owner/profile.collection';
 import { ToastService } from '@cs/toast.service';
 import { ClearRoleAction, PatchRoleAction } from '@ct/role/role.actions';
 import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
@@ -25,6 +25,11 @@ export class OwnerState implements NgxsOnInit {
     return state.user.restaurant;
   }
 
+  @Selector()
+  static currentLocation(state: OwnerStateModle): OwnerLocation {
+    return state.user.location;
+  }
+
   constructor(private toast: ToastService, private profile: OwnerProfileCollection) {}
 
   ngxsOnInit({ dispatch, getState }: StateContext<OwnerStateModle>) {
@@ -47,9 +52,10 @@ export class OwnerState implements NgxsOnInit {
 
   @Action(OwnerFetchMeAction)
   fetchMe({ setState, getState, dispatch }: StateContext<OwnerStateModle>) {
-    return from(this.profile.findOne('', { params: { include: 'role,restaurant' } })).pipe(
+    return from(this.profile.findOne('', { params: { include: 'role,restaurant,location' } })).pipe(
       map((res) => {
         const { role = {}, ...rest } = res;
+        console.log({ ...rest });
         setState({ ...getState(), user: { role, ...rest } });
         dispatch([new PatchRoleAction(role)]);
       }),

@@ -1,0 +1,9 @@
+:host {
+    width: 100%;
+  
+    .loading {
+      mat-select ::ng-deep .mat-select-arrow-wrapper {
+        display: none;
+      }
+    }  
+  }

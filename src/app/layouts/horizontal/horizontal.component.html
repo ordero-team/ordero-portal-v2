@@ -22,13 +22,33 @@
       <div class="relative flex h-16 flex-auto items-center px-4 md:px-6">
         <!-- Logo -->
         <ng-container *ngIf="!isScreenSmall">
-          <div class="mx-2 flex items-center">
+          <div class="mx-2 flex items-center gap-8">
             <!-- Light version -->
             <img class="w-24 dark:hidden" src="assets/images/logo/logo-text.svg" alt="Logo image" />
             <!-- Dark version -->
             <img class="hidden w-24 dark:flex" src="assets/images/logo/logo-text-on-dark.svg" alt="Logo image" />
+
+            <div
+              class="account-badge cursor-pointer pl-0"
+              [matTooltip]="'Click to Change'"
+              (click)="openChangeLocationDialog()"
+            >
+              <div class="account-icon">
+                <mat-icon class="text-gray-600 dark:text-gray-300" icIcon="roundApartment"></mat-icon>
+              </div>
+              <div class="account-info">
+                <ng-container *ngIf="currentLocation$ | async">
+                  <span class="account-title">Current Location</span>
+                  <span class="account-desc">{{ (currentLocation$ | async).name }}</span>
+                </ng-container>
+                <ng-container *ngIf="!(currentLocation$ | async)">
+                  <span class="account-desc">Choose Location</span>
+                </ng-container>
+              </div>
+            </div>
           </div>
         </ng-container>
+
         <!-- Navigation toggle button -->
         <ng-container *ngIf="isScreenSmall">
           <button mat-icon-button (click)="toggleNavigation('mainNavigation')">
@@ -79,3 +99,29 @@
     </div>
   </div>
 </div>
+
+<aka-dialog title="Change Location" #locationDialog="akaDialog" class="small fixed-size">
+  <ng-container *akaDialogContent>
+    <aka-select-location
+      placeholder="Choose Location"
+      [(ngModel)]="formData.location"
+      name="location"
+      [required]="false"
+      fieldClass="w-full aka-mat-dense"
+    ></aka-select-location>
+    <div class="mt-4 flex flex-row justify-end">
+      <button mat-button type="button" (click)="locationDialog.hide()" [disabled]="formData.$loading">CANCEL</button>
+      <button
+        mat-flat-button
+        type="submit"
+        class="ml-3"
+        color="primary"
+        [disabled]="formData.$invalid || formData.$loading"
+        [akaLoading]="formData.$loading"
+        (click)="changeLocation()"
+      >
+        SAVE
+      </button>
+    </div>
+  </ng-container>
+</aka-dialog>

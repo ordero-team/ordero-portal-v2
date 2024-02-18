@@ -39,11 +39,7 @@
     "dashboard": {
       "parent": "Dashboard"
     },
-    "table": {
-      "parent": "Table",
-      "list": "List Table",
-      "detail": "Detail Table"
-    },
+
     "category": {
       "parent": "Category",
       "list": "List Category",
@@ -63,6 +59,9 @@
     },
     "location": {
       "parent": "Locations"
+    },
+    "table": {
+      "parent": "Tables"
     }
   },
   "pages": {},
@@ -83,9 +82,7 @@
       }
     },
     "table": {
-      "parent": "Table",
-      "list": "List Table",
-      "detail": "Detail Table"
+      "parent": "Tables"
     },
     "category": {
       "parent": "Category",
