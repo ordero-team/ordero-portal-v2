@@ -53,7 +53,7 @@ const declarations = [ToastComponent, QueueComponent, CanDirective];
       developmentMode: !environment.production,
     }),
     NgxsStoragePluginModule.forRoot({
-      key: ['auth', 'role'],
+      key: ['auth', 'role', 'owner'],
     }),
     NgxsReduxDevtoolsPluginModule.forRoot({
       name: 'Keeppack App',

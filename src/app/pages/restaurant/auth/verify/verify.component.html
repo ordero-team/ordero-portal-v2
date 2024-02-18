@@ -1,0 +1,41 @@
+<div class="flex min-w-0 flex-auto flex-col items-center sm:justify-center">
+  <div class="w-full px-4 py-8 sm:bg-card sm:w-auto sm:rounded-lg sm:p-12 sm:shadow-md">
+    <div class="mx-auto w-full max-w-80 sm:mx-0 sm:w-80">
+      <!-- Logo -->
+      <div class="w-12">
+        <img src="assets/images/logo/logo.svg" />
+      </div>
+
+      <!-- Title -->
+      <div class="mt-8 text-4xl font-extrabold leading-tight tracking-tight">Verify Your Account</div>
+      <div class="mt-0.5">
+        We have sent a code to
+        <span class="font-medium">{{ auth.currentUser }}</span>
+        . Please enter it below to proceed further.
+      </div>
+
+      <!-- Unlock form -->
+      <form [akaForm]="formData" class="mt-8" #unlockSessionNgForm="ngForm">
+        <!-- Name field -->
+        <mat-form-field class="w-full">
+          <input id="name" matInput [(ngModel)]="formData.code" name="code" placeholder="xxxxxx" />
+        </mat-form-field>
+
+        <p class="ml-auto cursor-pointer text-primary hover:text-primary-600" (click)="resend()">Resend Code</p>
+
+        <!-- Submit button -->
+        <button
+          class="aka-mat-button-large mt-3 w-full"
+          mat-flat-button
+          [color]="'primary'"
+          [disabled]="formData.$disabled || formData.$loading"
+          [akaLoading]="formData.$loading"
+          (click)="verify()"
+        >
+          Verify
+        </button>
+        <button class="aka-mat-button-small mt-3 w-full" (click)="auth.logout()" mat-flat-button>Sign Out</button>
+      </form>
+    </div>
+  </div>
+</div>

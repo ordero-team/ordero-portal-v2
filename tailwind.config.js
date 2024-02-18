@@ -11,7 +11,10 @@ const generatePalette = require(path.resolve(__dirname, 'src/@aka/tailwind/utils
  * Tailwind-like color palettes automatically
  */
 const customPalettes = {
-  brand: generatePalette('#0ea5e9'),
+  brand: generatePalette('#057dcd'),
+  accent: generatePalette('#151931'),
+  warn: generatePalette('#FFDF64'),
+  danger: generatePalette('#EF6F6C'),
 };
 
 /**
@@ -25,12 +28,12 @@ const themes = {
       DEFAULT: customPalettes.brand['500'],
     },
     accent: {
-      ...colors.blueGray,
-      DEFAULT: colors.blueGray['800'],
+      ...customPalettes.accent,
+      DEFAULT: customPalettes.accent['500'],
     },
     warn: {
-      ...colors.red,
-      DEFAULT: colors.red['600'],
+      ...customPalettes.danger,
+      DEFAULT: customPalettes.danger['500'],
     },
     'on-warn': {
       '500': colors.red['50'],

@@ -2,24 +2,26 @@
 <div
   class="aka-horizontal-navigation-item-wrapper"
   [class.aka-horizontal-navigation-item-has-subtitle]="!!item.subtitle"
-  [ngClass]="item.classes?.wrapper">
-
+  [ngClass]="item.classes?.wrapper"
+>
   <!-- Item with an internal link -->
-  <div
+  <a
     class="aka-horizontal-navigation-item"
     *ngIf="item.link && !item.externalLink && !item.function && !item.disabled"
-    [ngClass]="{'aka-horizontal-navigation-item-active-forced': item.active}"
+    [ngClass]="{ 'aka-horizontal-navigation-item-active-forced': item.active }"
     [routerLink]="[item.link]"
     [routerLinkActive]="'aka-horizontal-navigation-item-active'"
-    [routerLinkActiveOptions]="{exact: item.exactMatch || false}">
+    [routerLinkActiveOptions]="{ exact: item.exactMatch || false }"
+  >
     <ng-container *ngTemplateOutlet="itemTemplate"></ng-container>
-  </div>
+  </a>
 
   <!-- Item with an external link -->
   <a
     class="aka-horizontal-navigation-item"
     *ngIf="item.link && item.externalLink && !item.function && !item.disabled"
-    [href]="item.link">
+    [href]="item.link"
+  >
     <ng-container *ngTemplateOutlet="itemTemplate"></ng-container>
   </a>
 
@@ -27,22 +29,24 @@
   <div
     class="aka-horizontal-navigation-item"
     *ngIf="!item.link && item.function && !item.disabled"
-    [ngClass]="{'aka-horizontal-navigation-item-active-forced': item.active}"
-    (click)="item.function(item)">
+    [ngClass]="{ 'aka-horizontal-navigation-item-active-forced': item.active }"
+    (click)="item.function(item)"
+  >
     <ng-container *ngTemplateOutlet="itemTemplate"></ng-container>
   </div>
 
   <!-- Item with an internal link and function -->
-  <div
+  <a
     class="aka-horizontal-navigation-item"
     *ngIf="item.link && !item.externalLink && item.function && !item.disabled"
-    [ngClass]="{'aka-horizontal-navigation-item-active-forced': item.active}"
+    [ngClass]="{ 'aka-horizontal-navigation-item-active-forced': item.active }"
     [routerLink]="[item.link]"
     [routerLinkActive]="'aka-horizontal-navigation-item-active'"
-    [routerLinkActiveOptions]="{exact: item.exactMatch || false}"
-    (click)="item.function(item)">
+    [routerLinkActiveOptions]="{ exact: item.exactMatch || false }"
+    (click)="item.function(item)"
+  >
     <ng-container *ngTemplateOutlet="itemTemplate"></ng-container>
-  </div>
+  </a>
 
   <!-- Item with an external link and function -->
   <a
@@ -50,7 +54,8 @@
     *ngIf="item.link && item.externalLink && item.function && !item.disabled"
     [href]="item.link"
     (click)="item.function(item)"
-    mat-menu-item>
+    mat-menu-item
+  >
     <ng-container *ngTemplateOutlet="itemTemplate"></ng-container>
   </a>
 
@@ -58,54 +63,43 @@
   <div
     class="aka-horizontal-navigation-item"
     *ngIf="!item.link && !item.function && !item.disabled"
-    [ngClass]="{'aka-horizontal-navigation-item-active-forced': item.active}">
+    [ngClass]="{ 'aka-horizontal-navigation-item-active-forced': item.active }"
+  >
     <ng-container *ngTemplateOutlet="itemTemplate"></ng-container>
   </div>
 
   <!-- Item is disabled -->
-  <div
-    class="aka-horizontal-navigation-item aka-horizontal-navigation-item-disabled"
-    *ngIf="item.disabled">
+  <div class="aka-horizontal-navigation-item aka-horizontal-navigation-item-disabled" *ngIf="item.disabled">
     <ng-container *ngTemplateOutlet="itemTemplate"></ng-container>
   </div>
-
 </div>
 
 <!-- Item template -->
 <ng-template #itemTemplate>
-
   <!-- Icon -->
   <mat-icon
     class="aka-horizontal-navigation-item-icon"
     [ngClass]="item.classes?.icon"
     *ngIf="item.icon"
-    [svgIcon]="item.icon"></mat-icon>
+    [icIcon]="item.icon"
+  ></mat-icon>
 
   <!-- Title & Subtitle -->
   <div class="aka-horizontal-navigation-item-title-wrapper">
     <div class="aka-horizontal-navigation-item-title">
-            <span [ngClass]="item.classes?.title">
-                {{item.title}}
-            </span>
+      <span [ngClass]="item.classes?.title">{{ item.title }}</span>
     </div>
-    <div
-      class="aka-horizontal-navigation-item-subtitle text-hint"
-      *ngIf="item.subtitle">
-            <span [ngClass]="item.classes?.subtitle">
-                {{item.subtitle}}
-            </span>
+    <div class="aka-horizontal-navigation-item-subtitle text-hint" *ngIf="item.subtitle">
+      <span [ngClass]="item.classes?.subtitle">
+        {{ item.subtitle }}
+      </span>
     </div>
   </div>
 
   <!-- Badge -->
-  <div
-    class="aka-horizontal-navigation-item-badge"
-    *ngIf="item.badge">
-    <div
-      class="aka-horizontal-navigation-item-badge-content"
-      [ngClass]="item.badge.classes">
-      {{item.badge.title}}
+  <div class="aka-horizontal-navigation-item-badge" *ngIf="item.badge">
+    <div class="aka-horizontal-navigation-item-badge-content" [ngClass]="item.badge.classes">
+      {{ item.badge.title }}
     </div>
   </div>
-
 </ng-template>

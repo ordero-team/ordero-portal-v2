@@ -490,6 +490,7 @@ export class MaterialColorService {
     additional: this.colors.blue[700],
     bundle: this.colors.teal[700],
     used: this.colors.green,
+    default: this.colors.green,
   };
 
   labels: any = {

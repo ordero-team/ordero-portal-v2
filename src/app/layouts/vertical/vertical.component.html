@@ -1,7 +1,7 @@
 <!-- Navigation -->
 <aka-vertical-navigation
   class="dark bg-gray-900"
-  [appearance]="navigationAppearance"
+  [appearance]="'compact'"
   [mode]="isScreenSmall ? 'over' : 'side'"
   [name]="'mainNavigation'"
   [navigation]="navigations"
@@ -24,16 +24,17 @@
   >
     <div class="flex items-center space-x-2 pr-2">
       <!-- Navigation appearance toggle button -->
-      <button class="hidden md:inline-flex" mat-icon-button (click)="toggleNavigationAppearance()">
+      <!-- <button class="hidden md:inline-flex" mat-icon-button (click)="toggleNavigationAppearance()">
         <mat-icon icIcon="switchHorizontal"></mat-icon>
-      </button>
+      </button> -->
 
       <toggle-dark-mode></toggle-dark-mode>
     </div>
     <!-- Components -->
     <div class="ml-auto flex items-center space-x-2 pl-2">
       <!--      <notifications [notifications]="[]"></notifications>-->
-      <user-menu></user-menu>
+      <!-- <user-menu></user-menu> -->
+      <aka-owner-user-menu></aka-owner-user-menu>
     </div>
   </div>
 

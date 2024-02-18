@@ -103,12 +103,16 @@ export class AuthService {
     this.router.navigate([`/dashboard`]);
   }
 
+  toHomePage() {
+    this.router.navigate([`/`]);
+  }
+
   toGuestArea(reload) {
     // Use this line if you want to reload the public page'
     if (reload && window) {
-      window.location.href = '/login';
+      // window.location.href = '/login';
     } else {
-      this.router.navigate(['/login']);
+      // this.router.navigate(['/login']);
     }
   }
 

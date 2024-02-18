@@ -1,0 +1,42 @@
+<form role="form" [akaForm]="formData" (ngSubmit)="execute()">
+  <div class="flex flex-col">
+    <mat-form-field class="aka-mat-dense w-full" akaProps>
+      <mat-label>Number</mat-label>
+      <input type="text" name="number" [(ngModel)]="formData.number" matInput placeholder="e.g. A001" />
+    </mat-form-field>
+
+    <mat-form-field class="aka-mat-dense" akaProps>
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="formData.status" name="status" placeholder="Choose Status">
+        <mat-option [value]="option.value" *ngFor="let option of statuses">{{ option.label }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <label class="mb-1.5 font-medium">
+      Choose Location
+      <aka-label-required-maker></aka-label-required-maker>
+    </label>
+    <aka-select-location
+      placeholder="Choose Location"
+      [(ngModel)]="formData.location"
+      name="location"
+      [required]="true"
+      fieldClass="w-full aka-mat-dense"
+      tabindex="-1"
+    ></aka-select-location>
+  </div>
+
+  <div class="mt-4 flex items-center justify-end">
+    <button mat-button type="button" tabindex="-1" (click)="cancel()">CANCEL</button>
+    <button
+      mat-flat-button
+      color="primary"
+      class="ml-3"
+      [disabled]="formData.$disabled || formData.$loading"
+      [akaLoading]="formData.$loading"
+      type="submit"
+    >
+      SAVE
+    </button>
+  </div>
+</form>

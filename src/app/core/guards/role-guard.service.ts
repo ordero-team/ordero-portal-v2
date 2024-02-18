@@ -10,7 +10,6 @@ export class RoleGuardService implements CanActivate {
   public async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
     const { roles } = route.routeConfig as INavRoute;
     const canActivate = this.service.verifyRole(roles);
-
     if (!canActivate) {
       return this.router.navigate(['/error/unauthorized']);
     }

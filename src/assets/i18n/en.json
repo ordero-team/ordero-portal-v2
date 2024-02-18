@@ -22,22 +22,24 @@
     }
   },
   "title": {
+    "home": {
+      "parent": "Home"
+    },
     "auth": {
       "parent": "Auth",
       "login": "Login",
       "forgot-password": "Forgot Password",
-      "reset-password": "Reset Password"
+      "reset-password": "Reset Password",
+      "verify": "Verify Account"
     },
     "error": {
       "notFound": "Not Found Error",
       "unauthorized": "Unauthorized Access"
     },
-    "dashboard": "Dashboard",
-    "table": {
-      "parent": "Table",
-      "list": "List Table",
-      "detail": "Detail Table"
+    "dashboard": {
+      "parent": "Dashboard"
     },
+
     "category": {
       "parent": "Category",
       "list": "List Category",
@@ -51,6 +53,15 @@
       "security": {
         "parent": "Security"
       }
+    },
+    "restaurant": {
+      "parent": "Restaurant"
+    },
+    "location": {
+      "parent": "Locations"
+    },
+    "table": {
+      "parent": "Tables"
     }
   },
   "pages": {},
@@ -61,7 +72,6 @@
     "warehouse_section": "Warehouse Section",
     "admin_section": "Admin Section",
     "staff_section": "General Section",
-    "dashboard": "Dashboard",
     "setting": {
       "parent": "Settings",
       "account": {
@@ -72,14 +82,21 @@
       }
     },
     "table": {
-      "parent": "Table",
-      "list": "List Table",
-      "detail": "Detail Table"
+      "parent": "Tables"
     },
     "category": {
       "parent": "Category",
       "list": "List Category",
       "detail": "Detail Category"
+    },
+    "restaurant": {
+      "parent": "Restaurant"
+    },
+    "dashboard": {
+      "parent": "Dashboard"
+    },
+    "location": {
+      "parent": "Locations"
     },
     "subtitle": {
       "main": ""
