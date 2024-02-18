@@ -56,10 +56,13 @@
       },
       "security": {
         "parent": "Security"
-      },
-      "restaurant": {
-        "parent": "Restaurant"
       }
+    },
+    "restaurant": {
+      "parent": "Restaurant"
+    },
+    "location": {
+      "parent": "Locations"
     }
   },
   "pages": {},
@@ -94,6 +97,9 @@
     },
     "dashboard": {
       "parent": "Dashboard"
+    },
+    "location": {
+      "parent": "Locations"
     },
     "subtitle": {
       "main": ""

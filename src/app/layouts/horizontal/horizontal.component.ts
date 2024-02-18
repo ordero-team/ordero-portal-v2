@@ -1,5 +1,4 @@
 import { AkaNavigationService } from '@aka/components/navigation/navigation.service';
-import { AkaNavigationItem } from '@aka/components/navigation/navigation.types';
 import { AkaMediaWatcherService } from '@aka/services/tailwind';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,7 +16,7 @@ export class HorizonalLayoutComponent implements OnInit, OnDestroy {
   isScreenSmall: boolean;
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  navigations: AkaNavigationItem[] = [];
+  navigations: any[] = [];
 
   /**
    * Constructor
@@ -49,7 +48,7 @@ export class HorizonalLayoutComponent implements OnInit, OnDestroy {
    * On init
    */
   ngOnInit(): void {
-    this.navigations = this.navService.buildNav() as any[];
+    this.navigations = this.navService.buildNav(this._activatedRoute);
 
     // Subscribe to media changes
     this._akaMediaWatcherService.onMediaChange$.pipe(untilDestroyed(this)).subscribe(({ matchingAliases }) => {

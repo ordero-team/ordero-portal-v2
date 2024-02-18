@@ -1,12 +1,6 @@
 <!-- Navigation -->
 <ng-container *ngIf="isScreenSmall">
-  <aka-vertical-navigation
-    class="dark bg-gray-900"
-    [mode]="'over'"
-    [name]="'mainNavigation'"
-    [navigation]="navigations"
-    [opened]="false"
-  >
+  <aka-vertical-navigation class="dark bg-gray-900" [name]="'mainNavigation'" [navigation]="navigations">
     <!-- Navigation header hook -->
     <ng-container akaVerticalNavigationContentHeader>
       <!-- Logo -->
@@ -46,6 +40,7 @@
           <!-- <search [appearance]="'bar'"></search>
                     <shortcuts [shortcuts]="data.shortcuts"></shortcuts>
                     <messages [messages]="data.messages"></messages> -->
+          <toggle-dark-mode [iconOnly]="true"></toggle-dark-mode>
           <notifications [notifications]="[]"></notifications>
           <aka-owner-user-menu></aka-owner-user-menu>
         </div>
@@ -60,11 +55,27 @@
   </div>
 
   <!-- Content -->
-  <div class="flex w-full flex-auto justify-center sm:px-8">
-    <div class="bg-default flex w-full flex-auto flex-col sm:max-w-360 sm:overflow-hidden sm:shadow-xl">
-      <!-- *ngIf="true" hack is required here for router-outlet to work correctly.
+  <!-- <div class="flex w-full flex-auto justify-center sm:px-8">
+    <div class="bg-default flex w-full flex-auto flex-col sm:max-w-360 sm:overflow-hidden sm:shadow-xl"> -->
+  <!-- *ngIf="true" hack is required here for router-outlet to work correctly.
                  Otherwise, layout changes won't be registered and the view won't be updated! -->
-      <router-outlet *ngIf="true"></router-outlet>
+  <!-- <router-outlet *ngIf="true"></router-outlet>
+    </div>
+  </div> -->
+
+  <!-- Content -->
+  <div class="flex w-full flex-auto justify-center sm:px-8">
+    <div class="bg-default relative flex w-full flex-auto flex-col sm:max-w-360 sm:overflow-hidden sm:shadow-xl">
+      <!-- Breadcrumbs -->
+      <aka-breadcrumbs></aka-breadcrumbs>
+
+      <!-- Main -->
+      <div class="flex-auto overflow-y-auto" cdkScrollable>
+        <!-- SUB-PAGES WILL LOAD HERE -->
+        <!-- *ngIf="true" hack is required here for router-outlet to work correctly.
+   Otherwise, layout changes won't be registered and the view won't be updated! -->
+        <router-outlet *ngIf="true"></router-outlet>
+      </div>
     </div>
   </div>
 </div>

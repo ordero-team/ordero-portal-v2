@@ -38,26 +38,26 @@
     }
   
     ::ng-deep {
-      aka-vertical-navigation {
+      aka-horizontal-navigation {
         &.dark {
           background-color: #2F4858;
           @apply dark:bg-gray-900 #{'!important'};
   
           /* Group */
-          aka-vertical-navigation-group-item {
-            .aka-vertical-navigation-item-wrapper .aka-vertical-navigation-item {
-              .aka-vertical-navigation-item-title-wrapper {
-                .aka-vertical-navigation-item-title {
+          aka-horizontal-navigation-group-item {
+            .aka-horizontal-navigation-item-wrapper .aka-horizontal-navigation-item {
+              .aka-horizontal-navigation-item-title-wrapper {
+                .aka-horizontal-navigation-item-title {
                   @apply text-primary-400;
                 }
               }
             }
   
-            aka-vertical-navigation-basic-item,
-            aka-vertical-navigation-collapsable-item {
-              .aka-vertical-navigation-item-wrapper .aka-vertical-navigation-item {
-                .aka-vertical-navigation-item-title-wrapper {
-                  .aka-vertical-navigation-item-title {
+            aka-horizontal-navigation-basic-item,
+            aka-horizontal-navigation-collapsable-item {
+              .aka-horizontal-navigation-item-wrapper .aka-horizontal-navigation-item {
+                .aka-horizontal-navigation-item-title-wrapper {
+                  .aka-horizontal-navigation-item-title {
                     @apply text-white dark:text-white;
                   }
                 }

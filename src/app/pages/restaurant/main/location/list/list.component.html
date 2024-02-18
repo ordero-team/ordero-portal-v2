@@ -1,0 +1,33 @@
+<aka-route-activator></aka-route-activator>
+<aka-breadcrumb-actions [actions]="actionGroup"></aka-breadcrumb-actions>
+<ps-metal-query [query]="query" [rowActions]="rowActions">
+  <ps-metal-query-filter [query]="query"></ps-metal-query-filter>
+
+  <ng-container psQCell="Name">
+    <td psQCol *psQBody="let location; as: type">
+      <a [routerLink]="['./' + location.id]">
+        <span>{{ location.name }}</span>
+      </a>
+    </td>
+  </ng-container>
+  <ng-container psQCell="">
+    <td psQCol *psQBody="let location; as: type">
+      <aka-state-label *ngIf="location.is_default" [state]="'default'"></aka-state-label>
+    </td>
+  </ng-container>
+  <ng-container psQCell="Created At">
+    <td psQCol *psQBody="let location; as: type">
+      <aka-date-time [date]="location.created_at"></aka-date-time>
+    </td>
+  </ng-container>
+</ps-metal-query>
+
+<aka-dialog #createDialog="akaDialog" class="small">
+  <ng-container *akaDialogContent>
+    <aka-location-form
+      [record]="createDialog._data"
+      (onClose)="createDialog.hide()"
+      (onSuccess)="onSuccess()"
+    ></aka-location-form>
+  </ng-container>
+</aka-dialog>
