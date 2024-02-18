@@ -24,7 +24,7 @@ export interface OwnerProfile extends MetalAPIData {
 
 const ProfileConfig: MetalCollectionConfig<OwnerProfile> = {
   name: 'profile',
-  endpoint: '/owner/me',
+  endpoint: 'owner/me',
 };
 
 @Injectable({

@@ -9,6 +9,10 @@ aka-horizontal-navigation {
     aka-horizontal-navigation-basic-item,
     aka-horizontal-navigation-branch-item {
 
+      .aka-horizontal-navigation-item-title {
+        @apply text-default #{'!important'};
+      }
+
       @screen sm {
 
         &:hover {

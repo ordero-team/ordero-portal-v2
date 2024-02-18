@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ProfileCollection } from './profile.collection';
+import { OwnerProfileCollection } from './profile.collection';
 
-describe('ProfileCollection', () => {
-  let collection: ProfileCollection;
+describe('OwnerProfileCollection', () => {
+  let collection: OwnerProfileCollection;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    collection = TestBed.inject(ProfileCollection);
+    collection = TestBed.inject(OwnerProfileCollection);
   });
 
   it('should be created', () => {

@@ -8,8 +8,9 @@ import {
 import { RestaurantGuardService } from '@app/core/guards/restaurant-guard.service';
 import { RoleStateModel } from '@app/core/states/role/role.actions';
 import { EmptyComponent } from '@app/layouts/empty/empty.component';
-import { VerticalComponent } from '@app/layouts/vertical/vertical.component';
+import { HorizonalLayoutComponent } from '@app/layouts/horizontal/horizontal.component';
 import { RestaurantDashboardNavRoute } from '@app/pages/restaurant/main/dashboard/dashboard.component';
+import { RestaurantLocationNavRoute } from '@app/pages/restaurant/main/location/location.component';
 import { RestaurantSettingNavRoute } from '@app/pages/restaurant/main/setting/setting.component';
 import { INavMainRoutes, INavRoute, NavigationService } from '@cs/navigation.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -44,15 +45,23 @@ const routes: INavMainRoutes = [
     path: 'restaurant/:rid/dashboard',
     title: 'dashboard.parent',
     canActivate: [OwnerAuthGuardService, OwnerVerifiedGuardService, RestaurantGuardService],
-    component: VerticalComponent,
+    component: HorizonalLayoutComponent,
     loadChildren: () => import('@pg/restaurant/main/dashboard/dashboard.module').then((m) => m.DashboardModule),
+  },
+
+  {
+    path: 'restaurant/:rid/locations',
+    title: 'location.parent',
+    canActivate: [OwnerVerifiedGuardService, RestaurantGuardService],
+    component: HorizonalLayoutComponent,
+    loadChildren: () => import('@pg/restaurant/main/location/location.module').then((m) => m.LocationModule),
   },
 
   {
     path: 'restaurant/:rid/settings',
     title: 'setting.parent',
     canActivate: [OwnerVerifiedGuardService, RestaurantGuardService],
-    component: VerticalComponent,
+    component: HorizonalLayoutComponent,
     loadChildren: () => import('@pg/restaurant/main/setting/setting.module').then((m) => m.SettingModule),
   },
 
@@ -110,7 +119,7 @@ const routerConfig: ExtraOptions = {
 const defaultNavRoutes: INavRoute[] = [];
 
 const navRoutes: { [key: string]: INavRoute[] } = {
-  owner: [RestaurantDashboardNavRoute, RestaurantSettingNavRoute],
+  owner: [RestaurantDashboardNavRoute, RestaurantLocationNavRoute, RestaurantSettingNavRoute],
 };
 
 @UntilDestroy()

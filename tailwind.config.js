@@ -11,8 +11,8 @@ const generatePalette = require(path.resolve(__dirname, 'src/@aka/tailwind/utils
  * Tailwind-like color palettes automatically
  */
 const customPalettes = {
-  brand: generatePalette('#0ea5e9'),
-  accent: generatePalette('#101935'),
+  brand: generatePalette('#057dcd'),
+  accent: generatePalette('#151931'),
   warn: generatePalette('#FFDF64'),
   danger: generatePalette('#EF6F6C'),
 };

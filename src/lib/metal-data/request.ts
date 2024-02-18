@@ -83,6 +83,7 @@ export class MetalRequest {
    */
   public get url(): string {
     const segments = this.segments.map((segment) => segment.path).filter(Boolean);
+    const segmentsPrefixs = this.segments.filter((val) => val.prefix).filter(Boolean);
 
     if (this.options.suffix) {
       segments.push(this.options.suffix);
@@ -93,6 +94,10 @@ export class MetalRequest {
 
     if (this.segments[0].prefix) {
       segments.splice(0, 0, this.segments[0].prefix);
+    }
+
+    if (segmentsPrefixs.length > 0) {
+      segments.splice(0, 0, segmentsPrefixs[0].prefix);
     }
 
     return segments.join('/');

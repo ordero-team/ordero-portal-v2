@@ -5,7 +5,7 @@
   [ngClass]="item.classes?.wrapper"
 >
   <!-- Item with an internal link -->
-  <div
+  <a
     class="aka-horizontal-navigation-item"
     *ngIf="item.link && !item.externalLink && !item.function && !item.disabled"
     [ngClass]="{ 'aka-horizontal-navigation-item-active-forced': item.active }"
@@ -14,7 +14,7 @@
     [routerLinkActiveOptions]="{ exact: item.exactMatch || false }"
   >
     <ng-container *ngTemplateOutlet="itemTemplate"></ng-container>
-  </div>
+  </a>
 
   <!-- Item with an external link -->
   <a
@@ -36,7 +36,7 @@
   </div>
 
   <!-- Item with an internal link and function -->
-  <div
+  <a
     class="aka-horizontal-navigation-item"
     *ngIf="item.link && !item.externalLink && item.function && !item.disabled"
     [ngClass]="{ 'aka-horizontal-navigation-item-active-forced': item.active }"
@@ -46,7 +46,7 @@
     (click)="item.function(item)"
   >
     <ng-container *ngTemplateOutlet="itemTemplate"></ng-container>
-  </div>
+  </a>
 
   <!-- Item with an external link and function -->
   <a
@@ -87,7 +87,7 @@
   <!-- Title & Subtitle -->
   <div class="aka-horizontal-navigation-item-title-wrapper">
     <div class="aka-horizontal-navigation-item-title">
-      <span [ngClass]="item.classes?.title">{{ item.title }} - {{ item.link }}</span>
+      <span [ngClass]="item.classes?.title">{{ item.title }}</span>
     </div>
     <div class="aka-horizontal-navigation-item-subtitle text-hint" *ngIf="item.subtitle">
       <span [ngClass]="item.classes?.subtitle">

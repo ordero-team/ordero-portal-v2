@@ -80,6 +80,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { MapComponent } from './components/map/map.component';
 import { OwnerUserMenuComponent } from './components/owner/user-menu/user-menu.component';
+import { LocationFormComponent } from './components/form/location-form/location-form.component';
 
 const modules = [
   CommonModule,
@@ -171,6 +172,9 @@ const declarations = [
 
   // Owner
   OwnerUserMenuComponent,
+
+  // Form
+  LocationFormComponent,
 ];
 
 @NgModule({
