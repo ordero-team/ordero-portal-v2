@@ -28,11 +28,11 @@ export class AuthState implements NgxsOnInit {
   constructor(private toast: ToastService, private profile: ProfileCollection) {}
 
   ngxsOnInit({ dispatch, getState }: StateContext<AuthStateModel>) {
-    const { access_token } = getState();
-
-    if (access_token) {
-      dispatch(new FetchMeAction());
-    }
+    // @TODO: Enable when customer site ready to create
+    // const { access_token } = getState();
+    // if (access_token) {
+    //   dispatch(new FetchMeAction());
+    // }
   }
 
   @Action(LoginAction)

@@ -62,6 +62,9 @@
     },
     "table": {
       "parent": "Tables"
+    },
+    "staff": {
+      "parent": "Staff"
     }
   },
   "pages": {},
@@ -83,6 +86,9 @@
     },
     "table": {
       "parent": "Tables"
+    },
+    "staff": {
+      "parent": "Staff"
     },
     "category": {
       "parent": "Category",
