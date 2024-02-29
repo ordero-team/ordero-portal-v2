@@ -1,0 +1,44 @@
+<aka-route-activator></aka-route-activator>
+<aka-breadcrumb-actions [actions]="actionGroup"></aka-breadcrumb-actions>
+<ps-metal-query [query]="query" [rowActions]="rowActions">
+  <ps-metal-query-filter [query]="query"></ps-metal-query-filter>
+
+  <ng-container psQCell="Name">
+    <td psQCol *psQBody="let staff; as: type">
+      <a [routerLink]="['./' + staff.id]">
+        <span>{{ staff.name }}</span>
+      </a>
+    </td>
+  </ng-container>
+  <ng-container psQCell="Role">
+    <td psQCol *psQBody="let staff; as: type">
+      <aka-state-label [state]="staff.role.name"></aka-state-label>
+    </td>
+  </ng-container>
+  <ng-container psQCell="Contact">
+    <td psQCol *psQBody="let staff; as: type">
+      {{ staff.phone | phoneNumber }}
+    </td>
+  </ng-container>
+  <ng-container psQCell="Location">
+    <td psQCol *psQBody="let staff; as: type">
+      {{ staff.location.name }}
+    </td>
+  </ng-container>
+  <ng-container psQCell="Status">
+    <td psQCol *psQBody="let staff; as: type">
+      <aka-state-label [state]="staff.status"></aka-state-label>
+    </td>
+  </ng-container>
+  <ng-container psQCell="Created At">
+    <td psQCol *psQBody="let staff; as: type">
+      <aka-date-time [date]="staff.created_at"></aka-date-time>
+    </td>
+  </ng-container>
+</ps-metal-query>
+
+<aka-dialog #createDialog="akaDialog" class="small">
+  <ng-container *akaDialogContent>
+    <aka-staff-form [record]="createDialog._data" (onClose)="createDialog.hide()" (onSuccess)="onSuccess()"></aka-staff-form>
+  </ng-container>
+</aka-dialog>

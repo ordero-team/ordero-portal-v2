@@ -1,0 +1,64 @@
+<form role="form" [akaForm]="formData" (ngSubmit)="execute()">
+  <div class="flex flex-col">
+    <mat-form-field class="aka-mat-dense w-full" akaProps>
+      <mat-label>{{ 'general.form.name' | translate }}</mat-label>
+      <input type="text" name="name" [(ngModel)]="formData.name" matInput placeholder="e.g. John Smith" />
+    </mat-form-field>
+
+    <mat-form-field class="aka-mat-dense w-full" akaProps>
+      <mat-label>Email</mat-label>
+      <input type="email" name="email" [(ngModel)]="formData.email" matInput placeholder="e.g. john@ordero.com" />
+    </mat-form-field>
+
+    <mat-form-field class="aka-mat-dense w-full" akaProps>
+      <mat-label>{{ 'general.form.phoneNumber' | translate }}</mat-label>
+      <input
+        matInput
+        name="phone"
+        type="text"
+        placeholder="e.g. 0812345678910"
+        [ngModel]="formData.phone | phoneNumber"
+        (ngModelChange)="formData.phone = $event"
+      />
+    </mat-form-field>
+
+    <aka-select-role
+      placeholder="Choose Role"
+      [(ngModel)]="formData.role"
+      name="role"
+      [required]="true"
+      fieldClass="w-full aka-mat-dense"
+      label="Role"
+    ></aka-select-role>
+
+    <aka-select-location
+      placeholder="Choose Location"
+      [(ngModel)]="formData.location"
+      name="location"
+      [required]="true"
+      fieldClass="w-full aka-mat-dense"
+      label="Locaation"
+    ></aka-select-location>
+
+    <mat-form-field class="aka-mat-dense" akaProps>
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="formData.status" name="status" placeholder="Choose Status">
+        <mat-option [value]="option.value" *ngFor="let option of statuses">{{ option.label }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="mt-4 flex items-center justify-end">
+    <button mat-button type="button" tabindex="-1" (click)="cancel()">CANCEL</button>
+    <button
+      mat-flat-button
+      color="primary"
+      class="ml-3"
+      [disabled]="formData.$disabled || formData.$loading"
+      [akaLoading]="formData.$loading"
+      type="submit"
+    >
+      SAVE
+    </button>
+  </div>
+</form>

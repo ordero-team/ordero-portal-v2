@@ -1,8 +1,20 @@
-<button *ngIf="!iconOnly" mat-stroked-button class="aka-mat-dense rounded-full border-0 bg-gray-100 dark:bg-gray-700 dark:text-default" (click)="toggle()">
+<button
+  tabindex="-1"
+  *ngIf="!iconOnly"
+  mat-stroked-button
+  class="aka-mat-dense rounded-full border-0 bg-gray-100 dark:text-default dark:bg-gray-700"
+  (click)="toggle()"
+>
   <mat-icon [icIcon]="isDarkTheme ? 'sunIcon' : 'moonIcon'" class="text-yellow-500 dark:text-primary-500"></mat-icon>
-  <span class="ml-2 text-md text-default">{{ isDarkTheme ? 'Light Mode' : 'Dark Mode' }}</span>
+  <span class="text-default ml-2 text-md">{{ isDarkTheme ? 'Light Mode' : 'Dark Mode' }}</span>
 </button>
 
-<button *ngIf="iconOnly" mat-icon-button class="bg-gray-100 dark:bg-gray-700 dark:text-default" (click)="toggle()">
+<button
+  tabindex="-1"
+  *ngIf="iconOnly"
+  mat-icon-button
+  class="bg-gray-100 dark:text-default dark:bg-gray-700"
+  (click)="toggle()"
+>
   <mat-icon [icIcon]="isDarkTheme ? 'sunIcon' : 'moonIcon'" class="text-yellow-500 dark:text-primary-500"></mat-icon>
 </button>

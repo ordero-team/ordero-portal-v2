@@ -12,6 +12,7 @@ import { HorizonalLayoutComponent } from '@app/layouts/horizontal/horizontal.com
 import { RestaurantDashboardNavRoute } from '@app/pages/restaurant/main/dashboard/dashboard.component';
 import { RestaurantLocationNavRoute } from '@app/pages/restaurant/main/location/location.component';
 import { RestaurantSettingNavRoute } from '@app/pages/restaurant/main/setting/setting.component';
+import { RestaurantStaffNavRoute } from '@app/pages/restaurant/main/staff/staff.component';
 import { RestaurantTableNavRoute } from '@app/pages/restaurant/main/table/table.component';
 import { INavMainRoutes, INavRoute, NavigationService } from '@cs/navigation.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -64,6 +65,14 @@ const routes: INavMainRoutes = [
     canActivate: [OwnerVerifiedGuardService, RestaurantGuardService],
     component: HorizonalLayoutComponent,
     loadChildren: () => import('@pg/restaurant/main/table/table.module').then((m) => m.TableModule),
+  },
+
+  {
+    path: 'restaurant/:rid/staff',
+    title: 'staff.parent',
+    canActivate: [OwnerVerifiedGuardService, RestaurantGuardService],
+    component: HorizonalLayoutComponent,
+    loadChildren: () => import('@pg/restaurant/main/staff/staff.module').then((m) => m.StaffModule),
   },
 
   {
@@ -128,7 +137,13 @@ const routerConfig: ExtraOptions = {
 const defaultNavRoutes: INavRoute[] = [];
 
 const navRoutes: { [key: string]: INavRoute[] } = {
-  owner: [RestaurantDashboardNavRoute, RestaurantLocationNavRoute, RestaurantTableNavRoute, RestaurantSettingNavRoute],
+  owner: [
+    RestaurantDashboardNavRoute,
+    RestaurantLocationNavRoute,
+    RestaurantTableNavRoute,
+    RestaurantStaffNavRoute,
+    RestaurantSettingNavRoute,
+  ],
 };
 
 @UntilDestroy()
