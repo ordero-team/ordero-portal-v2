@@ -14,6 +14,7 @@ export class OwnerUserMenuComponent {
   @Input() showAvatar = true;
 
   @Select(OwnerState.currentUser) currentUser$: Observable<OwnerProfile>;
+  @Select(OwnerState.currentRestaurant) currentRestaurant$: Observable<any>;
 
   constructor(public authService: OwnerAuthService) {}
 }
