@@ -1,14 +1,10 @@
 :host {
   ::ng-deep {
-    .product-image {
-      &::ng-deep {
-        aka-image-upload {
-          .upload-section {
-            ngx-dropzone {
-              height: 142px;
-              width: 142px;
-            }
-          }
+    aka-image-upload.profile-image {
+      .upload-section {
+        ngx-dropzone {
+          height: 142px;
+          width: 142px;
         }
       }
     }
