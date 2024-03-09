@@ -1,3 +1,4 @@
+import { AgmCoreModule } from '@agm/core';
 import { AkaNavigationModule } from '@aka/components/navigation/navigation.module';
 import { ObserversModule } from '@angular/cdk/observers';
 import { CommonModule } from '@angular/common';
@@ -7,14 +8,8 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from '@mat/material.module';
 import { MetalModule } from '@mtl/metal.module';
 import { TranslateModule } from '@ngx-translate/core';
-import { BackdropLoaderComponent } from '@sc/backdrop-loader/backdrop-loader.component';
-import { DialogConfirmComponent } from '@sc/dialog-confirm/dialog-confirm.component';
-import { SliderThumbComponent } from '@sc/slider/slider-thumb/slider-thumb.component';
-import { AutofocusDirective } from '@sd/autofocus.directive';
-import { CURRENCY_MASK_CONFIG, CurrencyMaskModule } from 'ng2-currency-mask';
-
-import { AgmCoreModule } from '@agm/core';
 import { ApiAutocompleteComponent, DropOptionDirective } from '@sc/api-autocomplete/api-autocomplete.component';
+import { BackdropLoaderComponent } from '@sc/backdrop-loader/backdrop-loader.component';
 import { BreadcrumbActionComponent } from '@sc/breadcrumbs/action/action.component';
 import { BreadcrumbsComponent } from '@sc/breadcrumbs/breadcrumbs.component';
 import { BreadcrumbGroupComponent, BreadcrumbGroupDirective } from '@sc/breadcrumbs/group/group.component';
@@ -29,6 +24,7 @@ import {
 } from '@sc/card/card.component';
 import { ClipboardComponent } from '@sc/clipboard/clipboard.component';
 import { DateTimeComponent } from '@sc/date-time/date-time.component';
+import { DialogConfirmComponent } from '@sc/dialog-confirm/dialog-confirm.component';
 import {
   DialogActionDirective,
   DialogContentComponent,
@@ -43,6 +39,7 @@ import { FormRequiredMarkerComponent } from '@sc/form-required-marker/form-requi
 import { ImageUploadComponent } from '@sc/image-upload/image-upload.component';
 import { RouteActivatorComponent } from '@sc/route-activator/route-activator.component';
 import { SliderItemComponent } from '@sc/slider/slider-item/slider-item.component';
+import { SliderThumbComponent } from '@sc/slider/slider-thumb/slider-thumb.component';
 import { SliderComponent } from '@sc/slider/slider.component';
 import { StateLabelComponent } from '@sc/state-label/state-label.component';
 import { SubNavigationComponent } from '@sc/sub-navigation/sub-navigation.component';
@@ -56,6 +53,7 @@ import {
   TableHeadCellRefDirective,
 } from '@sc/table/table.component';
 import { UnderDevelopmentComponent } from '@sc/under-development/under-development.component';
+import { AutofocusDirective } from '@sd/autofocus.directive';
 import { CanDirective } from '@sd/can.directive';
 import { FormDirective } from '@sd/form.directive';
 import { LazyloadDirective } from '@sd/lazyload.directive';
@@ -76,13 +74,16 @@ import { ToNumberPipe } from '@sp/to-number.pipe';
 import { UnescapePipe } from '@sp/unescape.pipe';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { IconModule } from '@visurel/iconify-angular';
+import { CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { LocationFormComponent } from './components/form/location-form/location-form.component';
+import { StaffFormComponent } from './components/form/staff-form/staff-form.component';
+import { TableFormComponent } from './components/form/table-form/table-form.component';
 import { MapComponent } from './components/map/map.component';
 import { OwnerUserMenuComponent } from './components/owner/user-menu/user-menu.component';
-import { LocationFormComponent } from './components/form/location-form/location-form.component';
 import { SelectLocationComponent } from './components/select-location/select-location.component';
-import { TableFormComponent } from './components/form/table-form/table-form.component';
+import { SelectRoleComponent } from './components/select-role/select-role.component';
 
 const modules = [
   CommonModule,
@@ -178,9 +179,11 @@ const declarations = [
   // Form
   LocationFormComponent,
   TableFormComponent,
+  StaffFormComponent,
 
   // Select
   SelectLocationComponent,
+  SelectRoleComponent,
 ];
 
 @NgModule({

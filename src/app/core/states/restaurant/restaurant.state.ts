@@ -4,7 +4,12 @@ import { ToastService } from '@app/core/services/toast.service';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { from, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { ClearRestaurantAction, PatchRestaurantAction, RestaurantAction, RestaurantStateModel } from './restaurant.actions';
+import {
+  ClearRestaurantAction,
+  FetchRestaurantAction,
+  PatchRestaurantAction,
+  RestaurantStateModel,
+} from './restaurant.actions';
 
 @State<RestaurantStateModel>({ name: 'restaurant' })
 @Injectable()
@@ -26,8 +31,8 @@ export class RestaurantState {
     patchState({ ...payload });
   }
 
-  @Action(RestaurantAction)
-  company({ getState, setState }: StateContext<RestaurantStateModel>, { RestaurantId }: RestaurantAction) {
+  @Action(FetchRestaurantAction)
+  company({ getState, setState }: StateContext<RestaurantStateModel>, { RestaurantId }: FetchRestaurantAction) {
     return from(this.collection.findOne(RestaurantId)).pipe(
       map((company) => {
         setState({ ...getState(), ...company });

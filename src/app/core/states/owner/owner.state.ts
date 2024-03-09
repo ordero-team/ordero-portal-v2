@@ -55,12 +55,13 @@ export class OwnerState implements NgxsOnInit {
     return from(this.profile.findOne('', { params: { include: 'role,restaurant,location' } })).pipe(
       map((res) => {
         const { role = {}, ...rest } = res;
-        console.log({ ...rest });
         setState({ ...getState(), user: { role, ...rest } });
         dispatch([new PatchRoleAction(role)]);
       }),
       catchError((error) => {
         this.toast.error('Unable to fetch user!', error);
+        dispatch([new OwnerLogoutAction()]);
+
         return of(null);
       })
     );

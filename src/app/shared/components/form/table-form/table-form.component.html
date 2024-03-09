@@ -12,10 +12,6 @@
       </mat-select>
     </mat-form-field>
 
-    <label class="mb-1.5 font-medium">
-      Choose Location
-      <aka-label-required-maker></aka-label-required-maker>
-    </label>
     <aka-select-location
       placeholder="Choose Location"
       [(ngModel)]="formData.location"
@@ -23,6 +19,7 @@
       [required]="true"
       fieldClass="w-full aka-mat-dense"
       tabindex="-1"
+      label="Location"
     ></aka-select-location>
   </div>
 

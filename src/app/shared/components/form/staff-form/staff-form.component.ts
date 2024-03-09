@@ -1,34 +1,34 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { OwnerTable, OwnerTableCollection } from '@app/collections/owner/table.collection';
+import { OwnerStaff, OwnerStaffCollection } from '@app/collections/owner/staff.collection';
 import { OwnerAuthService } from '@app/core/services/owner/auth.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { Form, FormRecord } from '@lib/form';
 import { get, has } from 'lodash';
 
 @Component({
-  selector: 'aka-table-form',
-  templateUrl: './table-form.component.html',
-  styleUrls: ['./table-form.component.scss'],
+  selector: 'aka-staff-form',
+  templateUrl: './staff-form.component.html',
+  styleUrls: ['./staff-form.component.scss'],
 })
-export class TableFormComponent implements OnInit {
+export class StaffFormComponent implements OnInit {
   @Form({
-    number: 'required|alphaNumSpace',
-    location: 'required',
+    name: 'required|alphaNumSpace',
+    email: 'required|email',
+    phone: 'required|phoneNumber',
     status: 'required',
+    role: 'required',
+    location: 'required',
   })
   formData: FormRecord;
 
   statuses = [
-    { value: 'available', label: 'Available' },
-    { value: 'in_use', label: 'In Use' },
-    { value: 'reserved', label: 'Reserved' },
-    { value: 'unavailable', label: 'Unavailable' },
-    { value: 'empty', label: 'Empty' },
+    { value: 'active', label: 'Active' },
+    { value: 'blocked', label: 'Blocked' },
   ];
 
-  _record: OwnerTable = null;
+  _record: OwnerStaff = null;
   @Input()
-  get record(): OwnerTable {
+  get record(): OwnerStaff {
     return this._record;
   }
 
@@ -39,27 +39,30 @@ export class TableFormComponent implements OnInit {
   }
 
   @Output() onClose: EventEmitter<boolean> = new EventEmitter();
-  @Output() onSuccess: EventEmitter<OwnerTable> = new EventEmitter();
+  @Output() onSuccess: EventEmitter<OwnerStaff> = new EventEmitter();
 
   get isEdit() {
     return has(this.record, 'id');
   }
 
-  constructor(private collection: OwnerTableCollection, private auth: OwnerAuthService, private toast: ToastService) {}
+  constructor(private collection: OwnerStaffCollection, private auth: OwnerAuthService, private toast: ToastService) {}
 
   ngOnInit() {
     if (!this.isEdit) {
       this.record = null;
       this.formData.$import({
-        number: null,
-        location: {},
-        status: null,
+        name: null,
+        email: null,
       });
     } else {
+      console.log(this.record);
       this.formData.$import({
-        number: this.record.number,
-        location: this.record.location,
+        name: this.record.name,
+        email: this.record.email,
+        phone: this.record.phone,
         status: this.record.status,
+        role: { id: this.record.role.id, slug: this.record.role.name },
+        location: this.record.location,
       });
     }
   }
@@ -69,11 +72,13 @@ export class TableFormComponent implements OnInit {
   }
 
   async execute() {
+    this.formData.$loading = true;
     try {
       let res = null;
 
       const payload = {
         ...this.formData.$payload,
+        role_id: get(this.formData.$payload, 'role.id', null),
         location_id: get(this.formData.$payload, 'location.id', null),
         restaurant_id: this.auth.currentRestaurant.id,
       };
@@ -89,6 +94,8 @@ export class TableFormComponent implements OnInit {
       this.onSuccess.emit(res);
     } catch (error) {
       this.toast.error('Something bad happened', error);
+    } finally {
+      this.formData.$loading = false;
     }
   }
 }

@@ -1,0 +1,68 @@
+<aka-route-activator></aka-route-activator>
+
+<div class="m-auto p-6">
+  <form role="form" [akaForm]="formData">
+    <div class="aka-form-row">
+      <div class="flex w-full flex-col gap-4 md:max-w-xl">
+        <div class="sm:flex">
+          <div class="mb-3 mr-0 flex-none sm:mr-6">
+            <mat-label class="font-medium">Profile Picture</mat-label>
+            <div class="relative mt-1">
+              <aka-image-upload
+                class="profile-image"
+                icon="outlineAddPhotoAlternate"
+                editIcon="outlinePhotoCamera"
+                (select)="setImage($event)"
+                [image]="image"
+                [showHint]="false"
+              ></aka-image-upload>
+              <button
+                *ngIf="image"
+                mat-mini-fab
+                color="warn"
+                class="delete-field"
+                matTooltip="Delete Image"
+                type="button"
+                (click)="removeImage()"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex-1">
+            <mat-form-field class="w-full" akaProps>
+              <mat-label>Name</mat-label>
+              <input matInput [(ngModel)]="formData.name" name="name" />
+            </mat-form-field>
+
+            <mat-form-field class="w-full" akaProps>
+              <mat-label>Email</mat-label>
+              <input matInput [(ngModel)]="record.email" name="email" disabled readonly />
+            </mat-form-field>
+
+            <mat-form-field class="w-full" akaProps>
+              <mat-label>Phone</mat-label>
+              <input matInput [(ngModel)]="record.phone" name="phone" disabled readonly />
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Start: Action Button -->
+        <div class="flex flex-row justify-end gap-2">
+          <!-- <a [routerLink]="['../']" mat-button>Cancel</a> -->
+          <button
+            mat-flat-button
+            color="primary"
+            type="button"
+            [akaLoading]="formData.$loading"
+            [disabled]="formData.$disabled || formData.$loading"
+            (click)="submit()"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

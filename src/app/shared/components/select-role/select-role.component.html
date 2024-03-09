@@ -1,0 +1,19 @@
+<aka-api-autocomplete
+  [required]="required"
+  [inputLabel]="label"
+  [placeholder]="placeholder"
+  [collection]="collection"
+  [customParams]="params"
+  [withPrefix]="false"
+  [class]="fieldClass"
+  [clearable]="clearable"
+  (change)="selectionChange($event)"
+  [(ngModel)]="_value"
+  [fieldValue]="'id'"
+  [disabled]="disabled"
+  [label]="'slug'"
+>
+  <span *akaDropOption="let data" class="capitalize">
+    {{ data.slug }}
+  </span>
+</aka-api-autocomplete>

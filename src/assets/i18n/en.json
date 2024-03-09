@@ -47,8 +47,11 @@
     },
     "setting": {
       "parent": "Settings",
-      "account": {
+      "profile": {
         "parent": "Profile"
+      },
+      "restaurant": {
+        "parent": "Restaurant"
       },
       "security": {
         "parent": "Security"
@@ -62,6 +65,9 @@
     },
     "table": {
       "parent": "Tables"
+    },
+    "staff": {
+      "parent": "Staff"
     }
   },
   "pages": {},
@@ -74,8 +80,11 @@
     "staff_section": "General Section",
     "setting": {
       "parent": "Settings",
-      "account": {
+      "profile": {
         "parent": "Profile"
+      },
+      "restaurant": {
+        "parent": "Restaurant"
       },
       "security": {
         "parent": "Security"
@@ -83,6 +92,9 @@
     },
     "table": {
       "parent": "Tables"
+    },
+    "staff": {
+      "parent": "Staff"
     },
     "category": {
       "parent": "Category",
