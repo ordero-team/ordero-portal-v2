@@ -5,11 +5,12 @@ import { appIcons } from '@app/core/helpers/icon.helper';
 import { INavRoute } from '@app/core/services/navigation.service';
 import { OwnerAuthService } from '@app/core/services/owner/auth.service';
 import { ToastService } from '@app/core/services/toast.service';
+import { OwnerFetchMeAction } from '@app/core/states/owner/owner.actions';
 import { OwnerState } from '@app/core/states/owner/owner.state';
 import { DialogConfirmComponent } from '@app/shared/components/dialog-confirm/dialog-confirm.component';
 import { Form, FormRecord } from '@lib/form';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Select } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
 @UntilDestroy()
@@ -28,8 +29,11 @@ export class SettingRestaurantComponent implements OnInit {
   formData: FormRecord;
   record: OwnerRestaurant;
 
-  image: File | null;
-  imageTemp: File | null;
+  logo: File | null;
+  logoTemp: File | null;
+
+  banner: File | null;
+  bannerTemp: File | null;
 
   @Select(OwnerState.currentRestaurant) currentResstaurant$: Observable<OwnerRestaurant>;
 
@@ -37,37 +41,46 @@ export class SettingRestaurantComponent implements OnInit {
     private collection: OwnerRestaurantCollection,
     private toast: ToastService,
     private auth: OwnerAuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private store: Store
   ) {
     this.currentResstaurant$.pipe(untilDestroyed(this)).subscribe((user) => {
       if (user) {
         this.record = user;
+        this.applyData();
       }
     });
   }
 
-  ngOnInit() {
-    // if (this.record.avatar?.original) {
-    //   this.image = this.record.avatar.original;
-    //   this.imageTemp = this.image;
-    // }
-
-    this.applyData();
+  async ngOnInit() {
+    await this.applyData();
   }
 
-  applyData() {
+  async applyData() {
+    await this.store.dispatch([new OwnerFetchMeAction()]);
+
+    if (this.record.logo_url) {
+      this.logo = this.record.logo_url as any;
+      this.logoTemp = this.logo;
+    }
+
+    if (this.record.banner_url) {
+      this.banner = this.record.banner_url as any;
+      this.bannerTemp = this.banner;
+    }
+
     this.formData.$import({ ...this.record });
   }
 
-  setImage(event) {
-    this.image = event;
+  setImage(type: 'logo' | 'banner', event) {
+    this[type] = event;
   }
 
-  removeImage() {
-    if (typeof this.image === 'string') {
+  removeImage(type: 'logo' | 'banner') {
+    if (typeof this[type] === 'string') {
       const delRef = this.dialog.open(DialogConfirmComponent, {
         data: {
-          title: `Delete Avatar`,
+          title: `Delete ${type === 'logo' ? 'Logo' : 'Banner'}`,
           message: `Are you sure?`,
           showConfirm: true,
           confirmLabel: 'Delete',
@@ -80,10 +93,19 @@ export class SettingRestaurantComponent implements OnInit {
       delRef.afterClosed().subscribe(async (result) => {
         if (result) {
           try {
-            // await this.collection.deleteAvatar();
-            // this.toast.info('Profile Picture deleted successfully!');
-            // this.image = null;
-            // this.imageTemp = null;
+            await this.collection.deleteAvatar(type);
+            this.toast.info('Profile Picture deleted successfully!');
+
+            if (type === 'logo') {
+              this.logo = null;
+              this.logoTemp = null;
+            }
+
+            if (type === 'banner') {
+              this.banner = null;
+              this.bannerTemp = null;
+            }
+
             // await this.auth.fetchMe();
             this.applyData();
           } catch (error) {
@@ -92,24 +114,29 @@ export class SettingRestaurantComponent implements OnInit {
         }
       });
     } else {
-      this.image = null;
-      this.imageTemp = null;
+      this.logo = null;
+      this.logoTemp = null;
+
+      this.banner = null;
+      this.bannerTemp = null;
     }
   }
 
   async submit() {
     this.formData.$loading = true;
     try {
-      await this.collection.update('', this.formData.$payload);
+      await this.collection.update('', this.formData.$payload, { prefix: 'owner' });
 
-      // if (this.imageTemp !== this.image && this.image !== null) {
-      //   const resImg = await this.collection.updateAvatar(this.image);
-      //   await this.auth.fetchMe();
-      //   this.applyData();
-      //   this.image = this.imageTemp = resImg.avatar.original;
-      // }
+      if (this.logoTemp !== this.logo && this.logo !== null) {
+        const resImg = await this.collection.updateAvatar('logo', this.logo);
+        this.logo = this.logoTemp = resImg.logo_url as any;
+      }
 
-      await this.auth.fetchMe();
+      if (this.bannerTemp !== this.banner && this.banner !== null) {
+        const resImg = await this.collection.updateAvatar('banner', this.banner);
+        this.banner = this.bannerTemp = resImg.banner_url as any;
+      }
+
       this.applyData();
       this.toast.info('Personal Info updated successfully');
     } catch (error) {

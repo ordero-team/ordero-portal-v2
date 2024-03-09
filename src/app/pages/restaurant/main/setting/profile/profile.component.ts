@@ -46,8 +46,8 @@ export class SettingProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.record.avatar?.original) {
-      this.image = this.record.avatar.original;
+    if (this.record.avatar) {
+      this.image = this.record.avatar;
       this.imageTemp = this.image;
     }
 
@@ -103,9 +103,7 @@ export class SettingProfileComponent implements OnInit {
 
       if (this.imageTemp !== this.image && this.image !== null) {
         const resImg = await this.collection.updateAvatar(this.image);
-        await this.auth.fetchMe();
-        this.applyData();
-        this.image = this.imageTemp = resImg.avatar.original;
+        this.image = this.imageTemp = resImg.avatar;
       }
 
       await this.auth.fetchMe();

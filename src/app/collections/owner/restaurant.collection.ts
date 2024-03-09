@@ -10,6 +10,8 @@ export interface OwnerRestaurant extends MetalAPIData {
   slug: string;
   phone: string;
   website: string;
+  logo_url?: string;
+  banner_url?: string;
 
   owner?: OwnerProfile;
 }
@@ -23,5 +25,22 @@ const RestaurantConfig: MetalCollectionConfig<OwnerRestaurant> = {
 export class OwnerRestaurantCollection extends MetalCollection<OwnerRestaurant, OwnerOriginService> {
   constructor(public origin: OwnerOriginService) {
     super(origin, RestaurantConfig);
+  }
+
+  async updateAvatar(type: 'logo' | 'banner', payload: File) {
+    const opt = {
+      prefix: 'owner',
+      suffix: `image/${type}`,
+      headers: { 'Content-Type': 'multipart/form-data' },
+    };
+
+    const formData: FormData = new FormData();
+    formData.append('image', payload);
+
+    return await this.create(formData as any, opt);
+  }
+
+  async deleteAvatar(type: 'logo' | 'banner') {
+    return await this.delete('', { suffix: `image/${type}`, prefix: 'owner' });
   }
 }

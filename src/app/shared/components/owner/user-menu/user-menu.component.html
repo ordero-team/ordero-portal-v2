@@ -3,10 +3,10 @@
   <span class="relative">
     <img
       class="h-7 w-7 rounded-full"
-      *ngIf="showAvatar && (currentUser$ | async)?.avatar?.thumb"
-      [src]="(currentUser$ | async)?.avatar?.thumb"
+      *ngIf="showAvatar && (currentUser$ | async)?.avatar"
+      [src]="(currentUser$ | async)?.avatar"
     />
-    <mat-icon icIcon="userCircle" *ngIf="!showAvatar || !(currentUser$ | async)?.avatar?.thumb"></mat-icon>
+    <mat-icon icIcon="userCircle" *ngIf="!showAvatar || !(currentUser$ | async)?.avatar"></mat-icon>
   </span>
 </button>
 

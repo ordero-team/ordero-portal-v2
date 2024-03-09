@@ -5,7 +5,7 @@ export class RestaurantStateModel {
   slug?: string;
 }
 
-export class RestaurantAction {
+export class FetchRestaurantAction {
   static readonly type = '[Restaurant] Fetch Restaurant';
   constructor(public RestaurantId: string) {}
 }
