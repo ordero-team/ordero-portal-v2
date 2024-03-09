@@ -3,10 +3,10 @@
   <span class="relative">
     <img
       class="h-7 w-7 rounded-full"
-      *ngIf="showAvatar && (currentUser$ | async)?.avatar?.thumb"
-      [src]="(currentUser$ | async)?.avatar?.thumb"
+      *ngIf="showAvatar && (currentUser$ | async)?.avatar"
+      [src]="(currentUser$ | async)?.avatar"
     />
-    <mat-icon icIcon="userCircle" *ngIf="!showAvatar || !(currentUser$ | async)?.avatar?.thumb"></mat-icon>
+    <mat-icon icIcon="userCircle" *ngIf="!showAvatar || !(currentUser$ | async)?.avatar"></mat-icon>
   </span>
 </button>
 
@@ -18,11 +18,11 @@
     </span>
   </button>
   <mat-divider class="my-2"></mat-divider>
-  <button [routerLink]="['/settings/account']" mat-menu-item>
+  <button [routerLink]="['/', 'restaurant', (currentRestaurant$ | async).slug, 'settings', 'profile']" mat-menu-item>
     <mat-icon icIcon="userCircle"></mat-icon>
     <span>Account</span>
   </button>
-  <button [routerLink]="['/settings/security']" mat-menu-item>
+  <button [routerLink]="['/', 'restaurant', (currentRestaurant$ | async).slug, 'settings', 'security']" mat-menu-item>
     <mat-icon icIcon="vpnKey"></mat-icon>
     <span>Security</span>
   </button>

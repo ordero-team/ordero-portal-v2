@@ -60,6 +60,8 @@ export class OwnerState implements NgxsOnInit {
       }),
       catchError((error) => {
         this.toast.error('Unable to fetch user!', error);
+        dispatch([new OwnerLogoutAction()]);
+
         return of(null);
       })
     );
