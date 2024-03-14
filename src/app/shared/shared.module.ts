@@ -77,13 +77,17 @@ import { IconModule } from '@visurel/iconify-angular';
 import { CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { CategoryFormComponent } from './components/form/category-form/category-form.component';
+import { GroupFormComponent } from './components/form/group-form/group-form.component';
 import { LocationFormComponent } from './components/form/location-form/location-form.component';
 import { StaffFormComponent } from './components/form/staff-form/staff-form.component';
 import { TableFormComponent } from './components/form/table-form/table-form.component';
+import { VariantFormComponent } from './components/form/variant-form/variant-form.component';
 import { MapComponent } from './components/map/map.component';
 import { OwnerUserMenuComponent } from './components/owner/user-menu/user-menu.component';
 import { SelectLocationComponent } from './components/select-location/select-location.component';
 import { SelectRoleComponent } from './components/select-role/select-role.component';
+import { SelectVariantGroupComponent } from './components/select-variant-group/select-variant-group.component';
 
 const modules = [
   CommonModule,
@@ -180,10 +184,14 @@ const declarations = [
   LocationFormComponent,
   TableFormComponent,
   StaffFormComponent,
+  CategoryFormComponent,
+  GroupFormComponent,
+  VariantFormComponent,
 
   // Select
   SelectLocationComponent,
   SelectRoleComponent,
+  SelectVariantGroupComponent,
 ];
 
 @NgModule({

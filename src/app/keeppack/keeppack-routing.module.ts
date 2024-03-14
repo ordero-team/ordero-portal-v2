@@ -11,6 +11,7 @@ import { EmptyComponent } from '@app/layouts/empty/empty.component';
 import { HorizonalLayoutComponent } from '@app/layouts/horizontal/horizontal.component';
 import { RestaurantDashboardNavRoute } from '@app/pages/restaurant/main/dashboard/dashboard.component';
 import { RestaurantLocationNavRoute } from '@app/pages/restaurant/main/location/location.component';
+import { RestaurantProductNavRoute } from '@app/pages/restaurant/main/product/product.component';
 import { RestaurantSettingNavRoute } from '@app/pages/restaurant/main/setting/setting.component';
 import { RestaurantStaffNavRoute } from '@app/pages/restaurant/main/staff/staff.component';
 import { RestaurantTableNavRoute } from '@app/pages/restaurant/main/table/table.component';
@@ -49,6 +50,14 @@ const routes: INavMainRoutes = [
     canActivate: [OwnerAuthGuardService, OwnerVerifiedGuardService, RestaurantGuardService],
     component: HorizonalLayoutComponent,
     loadChildren: () => import('@pg/restaurant/main/dashboard/dashboard.module').then((m) => m.DashboardModule),
+  },
+
+  {
+    path: 'restaurant/:rid/products',
+    title: 'product.parent',
+    canActivate: [OwnerVerifiedGuardService, RestaurantGuardService],
+    component: HorizonalLayoutComponent,
+    loadChildren: () => import('@pg/restaurant/main/product/product.module').then((m) => m.ProductModule),
   },
 
   {
@@ -139,6 +148,7 @@ const defaultNavRoutes: INavRoute[] = [];
 const navRoutes: { [key: string]: INavRoute[] } = {
   owner: [
     RestaurantDashboardNavRoute,
+    RestaurantProductNavRoute,
     RestaurantLocationNavRoute,
     RestaurantTableNavRoute,
     RestaurantStaffNavRoute,

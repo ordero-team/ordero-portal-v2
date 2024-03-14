@@ -101,6 +101,7 @@ import checkDecagramOutline from '@iconify-icons/mdi/check-decagram-outline';
 import currencyUsdOff from '@iconify-icons/mdi/currency-usd-off';
 import emailCheck from '@iconify-icons/mdi/email-check-outline';
 import filterVariant from '@iconify-icons/mdi/filter-variant';
+import foodOutline from '@iconify-icons/mdi/food-outline';
 import formatListBulleted from '@iconify-icons/mdi/format-list-bulleted';
 import garageAlert from '@iconify-icons/mdi/garage-alert';
 import handExtendedOutline from '@iconify-icons/mdi/hand-extended-outline';
@@ -261,6 +262,7 @@ export const appIcons = {
   outlineCategory,
 
   // Material Design Icon
+  foodOutline,
   baselineSettings,
   tagMultipleOutline,
   filterVariant,

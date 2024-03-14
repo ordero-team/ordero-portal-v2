@@ -1,8 +1,10 @@
+export type AkaNavigationItemType = 'aside' | 'basic' | 'collapsable' | 'divider' | 'group' | 'spacer';
+
 export interface AkaNavigationItem {
   id?: string;
   title?: string;
   subtitle?: string;
-  type: 'aside' | 'basic' | 'collapsable' | 'divider' | 'group' | 'spacer';
+  type: AkaNavigationItemType;
   hidden?: (item: AkaNavigationItem) => boolean;
   active?: boolean;
   disabled?: boolean;

@@ -5,7 +5,14 @@
       <input id="name" type="text" name="name" [(ngModel)]="formData.name" matInput />
     </mat-form-field>
 
-    <mat-slide-toggle [(ngModel)]="formData.is_default" name="is_default" color="primary">Default</mat-slide-toggle>
+    <mat-form-field class="aka-mat-dense" akaProps>
+      <mat-label>Type</mat-label>
+      <mat-select [(ngModel)]="formData.type" name="type" placeholder="Choose Type">
+        <mat-option [value]="option.value" *ngFor="let option of types">{{ option.label }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-slide-toggle [(ngModel)]="formData.is_required" name="is_required" color="primary">Required</mat-slide-toggle>
   </div>
 
   <div class="mt-4 flex items-center justify-end">

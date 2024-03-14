@@ -64,6 +64,8 @@
         'aka-horizontal-navigation-item-disabled': item.disabled,
         'aka-horizontal-navigation-item-active-forced': item.active
       }"
+      [routerLinkActive]="'aka-horizontal-navigation-item-active'"
+      [routerLinkActiveOptions]="{ exact: true }"
     >
       <!-- Icon -->
       <mat-icon

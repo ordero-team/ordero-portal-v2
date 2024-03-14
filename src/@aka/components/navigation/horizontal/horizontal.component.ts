@@ -1,3 +1,7 @@
+import { AkaAnimations } from '@aka/animations';
+import { AkaNavigationService } from '@aka/components/navigation/navigation.service';
+import { AkaNavigationItem } from '@aka/components/navigation/navigation.types';
+import { AkaUtilsService } from '@aka/services/utils/utils.service';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -10,10 +14,6 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ReplaySubject, Subject } from 'rxjs';
-import { AkaAnimations } from '@aka/animations';
-import { AkaNavigationItem } from '@aka/components/navigation/navigation.types';
-import { AkaNavigationService } from '@aka/components/navigation/navigation.service';
-import { AkaUtilsService } from '@aka/services/utils/utils.service';
 
 @Component({
   selector: 'aka-horizontal-navigation',

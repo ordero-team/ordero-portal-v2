@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { BooleanInput } from '@angular/cdk/coercion';
-import { MatMenu } from '@angular/material/menu';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { AkaHorizontalNavigationComponent } from '@aka/components/navigation/horizontal/horizontal.component';
 import { AkaNavigationService } from '@aka/components/navigation/navigation.service';
 import { AkaNavigationItem } from '@aka/components/navigation/navigation.types';
+import { BooleanInput } from '@angular/cdk/coercion';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatMenu } from '@angular/material/menu';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'aka-horizontal-navigation-branch-item',
@@ -45,6 +45,8 @@ export class AkaHorizontalNavigationBranchItemComponent implements OnInit, OnDes
       // Mark for check
       this._changeDetectorRef.markForCheck();
     });
+
+    console.log(this.item, this.item.exactMatch);
   }
 
   /**

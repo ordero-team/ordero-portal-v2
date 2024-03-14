@@ -68,6 +68,21 @@
     },
     "staff": {
       "parent": "Staff"
+    },
+    "product": {
+      "parent": "Products",
+      "main": {
+        "parent": "Main"
+      },
+      "category": {
+        "parent": "Categories"
+      },
+      "group": {
+        "parent": "Groups"
+      },
+      "variant": {
+        "parent": "Variants"
+      }
     }
   },
   "pages": {},
@@ -109,6 +124,21 @@
     },
     "location": {
       "parent": "Locations"
+    },
+    "product": {
+      "parent": "Products",
+      "main": {
+        "parent": "Main"
+      },
+      "category": {
+        "parent": "Categories"
+      },
+      "group": {
+        "parent": "Groups"
+      },
+      "variant": {
+        "parent": "Variants"
+      }
     },
     "subtitle": {
       "main": ""
