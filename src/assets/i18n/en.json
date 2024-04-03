@@ -72,7 +72,13 @@
     "product": {
       "parent": "Products",
       "main": {
-        "parent": "Main"
+        "parent": "Main",
+        "list": {
+          "parent": "Products"
+        },
+        "create": {
+          "parent": "Create Product"
+        }
       },
       "category": {
         "parent": "Categories"
@@ -128,7 +134,13 @@
     "product": {
       "parent": "Products",
       "main": {
-        "parent": "Main"
+        "parent": "Main",
+        "list": {
+          "parent": "List"
+        },
+        "create": {
+          "parent": "Create"
+        }
       },
       "category": {
         "parent": "Categories"

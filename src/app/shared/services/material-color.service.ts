@@ -496,6 +496,7 @@ export class MaterialColorService {
     unavailaable: this.colors.red,
     single: this.colors.blue[700],
     multiple: this.colors.yellow[700],
+    coming_soon: this.colors.yellow[800],
   };
 
   labels: any = {
