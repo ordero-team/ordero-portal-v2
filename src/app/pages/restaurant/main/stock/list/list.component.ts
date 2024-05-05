@@ -40,13 +40,13 @@ export class StockListComponent implements OnInit {
 
   constructor(
     private collection: OwnerStockCollection,
-    private auth: OwnerAuthService,
+    public auth: OwnerAuthService,
     private router: Router,
     private active: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    const params = { restaurant_id: this.auth.currentRestaurant.id, include: 'item.product,item.variant' };
+    const params = { restaurant_id: this.auth.currentRestaurant.id, include: 'item.product,item.variant,location' };
 
     if (this.auth.currentUser.location) {
       Object.assign(params, { location_id: this.auth.currentUser.location.id });

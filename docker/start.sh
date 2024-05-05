@@ -14,6 +14,7 @@ find /app/ \
   -exec sed -i "s+%%ENCRYPT_KEY%%+${ENCRYPT_KEY:?}+g" '{}' \; \
   -exec sed -i "s+%%SENTRY_DSN%%+${SENTRY_DSN:?}+g" '{}' \; \
   -exec sed -i "s+%%SOCKET_TYPE%%+${SOCKET_TYPE:?}+g" '{}' \; \
+  -exec sed -i "s+%%SOCKET_URL%%+${SOCKET_URL:?}+g" '{}' \; \
   -exec sed -i "s+%%CENTRIFUGO_URL%%+${CENTRIFUGO_URL:?}+g" '{}' \;
 
 exec nginx -g 'daemon off;'

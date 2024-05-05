@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OwnerProduct } from '@app/collections/owner/product.collection';
 import { OwnerStockCollection } from '@app/collections/owner/stock.collection';
 import { OwnerVariant } from '@app/collections/owner/variant.collection';
+import { appIcons } from '@app/core/helpers/icon.helper';
 import { OwnerAuthService } from '@app/core/services/owner/auth.service';
+import { QueueService } from '@app/core/services/queue.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { Form, FormRecord } from '@lib/form';
 import { get, has } from 'lodash';
@@ -32,7 +35,14 @@ export class StockFormComponent implements OnInit {
     return this.items.length > 0 && this.formData.$payload.locations.length > 0;
   }
 
-  constructor(private toast: ToastService, private collection: OwnerStockCollection, private auth: OwnerAuthService) {}
+  constructor(
+    private toast: ToastService,
+    private collection: OwnerStockCollection,
+    private auth: OwnerAuthService,
+    private queue: QueueService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.formData.$import({
@@ -41,6 +51,9 @@ export class StockFormComponent implements OnInit {
       variant: '',
       qty: '',
     });
+
+    this.variants = [];
+    this.items = [];
   }
 
   addItem() {
@@ -89,7 +102,7 @@ export class StockFormComponent implements OnInit {
       const location_ids = get(this.formData.$payload, 'locations', []).map((val) => val.value);
       const products = this.items.map((val) => ({
         id: val.id,
-        variant_id: val.variant ? val.variant.id : null,
+        variant_id: get(val, 'variant.variant_id', null),
         qty: val.qty,
       }));
 
@@ -99,8 +112,14 @@ export class StockFormComponent implements OnInit {
         ...payload,
         restaurant_id: this.auth.currentRestaurant.id,
       } as any)) as any;
-      console.log(res);
-      this.toast.info(`We are processing ${products.length} Products.`);
+
+      if (has(res, 'request_id')) {
+        this.toast.info(`We are processing ${products.length} Products.`);
+        this.queue.start(res.request_id, {
+          label: `Creating ${products.length} ${products.length > 1 ? 'Products Stocks' : 'Product Stock'}`,
+          icon: appIcons.outlineDescription,
+        });
+      }
     } catch (error) {
       this.toast.error('Something bad happened', error);
     } finally {
@@ -108,5 +127,7 @@ export class StockFormComponent implements OnInit {
     }
   }
 
-  async cancel() {}
+  cancel() {
+    this.router.navigate(['../'], { relativeTo: this.route });
+  }
 }
