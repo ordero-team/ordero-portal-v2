@@ -1,26 +1,26 @@
 import { Component, EventEmitter, forwardRef, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { OwnerCategoryCollection } from '@app/collections/owner/category.collection';
+import { OwnerLocationCollection } from '@app/collections/owner/location.collection';
 import { OwnerAuthService } from '@app/core/services/owner/auth.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { capitalize, map } from 'lodash';
 
 @Component({
-  selector: 'aka-select-categories',
-  templateUrl: './select-categories.component.html',
-  styleUrls: ['./select-categories.component.scss'],
+  selector: 'aka-select-locations',
+  templateUrl: './select-locations.component.html',
+  styleUrls: ['./select-locations.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SelectCategoriesComponent),
+      useExisting: forwardRef(() => SelectLocationsComponent),
       multi: true,
     },
   ],
 })
-export class SelectCategoriesComponent implements OnInit, OnChanges, ControlValueAccessor {
+export class SelectLocationsComponent implements OnInit, OnChanges, ControlValueAccessor {
   @Input() required: boolean;
   @Input() label: string;
-  @Input() placeholder = 'Choose Categories';
+  @Input() placeholder = 'Choose Customer';
   @Input() fieldClass = '';
   @Output() change = new EventEmitter<any>();
 
@@ -60,7 +60,7 @@ export class SelectCategoriesComponent implements OnInit, OnChanges, ControlValu
   onChange: (_: any) => void = () => null;
   onTouched = () => {};
 
-  constructor(private collection: OwnerCategoryCollection, private toast: ToastService, private auth: OwnerAuthService) {}
+  constructor(private collection: OwnerLocationCollection, private toast: ToastService, private auth: OwnerAuthService) {}
 
   async ngOnInit() {
     await this.findData();

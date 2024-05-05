@@ -14,6 +14,7 @@ import { RestaurantLocationNavRoute } from '@app/pages/restaurant/main/location/
 import { RestaurantProductNavRoute } from '@app/pages/restaurant/main/product/product.component';
 import { RestaurantSettingNavRoute } from '@app/pages/restaurant/main/setting/setting.component';
 import { RestaurantStaffNavRoute } from '@app/pages/restaurant/main/staff/staff.component';
+import { RestaurantStockNavRoute } from '@app/pages/restaurant/main/stock/stock.component';
 import { RestaurantTableNavRoute } from '@app/pages/restaurant/main/table/table.component';
 import { INavMainRoutes, INavRoute, NavigationService } from '@cs/navigation.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -50,6 +51,14 @@ const routes: INavMainRoutes = [
     canActivate: [OwnerAuthGuardService, OwnerVerifiedGuardService, RestaurantGuardService],
     component: HorizonalLayoutComponent,
     loadChildren: () => import('@pg/restaurant/main/dashboard/dashboard.module').then((m) => m.DashboardModule),
+  },
+
+  {
+    path: 'restaurant/:rid/stocks',
+    title: 'stock.parent',
+    canActivate: [OwnerVerifiedGuardService, RestaurantGuardService],
+    component: HorizonalLayoutComponent,
+    loadChildren: () => import('@pg/restaurant/main/stock/stock.module').then((m) => m.StockModule),
   },
 
   {
@@ -148,6 +157,7 @@ const defaultNavRoutes: INavRoute[] = [];
 const navRoutes: { [key: string]: INavRoute[] } = {
   owner: [
     RestaurantDashboardNavRoute,
+    RestaurantStockNavRoute,
     RestaurantProductNavRoute,
     RestaurantLocationNavRoute,
     RestaurantTableNavRoute,

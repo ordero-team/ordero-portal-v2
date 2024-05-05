@@ -69,6 +69,12 @@
     "staff": {
       "parent": "Staff"
     },
+    "stock": {
+      "parent": "Stocks",
+      "create": {
+        "parent": "Create Stock"
+      }
+    },
     "product": {
       "parent": "Products",
       "main": {
@@ -130,6 +136,12 @@
     },
     "location": {
       "parent": "Locations"
+    },
+    "stock": {
+      "parent": "Stocks",
+      "create": {
+        "parent": "Create"
+      }
     },
     "product": {
       "parent": "Products",

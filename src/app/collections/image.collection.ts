@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { OwnerOriginService } from '@app/core/services/owner/origin.service';
 import { MetalCollection, MetalCollectionConfig, MetalRecord, MetalRequestOptions } from '@lib/metal-data';
 import { MetalAPIData } from '@mtl/interfaces';
-import { OriginService } from '@mtl/services/origin.service';
 import { has } from 'lodash';
 
 export interface Image extends MetalAPIData {
@@ -15,8 +15,8 @@ const ImageConfig: MetalCollectionConfig<Image> = {
 };
 
 @Injectable({ providedIn: 'root' })
-export class ImageCollection<T extends MetalAPIData> extends MetalCollection<Image, OriginService> {
-  constructor(public origin: OriginService, private http: HttpClient) {
+export class ImageCollection<T extends MetalAPIData> extends MetalCollection<Image, OwnerOriginService> {
+  constructor(public origin: OwnerOriginService, private http: HttpClient) {
     super(origin, ImageConfig);
   }
 
