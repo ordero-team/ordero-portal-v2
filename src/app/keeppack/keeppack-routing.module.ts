@@ -26,9 +26,9 @@ const routes: INavMainRoutes = [
   // Landing routes
   {
     path: '',
-    title: 'home.parent',
+    title: 'customer.parent',
     component: EmptyComponent,
-    loadChildren: () => import('@pg/home/home.module').then((m) => m.HomeModule),
+    loadChildren: () => import('@pg/customer/customer.module').then((m) => m.CustomerModule),
   },
 
   // Restaurant routes

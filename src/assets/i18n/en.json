@@ -39,7 +39,12 @@
     "dashboard": {
       "parent": "Dashboard"
     },
-
+    "customer": {
+      "parent": "Customer",
+      "home": {
+        "parent": "Home"
+      }
+    },
     "category": {
       "parent": "Category",
       "list": "List Category",

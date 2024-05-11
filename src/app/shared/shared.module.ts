@@ -1,9 +1,11 @@
 import { AgmCoreModule } from '@agm/core';
 import { AkaNavigationModule } from '@aka/components/navigation/navigation.module';
+import { ToggleDarkModeModule } from '@aka/components/toggle-dark-mode/toggle-dark-mode.module';
 import { ObserversModule } from '@angular/cdk/observers';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '@mat/material.module';
 import { MetalModule } from '@mtl/metal.module';
@@ -77,6 +79,7 @@ import { IconModule } from '@visurel/iconify-angular';
 import { CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { HeaderComponent } from './components/customer/header/header.component';
 import { CategoryFormComponent } from './components/form/category-form/category-form.component';
 import { GroupFormComponent } from './components/form/group-form/group-form.component';
 import { LocationFormComponent } from './components/form/location-form/location-form.component';
@@ -111,6 +114,8 @@ const modules = [
   NgxJsonViewerModule,
   NgxChartsModule,
   NgxDropzoneModule,
+  ToggleDarkModeModule,
+  MatToolbarModule,
 ];
 
 const declarations = [
@@ -206,6 +211,9 @@ const declarations = [
   SelectCategoriesComponent,
   SelectVariantsComponent,
   SelectProductComponent,
+
+  // Customer
+  HeaderComponent,
 ];
 
 @NgModule({
