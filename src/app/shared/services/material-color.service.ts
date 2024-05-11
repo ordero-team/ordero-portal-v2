@@ -491,6 +491,12 @@ export class MaterialColorService {
     bundle: this.colors.teal[700],
     used: this.colors.green,
     default: this.colors.green,
+    required: this.colors.green,
+    available: this.colors.green,
+    unavailaable: this.colors.red,
+    single: this.colors.blue[700],
+    multiple: this.colors.yellow[700],
+    coming_soon: this.colors.yellow[800],
   };
 
   labels: any = {

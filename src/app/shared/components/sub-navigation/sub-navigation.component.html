@@ -22,7 +22,7 @@
   <!-- Drawer content -->
   <mat-drawer-content class="flex flex-col">
     <!-- Main -->
-    <div class="flex-auto" [class.overflow-hidden]="disableScroll$ | async">
+    <div class="relative flex-auto" [class.overflow-hidden]="disableScroll$ | async">
       <!-- CONTENT GOES HERE -->
       <router-outlet></router-outlet>
     </div>

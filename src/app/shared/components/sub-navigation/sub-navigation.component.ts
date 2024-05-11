@@ -49,7 +49,7 @@ export class SubNavigationComponent implements OnInit, OnDestroy {
     if (routes && (routes.children || []).length) {
       const filters = routes.children.filter((item) => !item.hideSubNav);
       this.menuData = filters.map((child) => ({
-        type: 'basic',
+        type: child.type || 'basic',
         id: child.name,
         link: ['./', child.path].join(''),
         title: this.translate.instant(`nav.${child.title}`),

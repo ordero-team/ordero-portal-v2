@@ -1,6 +1,6 @@
 <aka-route-activator></aka-route-activator>
 <aka-breadcrumb-actions [actions]="actionGroup"></aka-breadcrumb-actions>
-<ps-metal-query [query]="query" [rowActions]="rowActions">
+<ps-metal-query [query]="query" [rowActions]="rowActions" [bulkActions]="bulkActions">
   <ps-metal-query-filter [query]="query"></ps-metal-query-filter>
 
   <ng-container psQCell="Number">
@@ -13,6 +13,11 @@
   <ng-container psQCell="Status">
     <td psQCol *psQBody="let table; as: type">
       <aka-state-label [state]="table.status"></aka-state-label>
+    </td>
+  </ng-container>
+  <ng-container *ngIf="!auth.currentUser.location" psQCell="Status">
+    <td psQCol *psQBody="let table; as: type">
+      {{ table.location.name }}
     </td>
   </ng-container>
   <ng-container psQCell="Created At">

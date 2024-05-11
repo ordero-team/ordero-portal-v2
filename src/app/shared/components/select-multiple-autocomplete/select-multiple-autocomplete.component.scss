@@ -1,0 +1,9 @@
+:host {
+  ::ng-deep {
+      mat-chip-list {
+          .mat-chip-list-wrapper {
+              @apply mb-2;
+          }
+      }
+  }
+}

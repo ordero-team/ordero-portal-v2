@@ -1,0 +1,44 @@
+<aka-route-activator></aka-route-activator>
+<aka-breadcrumb-actions [actions]="actionGroup"></aka-breadcrumb-actions>
+<ps-metal-query [query]="query" [rowActions]="rowActions">
+  <ps-metal-query-filter [query]="query"></ps-metal-query-filter>
+
+  <ng-container psQCell="Name" akaMetalSort="name">
+    <td psQCol *psQBody="let stock; as: type">
+      <a [routerLink]="['./' + stock.id]">
+        <span>{{ stock.item.product.name }}</span>
+      </a>
+    </td>
+  </ng-container>
+
+  <ng-container psQCell="Variant">
+    <td psQCol *psQBody="let stock; as: type">
+      <span *ngIf="!stock.item.variant">-</span>
+      <span *ngIf="stock.item.variant">{{ stock.item.variant.name }}</span>
+    </td>
+  </ng-container>
+
+  <ng-container psQCell="Onhand" akaMetalSort="onhand">
+    <td psQCol *psQBody="let stock; as: type">
+      <span>{{ stock.onhand | number }}</span>
+    </td>
+  </ng-container>
+
+  <ng-container psQCell="Available" akaMetalSort="available">
+    <td psQCol *psQBody="let stock; as: type">
+      <span>{{ stock.available | number }}</span>
+    </td>
+  </ng-container>
+
+  <ng-container psQCell="Location" akaMetalSort="location" *ngIf="!auth.currentUser.location">
+    <td psQCol *psQBody="let stock; as: type">
+      <span>{{ stock.location.name }}</span>
+    </td>
+  </ng-container>
+
+  <ng-container psQCell="Created At">
+    <td psQCol *psQBody="let stock; as: type">
+      <aka-date-time [date]="stock.created_at"></aka-date-time>
+    </td>
+  </ng-container>
+</ps-metal-query>

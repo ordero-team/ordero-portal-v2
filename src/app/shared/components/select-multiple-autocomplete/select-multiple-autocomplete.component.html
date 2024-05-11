@@ -1,0 +1,47 @@
+<mat-form-field class="w-full {{ class || '' }}">
+  <input
+    matInput
+    type="text"
+    [placeholder]="placeholder"
+    [matAutocomplete]="auto"
+    [formControl]="inputCtrl"
+    [required]="required"
+    (focus)="onFocus()"
+  />
+
+  <button
+    mat-button
+    *ngIf="showButtonClose && !loading && inputCtrl.value && !inputCtrl.disabled"
+    matSuffix
+    mat-icon-button
+    aria-label="Clear"
+    (click)="clear()"
+  >
+    <mat-icon icIcon="baselineClose"></mat-icon>
+  </button>
+</mat-form-field>
+
+<mat-autocomplete #auto="matAutocomplete">
+  <mat-option *ngFor="let data of filteredOptions">
+    <div (click)="optionClicked($event, data)">
+      <mat-checkbox
+        [disabled]="disabled"
+        color="primary"
+        [checked]="data.selected"
+        (change)="toggleSelection(data)"
+        (click)="$event.stopPropagation()"
+      >
+        {{ data.label }}
+      </mat-checkbox>
+    </div>
+  </mat-option>
+</mat-autocomplete>
+
+<mat-chip-list #chipList>
+  <ng-container *ngFor="let select of selectData">
+    <mat-chip class="px-2 py-1.5 text-xs" disableRipple [matTooltip]="select.label">
+      {{ select.label | slice: 0:50 }}{{ select.label.length > 50 ? '...' : '' }}
+      <mat-icon class="ml-1 h-5 min-h-5 w-5 min-w-5 cursor-pointer text-sm" (click)="removeChip(select)">cancel</mat-icon>
+    </mat-chip>
+  </ng-container>
+</mat-chip-list>

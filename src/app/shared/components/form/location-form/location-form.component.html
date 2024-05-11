@@ -1,6 +1,6 @@
 <form role="form" [akaForm]="formData" (ngSubmit)="execute()">
   <div class="flex flex-col">
-    <mat-form-field class="w-full" akaProps>
+    <mat-form-field class="aka-mat-dense w-full" akaProps>
       <mat-label>Name</mat-label>
       <input id="name" type="text" name="name" [(ngModel)]="formData.name" matInput />
     </mat-form-field>

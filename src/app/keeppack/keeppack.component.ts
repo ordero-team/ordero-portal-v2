@@ -3,6 +3,7 @@ import { Component, ErrorHandler, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 import { AuthService } from '@app/core/services/auth.service';
 import { DarkModeService } from '@app/core/services/dark-mode.service';
+import { OwnerAuthService } from '@app/core/services/owner/auth.service';
 import { appIcons } from '@ch/icon.helper';
 import { LANGUAGES } from '@ch/language.helper';
 import { Profile } from '@cl/profile.collection';
@@ -43,6 +44,7 @@ export class KeeppackComponent implements OnInit {
     private nav: NavigationService,
     private iconService: IconService,
     public auth: AuthService,
+    public ownerAuth: OwnerAuthService,
     private darkModeService: DarkModeService
   ) {
     iconService.registerAll(appIcons);

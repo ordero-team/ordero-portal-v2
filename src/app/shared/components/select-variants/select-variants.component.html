@@ -1,0 +1,12 @@
+<aka-select-multiple-autocomplete
+  [class]="'w-full ' + fieldClass"
+  [disabled]="_disabled || isLoading"
+  [label]="label"
+  [required]="required"
+  [loading]="isLoading"
+  [options]="options"
+  [placeholder]="placeholder"
+  [selected]="selected"
+  [(ngModel)]="_value"
+  (ngModelChange)="selectionChange($event)"
+></aka-select-multiple-autocomplete>

@@ -1,0 +1,22 @@
+<form role="form" [akaForm]="formData" (ngSubmit)="execute()">
+  <div class="flex flex-col">
+    <mat-form-field class="aka-mat-dense w-full" akaProps>
+      <mat-label>Name</mat-label>
+      <input id="name" type="text" name="name" [(ngModel)]="formData.name" matInput />
+    </mat-form-field>
+  </div>
+
+  <div class="mt-4 flex items-center justify-end">
+    <button mat-button type="button" tabindex="-1" (click)="cancel()">CANCEL</button>
+    <button
+      mat-flat-button
+      color="primary"
+      class="ml-3"
+      [disabled]="formData.$disabled || formData.$loading"
+      [akaLoading]="formData.$loading"
+      type="submit"
+    >
+      SAVE
+    </button>
+  </div>
+</form>

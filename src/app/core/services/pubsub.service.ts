@@ -5,6 +5,7 @@ import { environment } from '@env/environment';
 import { Select } from '@ngxs/store';
 import { Centrifuge, PublicationContext, TransportEndpoint } from 'centrifuge';
 import { Observable } from 'rxjs';
+import * as SocketIo from 'socket.io-client';
 
 export enum PubSubEvent {
   Event = 'event',
@@ -12,24 +13,7 @@ export enum PubSubEvent {
 }
 
 export enum PubSubEventType {
-  ImportMarketProduct = 'import_market_product',
-  SyncMarketProduct = 'sync_market_product',
-  SyncMarketStock = 'sync_market_stock',
-  ImportMarketOrder = 'import_market_order',
-  SyncMarketOrder = 'sync_market_order',
-  RequestBulkOutbound = 'request_bulk_outbound',
-  ImportOutbound = 'import_outbound',
-  GetProductLabel = 'get_product_label',
-  GetInboundLabel = 'get_inbound_label',
-  GetOutboundLabel = 'get_onbound_label',
-
-  StaffCreateRack = 'staff_create_rack',
-  StaffGetProductLabel = 'staff_get_product_label',
-  StaffGetBinLabel = 'staff_get_bin_label',
-  StaffGetLocationLabel = 'staff_get_location_label',
-  StaffGetManifest = 'staff_get_manifest',
-  StaffGetInboundLabel = 'staff_get_inbound_label',
-  StaffGetOutboundLabel = 'staff_get_outbound_label',
+  OwnerCreateStock = 'owner_create_stock',
 }
 
 export enum PubSubStatus {
@@ -54,7 +38,7 @@ interface IPubSubEventData {
   error?: string;
 }
 
-export type PubsubType = Centrifuge;
+export type PubsubType = SocketIo.Socket | Centrifuge;
 
 @Injectable({ providedIn: 'root' })
 export class PubsubService {
@@ -70,6 +54,10 @@ export class PubsubService {
     }
 
     switch (environment.socketType) {
+      case 'socketio': {
+        this.socket = SocketIo.io(environment.socketUrl, { transports: ['websocket'], upgrade: false });
+        break;
+      }
       case 'centrifugo': {
         this.pubsubToken$.subscribe((token) => {
           if (token) {
@@ -89,22 +77,6 @@ export class PubsubService {
         break;
       }
     }
-
-    // User Logout, Clear All Pusher States
-    this.user$.subscribe((user) => {
-      if (typeof user === 'undefined') {
-        let socket: PubsubType;
-        switch (environment.socketType) {
-          case 'centrifugo': {
-            socket = this.socket as Centrifuge;
-            if (socket) {
-              socket.disconnect();
-            }
-            break;
-          }
-        }
-      }
-    });
   }
 
   public static getInstance(): PubsubService {
@@ -114,6 +86,11 @@ export class PubsubService {
   emit(channelName: string, data: any, callback?: (data: any) => void) {
     let socket: PubsubType;
     switch (environment.socketType) {
+      case 'socketio': {
+        socket = this.socket as SocketIo.Socket;
+        socket.emit(channelName, data);
+        break;
+      }
       case 'centrifugo': {
         socket = this.socket as Centrifuge;
         if (socket) {
@@ -128,6 +105,20 @@ export class PubsubService {
   event(channelName: string, callback: (data: IPubSubEventData | PublicationContext) => void) {
     let socket: PubsubType;
     switch (environment.socketType) {
+      case 'socketio': {
+        socket = this.socket as SocketIo.Socket;
+        socket.connect();
+        socket.on(channelName, (data: IPubSubEventData) => callback(data));
+
+        socket.on('connect', () => {
+          console.log('Socket connected');
+        });
+
+        socket.on('connect_error', (error) => {
+          console.log('Socket connection error', error);
+        });
+        break;
+      }
       case 'centrifugo': {
         socket = this.socket as Centrifuge;
         if (socket) {
@@ -140,11 +131,58 @@ export class PubsubService {
           sub.subscribe();
           socket.connect();
 
-          socket.on('connected', (ctx) => console.log('Connected', ctx));
+          socket.on('error', (error) => {
+            console.log(`Error Pubsub`, error);
+          });
+        }
+        break;
+      }
+    }
+  }
+
+  connect() {
+    let socket: PubsubType;
+    switch (environment.socketType) {
+      case 'socketio': {
+        socket = this.socket as SocketIo.Socket;
+        socket.connect();
+
+        socket.on('connect', () => {
+          console.log('Socket connected');
+        });
+
+        socket.on('connect_error', (error) => {
+          console.log('Socket connection error', error);
+        });
+        break;
+      }
+      case 'centrifugo': {
+        socket = this.socket as Centrifuge;
+        if (socket) {
+          socket.connect();
 
           socket.on('error', (error) => {
             console.log(`Error Pubsub`, error);
           });
+        }
+        break;
+      }
+    }
+  }
+
+  disconnect() {
+    let socket: PubsubType;
+    switch (environment.socketType) {
+      case 'socketio': {
+        socket = this.socket as SocketIo.Socket;
+        socket.removeAllListeners();
+        socket.disconnect();
+        break;
+      }
+      case 'centrifugo': {
+        socket = this.socket as Centrifuge;
+        if (socket) {
+          socket.disconnect();
         }
         break;
       }

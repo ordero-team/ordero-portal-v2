@@ -68,6 +68,33 @@
     },
     "staff": {
       "parent": "Staff"
+    },
+    "stock": {
+      "parent": "Stocks",
+      "create": {
+        "parent": "Create Stock"
+      }
+    },
+    "product": {
+      "parent": "Products",
+      "main": {
+        "parent": "Main",
+        "list": {
+          "parent": "Products"
+        },
+        "create": {
+          "parent": "Create Product"
+        }
+      },
+      "category": {
+        "parent": "Categories"
+      },
+      "group": {
+        "parent": "Groups"
+      },
+      "variant": {
+        "parent": "Variants"
+      }
     }
   },
   "pages": {},
@@ -109,6 +136,33 @@
     },
     "location": {
       "parent": "Locations"
+    },
+    "stock": {
+      "parent": "Stocks",
+      "create": {
+        "parent": "Create"
+      }
+    },
+    "product": {
+      "parent": "Products",
+      "main": {
+        "parent": "Main",
+        "list": {
+          "parent": "List"
+        },
+        "create": {
+          "parent": "Create"
+        }
+      },
+      "category": {
+        "parent": "Categories"
+      },
+      "group": {
+        "parent": "Groups"
+      },
+      "variant": {
+        "parent": "Variants"
+      }
     },
     "subtitle": {
       "main": ""

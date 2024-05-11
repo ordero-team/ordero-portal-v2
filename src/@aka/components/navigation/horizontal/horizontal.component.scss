@@ -40,7 +40,9 @@ aka-horizontal-navigation {
     }
 
     /* Basic - When item active (current link) */
-    aka-horizontal-navigation-basic-item {
+    aka-horizontal-navigation-basic-item,
+    aka-horizontal-navigation-branch-item,
+    aka-horizontal-navigation-divider-item {
 
       .aka-horizontal-navigation-item-active,
       .aka-horizontal-navigation-item-active-forced {
@@ -97,6 +99,24 @@ aka-horizontal-navigation {
     aka-horizontal-navigation-divider-item {
       display: flex;
       flex: 1 1 auto;
+
+      .aka-horizontal-navigation-item-title {
+        @apply text-default #{'!important'};
+      }
+
+      .aka-horizontal-navigation-item-wrapper {
+        border-radius: 4px;
+        overflow: hidden;
+
+        .aka-horizontal-navigation-item {
+          cursor: pointer;
+          user-select: none;
+
+          .aka-horizontal-navigation-item-icon {
+            margin-right: 12px;
+          }
+        }
+      }
     }
 
     /* Divider */
@@ -115,7 +135,9 @@ aka-horizontal-navigation {
 .aka-horizontal-navigation-menu-item {
 
   /* Basic - When item active (current link) */
-  aka-horizontal-navigation-basic-item {
+  aka-horizontal-navigation-basic-item,
+    aka-horizontal-navigation-branch-item,
+    aka-horizontal-navigation-divider-item {
 
     .aka-horizontal-navigation-item-active,
     .aka-horizontal-navigation-item-active-forced {

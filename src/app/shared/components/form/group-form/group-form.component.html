@@ -1,0 +1,31 @@
+<form role="form" [akaForm]="formData" (ngSubmit)="execute()">
+  <div class="flex flex-col">
+    <mat-form-field class="aka-mat-dense w-full" akaProps>
+      <mat-label>Name</mat-label>
+      <input id="name" type="text" name="name" [(ngModel)]="formData.name" matInput />
+    </mat-form-field>
+
+    <mat-form-field class="aka-mat-dense" akaProps>
+      <mat-label>Type</mat-label>
+      <mat-select [(ngModel)]="formData.type" name="type" placeholder="Choose Type">
+        <mat-option [value]="option.value" *ngFor="let option of types">{{ option.label }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-slide-toggle [(ngModel)]="formData.is_required" name="is_required" color="primary">Required</mat-slide-toggle>
+  </div>
+
+  <div class="mt-4 flex items-center justify-end">
+    <button mat-button type="button" tabindex="-1" (click)="cancel()">CANCEL</button>
+    <button
+      mat-flat-button
+      color="primary"
+      class="ml-3"
+      [disabled]="formData.$disabled || formData.$loading"
+      [akaLoading]="formData.$loading"
+      type="submit"
+    >
+      SAVE
+    </button>
+  </div>
+</form>

@@ -1,3 +1,4 @@
+import { AkaNavigationItemType } from '@aka/components/navigation/public-api';
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Route, Router } from '@angular/router';
@@ -9,7 +10,7 @@ import { filter } from 'rxjs/operators';
 
 export interface INavRoute extends Route {
   id?: any;
-  type?: string;
+  type?: AkaNavigationItemType;
   name?: any;
   title?: any;
   subtitle?: any;
@@ -62,6 +63,7 @@ export class NavigationService {
   buildMenu(configs: INavRoute[], parentPath = '', params = '') {
     const results: INavRoute[] = [];
     const filters = configs.filter((item) => !item.hideMainNav);
+
     for (const config of filters) {
       const item = this.buildItem(config, parentPath, params);
       results.push(item);
@@ -75,7 +77,7 @@ export class NavigationService {
     const { name, title, icon, path: oriPath, permissions, children: kids = [], type = 'basic' } = config;
     const path = buildPath([parentPath, oriPath]);
     if (kids.length) {
-      children = this.buildMenu(kids, path);
+      children = this.buildMenu(kids, path, params);
     }
 
     const link = assignParams(path, params);
