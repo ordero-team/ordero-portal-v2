@@ -79,7 +79,9 @@ import { IconModule } from '@visurel/iconify-angular';
 import { CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
 import { HeaderComponent } from './components/customer/header/header.component';
+import { ScanQrComponent } from './components/customer/scan-qr/scan-qr.component';
 import { CategoryFormComponent } from './components/form/category-form/category-form.component';
 import { GroupFormComponent } from './components/form/group-form/group-form.component';
 import { LocationFormComponent } from './components/form/location-form/location-form.component';
@@ -116,6 +118,7 @@ const modules = [
   NgxDropzoneModule,
   ToggleDarkModeModule,
   MatToolbarModule,
+  NgxScannerQrcodeModule,
 ];
 
 const declarations = [
@@ -214,6 +217,7 @@ const declarations = [
 
   // Customer
   HeaderComponent,
+  ScanQrComponent,
 ];
 
 @NgModule({

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { INavRoute } from '@app/core/services/navigation.service';
+import { ScanQrComponent } from '@app/shared/components/customer/scan-qr/scan-qr.component';
 import { CustomerHomeNavRoute, CustomerHomeRoute } from './home/home.component';
 
 @Component({
@@ -8,9 +10,15 @@ import { CustomerHomeNavRoute, CustomerHomeRoute } from './home/home.component';
   styleUrls: ['./customer.component.scss'],
 })
 export class CustomerComponent implements OnInit {
-  constructor() {}
+  constructor(private _bottomSheet: MatBottomSheet) {}
 
   ngOnInit(): void {}
+
+  openBottomSheet(): void {
+    this._bottomSheet.open(ScanQrComponent, {
+      hasBackdrop: true,
+    });
+  }
 }
 
 export const CustomerNavRoute: INavRoute = {

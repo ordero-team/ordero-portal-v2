@@ -1,6 +1,7 @@
 import { Platform } from '@angular/cdk/platform';
 import { NgModule } from '@angular/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
@@ -70,6 +71,7 @@ const modules = [
   MatDividerModule,
   // MatRadioModule,
   // MatBadgeModule,
+  MatBottomSheetModule,
 ];
 
 @NgModule({

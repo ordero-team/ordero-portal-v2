@@ -16,7 +16,12 @@
 
   <div class="fixed inset-x-0 bottom-0 mx-auto h-12 max-w-screen-sm bg-primary-500 px-4 py-3 text-white">
     <div class="relative flex w-full">
-      <button mat-flat-button class="mx-auto -mt-12 rounded-full text-lg button-size-lg" color="accent">
+      <button
+        mat-flat-button
+        class="mx-auto -mt-12 rounded-full text-lg button-size-lg"
+        color="accent"
+        (click)="openBottomSheet()"
+      >
         <mat-icon class="mr-3 icon-size-8">qr_code_scanner</mat-icon>
         Scan Table QR
       </button>

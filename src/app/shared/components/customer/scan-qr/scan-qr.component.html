@@ -1,0 +1,5 @@
+<div class="h-min flex flex-col items-center gap-4">
+  <ngx-scanner-qrcode #action="scanner" [style]="{ width: '500px', heigth: '500px' }"></ngx-scanner-qrcode>
+
+  <button mat-flat-button (click)="cancel($event)">Cancel</button>
+</div>
