@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -11,7 +11,7 @@ import { NgxScannerQrcodeComponent } from 'ngx-scanner-qrcode';
   templateUrl: './scan-qr.component.html',
   styleUrls: ['./scan-qr.component.scss'],
 })
-export class ScanQrComponent implements OnInit, AfterViewInit {
+export class ScanQrComponent implements OnInit, OnDestroy, AfterViewInit {
   output = '';
 
   @ViewChild('action', { static: true }) action: NgxScannerQrcodeComponent;
@@ -31,7 +31,7 @@ export class ScanQrComponent implements OnInit, AfterViewInit {
         this._snackBar.open(`OUTPUT: ${this.output}`, null, {
           duration: 3000,
         });
-        this.cancel(null);
+        this.cancel();
       }
     });
   }
@@ -44,9 +44,13 @@ export class ScanQrComponent implements OnInit, AfterViewInit {
     console.log(device);
   }
 
-  cancel(event: MouseEvent): void {
-    this.action.stop();
+  cancel() {
     this._bottomSheetRef.dismiss();
-    event.preventDefault();
+  }
+
+  ngOnDestroy() {
+    if (this.action.isStart) {
+      this.action.stop();
+    }
   }
 }

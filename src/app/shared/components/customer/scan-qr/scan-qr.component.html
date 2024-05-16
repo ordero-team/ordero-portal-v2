@@ -1,5 +1,11 @@
 <div class="h-min flex flex-col items-center gap-4">
-  <ngx-scanner-qrcode #action="scanner" [style]="{ width: '500px', heigth: '500px' }"></ngx-scanner-qrcode>
+  <span *ngIf="action.isLoading" class="text-center">Loading...</span>
 
-  <button mat-flat-button (click)="cancel($event)">Cancel</button>
+  <ngx-scanner-qrcode
+    #action="scanner"
+    [style]="{ width: '100%', heigth: '500px' }"
+    class="block w-full min-w-100 max-w-100"
+  ></ngx-scanner-qrcode>
+
+  <button mat-flat-button (click)="cancel()">Cancel</button>
 </div>

@@ -17,6 +17,7 @@ export class CustomerComponent implements OnInit {
   openBottomSheet(): void {
     this._bottomSheet.open(ScanQrComponent, {
       hasBackdrop: true,
+      panelClass: ['p-4', 'min-w-100'],
     });
   }
 }
