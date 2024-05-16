@@ -81,6 +81,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
 import { HeaderComponent } from './components/customer/header/header.component';
+import { CustomerRestaurantListComponent } from './components/customer/restaurant/list/list.component';
 import { ScanQrComponent } from './components/customer/scan-qr/scan-qr.component';
 import { CategoryFormComponent } from './components/form/category-form/category-form.component';
 import { GroupFormComponent } from './components/form/group-form/group-form.component';
@@ -218,6 +219,7 @@ const declarations = [
   // Customer
   HeaderComponent,
   ScanQrComponent,
+  CustomerRestaurantListComponent,
 ];
 
 @NgModule({

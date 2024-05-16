@@ -3,6 +3,7 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { INavRoute } from '@app/core/services/navigation.service';
 import { ScanQrComponent } from '@app/shared/components/customer/scan-qr/scan-qr.component';
 import { CustomerHomeNavRoute, CustomerHomeRoute } from './home/home.component';
+import { CustomerRestaurantNavRoute, CustomerRestaurantRoute } from './restaurant/restaurant.component';
 
 @Component({
   selector: 'aka-customer',
@@ -26,7 +27,7 @@ export const CustomerNavRoute: INavRoute = {
   path: '',
   name: 'customer',
   title: 'customer.parent',
-  children: [CustomerHomeNavRoute],
+  children: [CustomerHomeNavRoute, CustomerRestaurantNavRoute],
 };
 
 export const CustomerRoute: INavRoute = {
@@ -39,5 +40,6 @@ export const CustomerRoute: INavRoute = {
       redirectTo: 'home',
     },
     CustomerHomeRoute,
+    CustomerRestaurantRoute,
   ],
 };
