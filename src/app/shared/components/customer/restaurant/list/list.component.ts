@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Restaurant, RestaurantCollection } from '@app/collections/restaurant.collection';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'aka-customer-restaurant-list',
@@ -6,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./list.component.scss'],
 })
 export class CustomerRestaurantListComponent implements OnInit {
-  items = new Array(8).fill('1');
+  resstaurants$ = new BehaviorSubject<Restaurant[]>([]);
 
-  constructor() {}
+  constructor(private collection: RestaurantCollection) {}
 
-  ngOnInit(): void {}
+  async ngOnInit() {
+    const data = await this.collection.find();
+    this.resstaurants$.next(data);
+  }
 }

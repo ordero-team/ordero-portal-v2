@@ -1,1 +1,70 @@
-<p>restaurant {{ restaurantId }} detail works!</p>
+{{ isFetching ? 'Loading...' : '' }}
+<div *ngIf="!isFetching && restaurant !== null" class="relative flex w-full flex-col">
+  <div class="relative">
+    <img
+      [src]="restaurant.banner_url || 'assets/images/default-restaurant.jpg'"
+      class="block h-24 w-full rounded-xl object-cover shadow-md md:h-40"
+    />
+
+    <img
+      [src]="restaurant.logo_url || 'assets/images/default-restaurant.jpg'"
+      class="mx-auto -mt-12 h-26 w-26 rounded-full object-cover shadow-md"
+    />
+  </div>
+
+  <div class="pt-3">
+    <h1 class="text-lg font-medium">{{ restaurant.name }}</h1>
+    <p *ngIf="restaurant.description">{{ restaurant.description }}</p>
+    <a *ngIf="restaurant.website" [href]="restaurant.website" target="_blank" class="text-underline">
+      {{ restaurant.website }}
+    </a>
+  </div>
+
+  <div class="flex flex-col gap-4">
+    <div class="space-between sticky top-0 z-10 mt-4 flex items-start gap-4 bg-white pt-4 dark:bg-card">
+      <mat-form-field class="aka-mat-dense w-full">
+        <mat-label>Search</mat-label>
+        <input matInput type="search" placeholder="Search menu..." />
+        <mat-icon matPrefix>search</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field class="aka-mat-dense w-full">
+        <mat-label>Category</mat-label>
+        <mat-select [(ngModel)]="selectedCategory" name="category" placeholder="Choose Category">
+          <mat-option [value]="option.id" *ngFor="let option of categories">{{ option.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    {{ isFetchingMenu ? 'Fetching menu...' : '' }}
+
+    <ng-container *ngIf="!isFetchingMenu">
+      <div *ngFor="let menu of menus" class="flex w-full items-center gap-4 rounded-md p-2 shadow-md">
+        <img
+          [src]="menu.images[0]?.original || 'assets/images/default-restaurant.jpg'"
+          class="h-16 w-16 rounded-md object-cover"
+        />
+
+        <div class="flex-1">
+          <h3 class="text-lg font-medium">{{ menu.name }}</h3>
+          <!-- <p>{{menu.description}}</p> -->
+        </div>
+
+        <button *ngIf="menu.qty === null" mat-button (click)="menu.qty = 1">
+          <mat-icon>add</mat-icon>
+          <span>Add</span>
+        </button>
+
+        <mat-form-field *ngIf="menu.qty" class="aka-mat-dense mb-0 max-w-40">
+          <button mat-icon-button matPrefix (click)="onDecrease(menu)">
+            <mat-icon>remove</mat-icon>
+          </button>
+          <input type="number" matInput class="text-center" min="1" disabled [(ngModel)]="menu.qty" />
+          <button mat-icon-button matSuffix (click)="onIncrease(menu)">
+            <mat-icon>add</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </ng-container>
+  </div>
+</div>
