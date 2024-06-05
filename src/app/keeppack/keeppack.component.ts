@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, ErrorHandler, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ErrorHandler, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 import { AuthService } from '@app/core/services/auth.service';
 import { DarkModeService } from '@app/core/services/dark-mode.service';
@@ -27,6 +27,7 @@ import { Observable } from 'rxjs';
   selector: 'keeppack-root',
   templateUrl: './keeppack.component.html',
   styleUrls: ['./keeppack.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KeeppackComponent implements OnInit {
   @Select(UIState.getLanguage) language$: Observable<string>;

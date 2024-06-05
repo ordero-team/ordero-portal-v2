@@ -24,22 +24,22 @@
     <div class="space-between sticky top-0 z-10 mt-4 flex items-start gap-4 bg-white pt-4 dark:bg-card">
       <mat-form-field class="aka-mat-dense w-full">
         <mat-label>Search</mat-label>
-        <input matInput type="search" placeholder="Search menu..." />
+        <input matInput type="search" #search placeholder="Search menu..." />
         <mat-icon matPrefix>search</mat-icon>
       </mat-form-field>
 
-      <mat-form-field class="aka-mat-dense w-full">
+      <!-- <mat-form-field class="aka-mat-dense w-full">
         <mat-label>Category</mat-label>
         <mat-select [(ngModel)]="selectedCategory" name="category" placeholder="Choose Category">
           <mat-option [value]="option.id" *ngFor="let option of categories">{{ option.name }}</mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
     </div>
 
     {{ isFetchingMenu ? 'Fetching menu...' : '' }}
 
     <ng-container *ngIf="!isFetchingMenu">
-      <div *ngFor="let menu of menus" class="flex w-full items-center gap-4 rounded-md p-2 shadow-md">
+      <div *ngFor="let menu of menus" class="flex w-full items-center gap-4 rounded-md border-b p-2">
         <img
           [src]="menu.images[0]?.original || 'assets/images/default-restaurant.jpg'"
           class="h-16 w-16 rounded-md object-cover"
@@ -50,7 +50,7 @@
           <!-- <p>{{menu.description}}</p> -->
         </div>
 
-        <button *ngIf="menu.qty === null" mat-button (click)="menu.qty = 1">
+        <button *ngIf="menu.qty === null" mat-button (click)="onIncrease(menu)">
           <mat-icon>add</mat-icon>
           <span>Add</span>
         </button>

@@ -1,13 +1,13 @@
 import { OwnerProfile } from '@cl/owner/profile.collection';
 
-export class OwnerStateModle {
+export class OwnerStateModel {
   access_token?: string;
   user?: OwnerProfile;
 }
 
 export class OwnerLoginAction {
   static readonly type = '[Owner] Login';
-  constructor(public payload: OwnerStateModle) {}
+  constructor(public payload: OwnerStateModel) {}
 }
 
 export class OwnerLogoutAction {
