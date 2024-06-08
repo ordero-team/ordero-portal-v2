@@ -4,9 +4,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Restaurant, RestaurantCollection } from '@app/collections/restaurant.collection';
 import { CartService, MenuItem } from '@app/core/services/cart.service';
 import { INavRoute } from '@app/core/services/navigation.service';
+import { ScanTableService } from '@app/core/services/scan-table.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, get } from 'lodash';
 import { BehaviorSubject, fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs/operators';
 
@@ -37,7 +38,8 @@ export class DetailComponent implements OnInit, AfterViewInit {
     private toast: ToastService,
     private title: Title,
     private cart: CartService,
-    private elem: ElementRef
+    private elem: ElementRef,
+    private scanTable: ScanTableService
   ) {
     this.route.params.pipe(untilDestroyed(this)).subscribe((val) => {
       if (val.restaurant_id) {
@@ -54,6 +56,7 @@ export class DetailComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.scanTable.hide();
     console.log(this.search.nativeElement);
   }
 
@@ -103,13 +106,18 @@ export class DetailComponent implements OnInit, AfterViewInit {
       this.menus = menus.map((val: MenuItem) => {
         const cartItem = this.cart.getCartItems().find((item) => item.id === val.id);
 
+        const variants = get(val, 'variants', []).filter((val) => val.variant_id);
+
+        const data = { ...val, variants };
+
         if (cartItem) {
-          return { ...val, qty: cartItem.qty };
+          return { ...data, qty: cartItem.qty };
         }
 
-        return { ...val, qty: null };
+        return { ...data, qty: null };
       });
       this.tempMenus = cloneDeep(this.menus);
+      console.log(this.menus);
     } catch (error) {
       this.toast.error(error);
     } finally {

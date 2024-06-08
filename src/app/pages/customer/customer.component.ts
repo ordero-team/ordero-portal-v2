@@ -3,10 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { CartService, MenuItem } from '@app/core/services/cart.service';
 import { INavRoute } from '@app/core/services/navigation.service';
+import { ScanTableService } from '@app/core/services/scan-table.service';
 import { ScanQrComponent } from '@app/shared/components/customer/scan-qr/scan-qr.component';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { CustomerHomeNavRoute, CustomerHomeRoute } from './home/home.component';
 import { CustomerRestaurantNavRoute, CustomerRestaurantRoute } from './restaurant/restaurant.component';
+import { CustomerTableNavRoute, CustomerTableRoute } from './table/table.component';
 
 @UntilDestroy()
 @Component({
@@ -17,15 +19,19 @@ import { CustomerRestaurantNavRoute, CustomerRestaurantRoute } from './restauran
 })
 export class CustomerComponent implements OnInit {
   cartItems: MenuItem[];
+  showScanButton: boolean;
   totalPrice: number;
 
-  constructor(private _bottomSheet: MatBottomSheet, private cart: CartService) {}
+  constructor(private _bottomSheet: MatBottomSheet, private cart: CartService, private scanTable: ScanTableService) {}
 
   ngOnInit() {
+    this.scanTable.show();
+
     this.cart.cartObservable.pipe(untilDestroyed(this)).subscribe((val) => {
       this.cartItems = val;
     });
     this.cart.totalPriceObservable.pipe(untilDestroyed(this)).subscribe((val) => (this.totalPrice = val));
+    this.scanTable.isShownObservable.pipe(untilDestroyed(this)).subscribe((val) => (this.showScanButton = val));
   }
 
   openBottomSheet(): void {
@@ -44,7 +50,7 @@ export const CustomerNavRoute: INavRoute = {
   path: '',
   name: 'customer',
   title: 'customer.parent',
-  children: [CustomerHomeNavRoute, CustomerRestaurantNavRoute],
+  children: [CustomerHomeNavRoute, CustomerRestaurantNavRoute, CustomerTableNavRoute],
 };
 
 export const CustomerRoute: INavRoute = {
@@ -58,5 +64,6 @@ export const CustomerRoute: INavRoute = {
     },
     CustomerHomeRoute,
     CustomerRestaurantRoute,
+    CustomerTableRoute,
   ],
 };

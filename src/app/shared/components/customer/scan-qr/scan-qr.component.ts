@@ -27,10 +27,14 @@ export class ScanQrComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
     this.action.data.pipe(untilDestroyed(this)).subscribe(({ data }) => {
       if (!isEmpty(data)) {
-        this.output = data;
-        this._snackBar.open(`OUTPUT: ${this.output}`, null, {
-          duration: 3000,
-        });
+        const regex = /^(http|https):\/\/[^ "]+$/;
+        if (regex.test(data)) {
+          window.location.href = data;
+        } else {
+          this._snackBar.open(`Invalid QR Code`, null, {
+            duration: 3000,
+          });
+        }
         this.cancel();
       }
     });

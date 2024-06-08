@@ -7,9 +7,7 @@ export interface MenuItem {
   price: number;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class CartService {
   private cartItems: BehaviorSubject<MenuItem[]> = new BehaviorSubject([]);
   cartObservable: Observable<MenuItem[]> = this.cartItems.asObservable();

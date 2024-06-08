@@ -14,7 +14,12 @@
     <router-outlet></router-outlet>
   </div>
 
-  <div class="fixed inset-x-0 bottom-0 mx-auto hidden h-12 max-w-screen-sm px-4 py-3 text-white">
+  <div
+    *ngIf="showScanButton"
+    @fadeInBottom
+    @fadeOutBottom
+    class="fixed inset-x-0 bottom-0 mx-auto h-12 max-w-screen-sm px-4 py-3 text-white"
+  >
     <div class="relative flex w-full">
       <button
         mat-flat-button

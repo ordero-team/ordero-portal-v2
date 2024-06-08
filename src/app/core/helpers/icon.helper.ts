@@ -62,6 +62,7 @@ import roundPublishedWithChanges from '@iconify-icons/ic/round-published-with-ch
 import roundReceiptIcon from '@iconify-icons/ic/round-receipt';
 import roundRestartAlt from '@iconify-icons/ic/round-restart-alt';
 import roundStart from '@iconify-icons/ic/round-start';
+import roundTableRestaurant from '@iconify-icons/ic/round-table-restaurant';
 import roundWarningAmber from '@iconify-icons/ic/round-warning-amber';
 import twoToneArrowBack from '@iconify-icons/ic/twotone-arrow-back';
 import twotoneCancel from '@iconify-icons/ic/twotone-cancel';
@@ -260,6 +261,7 @@ export const appIcons = {
   outlineCancel,
   outlineTableRestaurant,
   outlineCategory,
+  roundTableRestaurant,
 
   // Material Design Icon
   foodOutline,

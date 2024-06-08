@@ -27,6 +27,9 @@ export class RestaurantCollection extends MetalCollection<Restaurant, OriginServ
   }
 
   async getMenus(restaurantId: string): Promise<any> {
-    return await this.find({}, { suffix: `${restaurantId}/menus`, params: { include: 'images,categories' } });
+    return await this.find(
+      {},
+      { suffix: `${restaurantId}/menus`, params: { include: 'images,categories,variants.variant' } }
+    );
   }
 }
