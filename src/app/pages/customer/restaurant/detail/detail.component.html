@@ -20,6 +20,11 @@
     </a>
   </div>
 
+  <div *ngIf="table" class="mt-4 rounded-lg bg-gray-100 p-4">
+    <h2 class="text-md font-semibold">Table Information</h2>
+    <p>Table Number: {{ table.number }}</p>
+  </div>
+
   <div class="flex flex-col gap-4 divide-y pb-20">
     <div class="space-between sticky top-0 z-10 mt-4 flex items-start gap-4 bg-white pt-4 dark:bg-card">
       <mat-form-field class="aka-mat-dense w-full">
@@ -48,25 +53,29 @@
 
           <div class="flex-1">
             <h3 class="text-lg font-medium">{{ menu.name }}</h3>
+            <p class="text-hint">{{ menu.price | currency }}</p>
             <!-- <p>{{menu.description}}</p> -->
           </div>
 
-          <button *ngIf="menu.qty === null" mat-button (click)="onIncrease(menu)">
-            <mat-icon class="mr-2 icon-size-5">add</mat-icon>
-            <span>Add</span>
-          </button>
+          <!-- Able to choose qty when table is exist -->
+          <ng-container *ngIf="table">
+            <button *ngIf="menu.qty === null" mat-button (click)="onIncrease(menu)">
+              <mat-icon class="mr-2 icon-size-5">add</mat-icon>
+              <span>Add</span>
+            </button>
 
-          <!-- <ng-container *ngIf="menu.variants.length < 1"> -->
-          <mat-form-field *ngIf="menu.qty" class="aka-mat-dense mb-0 max-w-40">
-            <button mat-icon-button matPrefix (click)="onDecrease(menu)">
-              <mat-icon>remove</mat-icon>
-            </button>
-            <input type="number" matInput class="text-center" min="1" disabled [(ngModel)]="menu.qty" />
-            <button mat-icon-button matSuffix (click)="onIncrease(menu)">
-              <mat-icon>add</mat-icon>
-            </button>
-          </mat-form-field>
-          <!-- </ng-container> -->
+            <!-- <ng-container *ngIf="menu.variants.length < 1"> -->
+            <mat-form-field *ngIf="menu.qty" class="aka-mat-dense mb-0 max-w-40">
+              <button mat-icon-button matPrefix (click)="onDecrease(menu)">
+                <mat-icon>remove</mat-icon>
+              </button>
+              <input type="number" matInput class="text-center" min="1" disabled [(ngModel)]="menu.qty" />
+              <button mat-icon-button matSuffix (click)="onIncrease(menu)">
+                <mat-icon>add</mat-icon>
+              </button>
+            </mat-form-field>
+            <!-- </ng-container> -->
+          </ng-container>
         </div>
 
         <!-- <ng-container *ngIf="menu.variants.length > 0" class="flex flex-col gap-3">

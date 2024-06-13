@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Restaurant } from '@app/collections/restaurant.collection';
+import { Table } from '@app/collections/table.collection';
 import { BehaviorSubject, Observable } from 'rxjs';
+
+export interface CartInfo {
+  restaurant: Restaurant;
+  table: Table;
+}
 
 export interface MenuItem {
   id: string;
@@ -9,13 +16,45 @@ export interface MenuItem {
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
+  private info: BehaviorSubject<CartInfo> = new BehaviorSubject(null);
+  infoObservable: Observable<CartInfo> = this.info.asObservable();
+
   private cartItems: BehaviorSubject<MenuItem[]> = new BehaviorSubject([]);
   cartObservable: Observable<MenuItem[]> = this.cartItems.asObservable();
 
   private totalPriceSubject = new BehaviorSubject<number>(0);
   totalPriceObservable = this.totalPriceSubject.asObservable();
 
+  private isShown = new BehaviorSubject<boolean>(false);
+  isShownObservable = this.isShown.asObservable();
+
   constructor() {}
+
+  get shown(): boolean {
+    return this.isShown.getValue();
+  }
+
+  get information(): CartInfo {
+    return this.info.getValue();
+  }
+
+  setInfo(data: CartInfo) {
+    if (this.info.getValue() === null) {
+      this.info.next(data);
+    } else if (this.info.getValue().restaurant.id !== data.restaurant.id) {
+      throw new Error('Clear your Cart to make another Order from different Restaurant');
+    } else if (this.info.getValue().table.id !== data.table.id) {
+      throw new Error('Clear your Cart to make another Order from different Restaurant');
+    }
+  }
+
+  show() {
+    this.isShown.next(true);
+  }
+
+  hide() {
+    this.isShown.next(!this.isShown.getValue());
+  }
 
   addToCart(item: MenuItem): MenuItem {
     const currentItems = this.cartItems.value;
@@ -29,6 +68,10 @@ export class CartService {
 
     this.cartItems.next(currentItems);
     this.calculateTotalPrice();
+
+    if (!this.shown) {
+      this.show();
+    }
 
     return item;
   }
@@ -57,6 +100,10 @@ export class CartService {
     if (itemIndex !== -1) {
       currentItems.splice(itemIndex, 1);
       this.cartItems.next(currentItems);
+
+      if (this.shown) {
+        this.hide();
+      }
     }
   }
 

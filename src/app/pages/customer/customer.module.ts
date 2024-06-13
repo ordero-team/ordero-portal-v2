@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '@app/shared/shared.module';
+import { CustomerCartComponent } from './cart/cart.component';
 import { CustomerRoutingModule } from './customer-routing.module';
 import { CustomerComponent } from './customer.component';
 import { HomeComponent } from './home/home.component';
@@ -16,6 +17,7 @@ import { CustomerTableComponent } from './table/table.component';
     ListComponent,
     DetailComponent,
     CustomerTableComponent,
+    CustomerCartComponent,
   ],
   imports: [SharedModule, CustomerRoutingModule],
 })

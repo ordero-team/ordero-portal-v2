@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChildren } from '@ang
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Restaurant, RestaurantCollection } from '@app/collections/restaurant.collection';
+import { Table, TableCollection } from '@app/collections/table.collection';
 import { CartService, MenuItem } from '@app/core/services/cart.service';
 import { INavRoute } from '@app/core/services/navigation.service';
 import { ScanTableService } from '@app/core/services/scan-table.service';
@@ -21,6 +22,9 @@ export class DetailComponent implements OnInit, AfterViewInit {
   restaurantId$ = new BehaviorSubject<string>(null);
   restaurant: Restaurant = null;
 
+  tableId$ = new BehaviorSubject<string>(null);
+  table: Table = null;
+
   categories: Array<{ id: string; name: string }> = [];
   selectedCategory = '';
   menus: Array<MenuItem> = [];
@@ -35,6 +39,7 @@ export class DetailComponent implements OnInit, AfterViewInit {
   constructor(
     private route: ActivatedRoute,
     private collection: RestaurantCollection,
+    private tableCol: TableCollection,
     private toast: ToastService,
     private title: Title,
     private cart: CartService,
@@ -49,9 +54,25 @@ export class DetailComponent implements OnInit, AfterViewInit {
       }
     });
 
+    this.route.queryParams.pipe(untilDestroyed(this)).subscribe((val) => {
+      if (val.table_id) {
+        this.tableId$.next(val.table_id);
+      } else {
+        this.tableId$.next(null);
+      }
+    });
+
     this.restaurantId$.pipe(untilDestroyed(this)).subscribe(async (val) => {
-      await this.fetch(val);
-      this.fetchMenu(val).catch(() => null);
+      if (val) {
+        await this.fetch(val);
+        this.fetchMenu(val).catch(() => null);
+      }
+    });
+
+    this.tableId$.pipe(untilDestroyed(this)).subscribe(async (val) => {
+      if (val) {
+        await this.fetchTable(val);
+      }
     });
   }
 
@@ -80,6 +101,20 @@ export class DetailComponent implements OnInit, AfterViewInit {
       const data = await this.collection.findOne(id);
       this.restaurant = data;
       this.title.setTitle(`${data.name} | Ordero`);
+    } catch (error) {
+      this.toast.error(error);
+    } finally {
+      this.isFetching = false;
+    }
+  }
+
+  async fetchTable(id: string) {
+    try {
+      this.isFetching = true;
+
+      const data = await this.tableCol.findOne(id);
+      this.table = data;
+      this.cart.setInfo({ restaurant: this.restaurant, table: this.table });
     } catch (error) {
       this.toast.error(error);
     } finally {
@@ -117,7 +152,6 @@ export class DetailComponent implements OnInit, AfterViewInit {
         return { ...data, qty: null };
       });
       this.tempMenus = cloneDeep(this.menus);
-      console.log(this.menus);
     } catch (error) {
       this.toast.error(error);
     } finally {

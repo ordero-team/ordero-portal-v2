@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Table, TableCollection } from '@app/collections/table.collection';
+import { CartService } from '@app/core/services/cart.service';
 import { INavRoute } from '@app/core/services/navigation.service';
 import { ScanTableService } from '@app/core/services/scan-table.service';
 import { ToastService } from '@app/core/services/toast.service';
@@ -23,7 +24,8 @@ export class CustomerTableComponent implements OnInit {
     private router: Router,
     private collection: TableCollection,
     private toast: ToastService,
-    private scanTable: ScanTableService
+    private scanTable: ScanTableService,
+    private cart: CartService
   ) {
     this.route.params.pipe(untilDestroyed(this)).subscribe((val) => {
       if (val.table_id) {
@@ -43,7 +45,8 @@ export class CustomerTableComponent implements OnInit {
       this.table = await this.collection.findOne(id, { params: { include: 'restaurant' } });
 
       setTimeout(() => {
-        this.router.navigate(['/restaurants', this.table.restaurant.id]);
+        this.cart.setInfo({ table: this.table, restaurant: null });
+        this.router.navigate(['/restaurants', this.table.restaurant.id], { queryParams: { table_id: this.table.id } });
       }, 2000);
     } catch (error) {
       this.table = null;
