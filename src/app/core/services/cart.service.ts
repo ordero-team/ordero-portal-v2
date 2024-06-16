@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Restaurant } from '@app/collections/restaurant.collection';
 import { Table } from '@app/collections/table.collection';
+import { get } from 'lodash';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface CartInfo {
@@ -10,8 +11,11 @@ export interface CartInfo {
 
 export interface MenuItem {
   id: string;
+  name: string;
   qty: number;
   price: number;
+  variant_id?: string;
+  images?: any[];
 }
 
 @Injectable({ providedIn: 'root' })
@@ -53,17 +57,26 @@ export class CartService {
   }
 
   hide() {
-    this.isShown.next(!this.isShown.getValue());
+    this.isShown.next(false);
   }
 
   addToCart(item: MenuItem): MenuItem {
     const currentItems = this.cartItems.value;
-    const existingItem = currentItems.find((x) => x.id === item.id);
+    const existingItem = currentItems.find((x) =>
+      !item.variant_id ? x.id === item.id : x.id === item.id && x.variant_id === item.variant_id
+    );
 
     if (existingItem) {
       existingItem.qty++;
     } else {
-      currentItems.push({ ...item, qty: 1 });
+      currentItems.push({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        qty: 1,
+        variant_id: get(item, 'variant_id', null),
+        images: item.images,
+      });
     }
 
     this.cartItems.next(currentItems);
@@ -78,13 +91,17 @@ export class CartService {
 
   decreaseItemQty(item: MenuItem): MenuItem {
     const currentItems = this.cartItems.value;
-    const existingItem = currentItems.find((x) => x.id === item.id);
+    const existingItem = currentItems.find((x) =>
+      !item.variant_id ? x.id === item.id : x.id === item.id && x.variant_id === item.variant_id
+    );
 
-    if (existingItem && existingItem.qty > 1) {
-      existingItem.qty--;
-    } else if (existingItem && existingItem.qty === 1) {
-      existingItem.qty = null;
-      this.removeFromCart(existingItem);
+    if (existingItem) {
+      if (existingItem.qty > 1) {
+        existingItem.qty--;
+      } else if (existingItem.qty === 1) {
+        existingItem.qty = null;
+        this.removeFromCart(existingItem);
+      }
     }
 
     this.cartItems.next(currentItems);
@@ -95,13 +112,16 @@ export class CartService {
 
   removeFromCart(item: MenuItem) {
     const currentItems = this.cartItems.value;
-    const itemIndex = currentItems.findIndex((x) => x.id === item.id);
+    const itemIndex = currentItems.findIndex((x) =>
+      !item.variant_id ? x.id === item.id : x.id === item.id && x.variant_id === item.variant_id
+    );
 
     if (itemIndex !== -1) {
       currentItems.splice(itemIndex, 1);
       this.cartItems.next(currentItems);
 
-      if (this.shown) {
+      // Check if the cart is empty before hiding
+      if (currentItems.length === 0 && this.shown) {
         this.hide();
       }
     }

@@ -9,8 +9,8 @@ import { ScanTableService } from '@app/core/services/scan-table.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { cloneDeep, get } from 'lodash';
-import { BehaviorSubject, fromEvent } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({
@@ -61,37 +61,30 @@ export class DetailComponent implements OnInit, AfterViewInit {
         this.tableId$.next(null);
       }
     });
-
-    this.restaurantId$.pipe(untilDestroyed(this)).subscribe(async (val) => {
-      if (val) {
-        await this.fetch(val);
-        this.fetchMenu(val).catch(() => null);
-      }
-    });
-
-    this.tableId$.pipe(untilDestroyed(this)).subscribe(async (val) => {
-      if (val) {
-        await this.fetchTable(val);
-      }
-    });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.scanTable.hide();
-    console.log(this.search.nativeElement);
+    combineLatest([this.restaurantId$.pipe(filter((id) => !!id)), this.tableId$.pipe(filter((id) => !!id))])
+      .pipe(untilDestroyed(this))
+      .subscribe(async ([restaurantId, tableId]) => {
+        await this.fetch(restaurantId);
+        await this.fetchTable(tableId);
+        await this.fetchMenu();
+      });
   }
 
   ngAfterViewInit() {
-    fromEvent(this.search.nativeElement, 'keyup')
-      .pipe(
-        filter(Boolean),
-        debounceTime(500),
-        distinctUntilChanged(),
-        tap((text) => {
-          console.log(text, this.search.nativeElement.value);
-        })
-      )
-      .subscribe();
+    // fromEvent(this.search.nativeElement, 'keyup')
+    //   .pipe(
+    //     filter(Boolean),
+    //     debounceTime(500),
+    //     distinctUntilChanged(),
+    //     tap((text) => {
+    //       console.log(text, this.search.nativeElement.value);
+    //     })
+    //   )
+    //   .subscribe();
   }
 
   async fetch(id: string) {
@@ -122,11 +115,11 @@ export class DetailComponent implements OnInit, AfterViewInit {
     }
   }
 
-  async fetchMenu(id: string) {
+  async fetchMenu() {
     try {
       this.isFetchingMenu = true;
 
-      const menus = await this.collection.getMenus(id);
+      const menus = await this.collection.getMenus(this.restaurant.id, this.table?.id);
 
       const categories = new Map<string, any>();
       menus.forEach((menu) => {
@@ -141,7 +134,7 @@ export class DetailComponent implements OnInit, AfterViewInit {
       this.menus = menus.map((val: MenuItem) => {
         const cartItem = this.cart.getCartItems().find((item) => item.id === val.id);
 
-        const variants = get(val, 'variants', []).filter((val) => val.variant_id);
+        const variants = get(val, 'variants', []).filter((val) => !val.variant_id);
 
         const data = { ...val, variants };
 
@@ -166,14 +159,16 @@ export class DetailComponent implements OnInit, AfterViewInit {
     //     : this.menus.filter((val) => val.name.toLowerCase().includes(this.search.toLowerCase()));
   }
 
-  onIncrease(menu: MenuItem) {
-    this.cart.addToCart(menu);
+  onIncrease(menu: any) {
+    menu.variant_id = menu.variants.length > 0 ? menu.variants[0].variant_id : null;
+    this.cart.addToCart(menu as MenuItem);
     menu.qty++;
   }
 
-  onDecrease(menu: MenuItem) {
-    const item = this.cart.decreaseItemQty(menu);
-    menu.qty = item.qty;
+  onDecrease(menu: any) {
+    menu.variant_id = menu.variants.length > 0 ? menu.variants[0].variant_id : null;
+    const item = this.cart.decreaseItemQty(menu as MenuItem);
+    menu.qty = get(item, 'qty', null);
   }
 }
 
@@ -186,4 +181,5 @@ export const CustomerRestaurantDetailNavRoute: INavRoute = {
 export const CustomerRestaurantDetailRoute: INavRoute = {
   ...CustomerRestaurantDetailNavRoute,
   component: DetailComponent,
+  runGuardsAndResolvers: 'always',
 };

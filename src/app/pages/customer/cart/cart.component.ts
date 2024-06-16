@@ -1,7 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { OrderCollection } from '@app/collections/order.collection';
 import { CartInfo, CartService, MenuItem } from '@app/core/services/cart.service';
 import { INavRoute } from '@app/core/services/navigation.service';
+import { ToastService } from '@app/core/services/toast.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { get } from 'lodash';
 
 @UntilDestroy()
 @Component({
@@ -15,7 +18,12 @@ export class CustomerCartComponent implements OnInit, OnDestroy {
   totalPrice: number;
   discount = 0;
 
-  constructor(private cart: CartService) {}
+  customerName: string = null;
+  customerPhone: string = null;
+
+  isFetching = false;
+
+  constructor(private cart: CartService, private orderCol: OrderCollection, private toast: ToastService) {}
 
   ngOnInit() {
     this.cart.infoObservable.pipe(untilDestroyed(this)).subscribe((val) => (this.info = val));
@@ -42,8 +50,26 @@ export class CustomerCartComponent implements OnInit, OnDestroy {
     menu.qty = item.qty;
   }
 
-  confirmOrder() {
-    console.log({ ...this.cart.information, items: this.cart.getCartItems() });
+  async confirmOrder() {
+    this.isFetching = true;
+    try {
+      const payload = {
+        restaurant_id: get(this.info, 'restaurant.id', null),
+        table_id: get(this.info, 'table.id', null),
+        customer_name: this.customerName,
+        customer_phone: this.customerPhone,
+        products: this.cart
+          .getCartItems()
+          .map((val) => ({ id: val.id, qty: val.qty, price: val.price, variant_id: val.variant_id })),
+      };
+      const res = await this.orderCol.create(payload as any);
+      console.log(res);
+      this.toast.info(`Order ${res.number} successfully created`);
+    } catch (error) {
+      this.toast.error('Something bad happened', error);
+    } finally {
+      this.isFetching = false;
+    }
   }
 }
 

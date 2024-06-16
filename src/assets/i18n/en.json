@@ -43,6 +43,9 @@
       "parent": "Customer",
       "home": {
         "parent": "Home"
+      },
+      "cart": {
+        "parent": "Cart"
       }
     },
     "category": {

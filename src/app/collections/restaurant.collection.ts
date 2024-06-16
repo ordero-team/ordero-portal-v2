@@ -26,10 +26,13 @@ export class RestaurantCollection extends MetalCollection<Restaurant, OriginServ
     super(origin, RestaurantConfig);
   }
 
-  async getMenus(restaurantId: string): Promise<any> {
-    return await this.find(
-      {},
-      { suffix: `${restaurantId}/menus`, params: { include: 'images,categories,variants.variant' } }
-    );
+  async getMenus(restaurantId: string, tableId?: string): Promise<any> {
+    const params = { include: 'images,categories,variants.variant,stocks' };
+
+    if (tableId) {
+      Object.assign(params, { table_id: tableId });
+    }
+
+    return await this.find({}, { suffix: `${restaurantId}/menus`, params });
   }
 }

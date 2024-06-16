@@ -6,7 +6,7 @@
 
   <div class="space-between flex items-center py-2">
     <p class="flex-1 text-lg font-medium">Ordered Items ({{ cartItems.length }})</p>
-    <button mat-button color="primary">
+    <button mat-button color="primary" [disabled]="isFetching">
       <mat-icon matPrefix>add</mat-icon>
       <span>Add Item</span>
     </button>
@@ -40,11 +40,11 @@
         </div>
 
         <mat-form-field *ngIf="item.qty" class="aka-mat-dense mb-0 max-w-40">
-          <button mat-icon-button matPrefix (click)="onDecrease(item)">
+          <button mat-icon-button matPrefix (click)="onDecrease(item)" [disabled]="isFetching">
             <mat-icon>remove</mat-icon>
           </button>
           <input type="number" matInput class="text-center" min="1" disabled [(ngModel)]="item.qty" />
-          <button mat-icon-button matSuffix (click)="onIncrease(item)">
+          <button mat-icon-button matSuffix (click)="onIncrease(item)" [disabled]="isFetching">
             <mat-icon>add</mat-icon>
           </button>
         </mat-form-field>
@@ -63,8 +63,34 @@
     <p class="text-md font-medium">{{ (totalPrice - discount) | currency }}</p>
   </div> -->
 
+      <div class="flex w-full gap-3 py-2">
+        <mat-form-field class="aka-mat-dense mb-0 w-1/2">
+          <mat-label>Customer Name</mat-label>
+          <input matInput placeholder="Enter your name" [(ngModel)]="customerName" [disabled]="isFetching" required />
+        </mat-form-field>
+        <mat-form-field class="aka-mat-dense mb-0 w-1/2">
+          <mat-label>Phone Number (Optional)</mat-label>
+          <input
+            matInput
+            name="phone"
+            type="text"
+            placeholder="Enter your phone number"
+            [disabled]="isFetching"
+            [ngModel]="customerPhone | phoneNumber"
+            (ngModelChange)="customerPhone = $event"
+          />
+        </mat-form-field>
+      </div>
+
       <div class="mt-4 flex justify-end py-2">
-        <button mat-raised-button color="primary" (click)="confirmOrder()" [disabled]="cartItems.length === 0">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="confirmOrder()"
+          [disabled]="cartItems.length === 0"
+          [disabled]="isFetching || !customerName"
+          [akaLoading]="isFetching"
+        >
           Confirm Order
         </button>
       </div>

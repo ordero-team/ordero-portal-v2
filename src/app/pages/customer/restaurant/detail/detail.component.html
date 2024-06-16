@@ -58,7 +58,7 @@
           </div>
 
           <!-- Able to choose qty when table is exist -->
-          <ng-container *ngIf="table">
+          <ng-container *ngIf="table && menu.status === 'available'; else menuStatus">
             <button *ngIf="menu.qty === null" mat-button (click)="onIncrease(menu)">
               <mat-icon class="mr-2 icon-size-5">add</mat-icon>
               <span>Add</span>
@@ -76,6 +76,10 @@
             </mat-form-field>
             <!-- </ng-container> -->
           </ng-container>
+
+          <ng-template #menuStatus>
+            <aka-state-label [state]="menu.status"></aka-state-label>
+          </ng-template>
         </div>
 
         <!-- <ng-container *ngIf="menu.variants.length > 0" class="flex flex-col gap-3">
