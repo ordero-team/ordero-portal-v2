@@ -10,7 +10,7 @@ import { ToastService } from '@app/core/services/toast.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { cloneDeep, get } from 'lodash';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, startWith } from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({
@@ -65,11 +65,24 @@ export class DetailComponent implements OnInit, AfterViewInit {
 
   async ngOnInit() {
     this.scanTable.hide();
-    combineLatest([this.restaurantId$.pipe(filter((id) => !!id)), this.tableId$.pipe(filter((id) => !!id))])
+    combineLatest([
+      this.restaurantId$.pipe(
+        filter((id) => !!id),
+        startWith(null)
+      ),
+      this.tableId$.pipe(
+        filter((id) => !!id),
+        startWith(null)
+      ),
+    ])
       .pipe(untilDestroyed(this))
       .subscribe(async ([restaurantId, tableId]) => {
         await this.fetch(restaurantId);
-        await this.fetchTable(tableId);
+
+        if (tableId) {
+          await this.fetchTable(tableId);
+        }
+
         await this.fetchMenu();
       });
   }
@@ -131,19 +144,25 @@ export class DetailComponent implements OnInit, AfterViewInit {
       });
 
       this.categories = Array.from(categories.values());
-      this.menus = menus.map((val: MenuItem) => {
-        const cartItem = this.cart.getCartItems().find((item) => item.id === val.id);
+      this.menus = menus
+        .map((val: MenuItem) => {
+          const cartItem = this.cart.getCartItems().find((item) => item.id === val.id);
 
-        const variants = get(val, 'variants', []).filter((val) => !val.variant_id);
+          const variants = get(val, 'variants', []).filter((val) => !val.variant_id);
 
-        const data = { ...val, variants };
+          const data = { ...val, variants };
 
-        if (cartItem) {
-          return { ...data, qty: cartItem.qty };
-        }
+          if (cartItem) {
+            return { ...data, qty: cartItem.qty };
+          }
 
-        return { ...data, qty: null };
-      });
+          if (val.stocks.length === 0) {
+            return null;
+          }
+
+          return { ...data, qty: null };
+        })
+        .filter((val) => val);
       this.tempMenus = cloneDeep(this.menus);
     } catch (error) {
       this.toast.error(error);

@@ -16,6 +16,7 @@ export interface MenuItem {
   price: number;
   variant_id?: string;
   images?: any[];
+  stocks?: any[];
 }
 
 @Injectable({ providedIn: 'root' })

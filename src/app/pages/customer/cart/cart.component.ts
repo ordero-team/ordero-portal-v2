@@ -63,7 +63,7 @@ export class CustomerCartComponent implements OnInit, OnDestroy {
           .map((val) => ({ id: val.id, qty: val.qty, price: val.price, variant_id: val.variant_id })),
       };
       const res = await this.orderCol.create(payload as any);
-      console.log(res);
+
       this.toast.info(`Order ${res.number} successfully created`);
     } catch (error) {
       this.toast.error('Something bad happened', error);

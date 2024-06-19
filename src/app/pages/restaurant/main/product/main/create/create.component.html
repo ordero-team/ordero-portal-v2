@@ -1,5 +1,8 @@
 <aka-route-activator></aka-route-activator>
 
-<div class="m-auto p-6">
-  <aka-product-form (onSuccess)="onSuccess($event)"></aka-product-form>
+<div class="m-auto flex w-full flex-col p-6 md:w-2/3">
+  <h1 class="-medium text-2xl">Create Product</h1>
+  <p class="text-hint">Fill this form to create master product.</p>
+
+  <aka-product-form (onSuccess)="onSuccess($event)" class="mt-8"></aka-product-form>
 </div>
