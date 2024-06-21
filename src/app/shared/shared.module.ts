@@ -92,6 +92,7 @@ import { StockFormComponent } from './components/form/stock-form/stock-form.comp
 import { TableFormComponent } from './components/form/table-form/table-form.component';
 import { VariantFormComponent } from './components/form/variant-form/variant-form.component';
 import { MapComponent } from './components/map/map.component';
+import { OrderDetailItemsComponent } from './components/order-detail-items/order-detail-items.component';
 import { OwnerUserMenuComponent } from './components/owner/user-menu/user-menu.component';
 import { SelectCategoriesComponent } from './components/select-categories/select-categories.component';
 import { SelectLocationComponent } from './components/select-location/select-location.component';
@@ -196,6 +197,7 @@ const declarations = [
 
   // Owner
   OwnerUserMenuComponent,
+  OrderDetailItemsComponent,
 
   // Form
   LocationFormComponent,

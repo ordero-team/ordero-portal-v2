@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "node --max_old_space_size=5640 ./node_modules/@angular/cli/bin/ng serve",
-    "build": "node --max_old_space_size=6144 ./node_modules/@angular/cli/bin/ng build --prod",
+    "start": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng serve",
+    "build": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --prod",
     "build:stats": "ng build --stats-json",
     "build:analyze": "webpack-bundle-analyzer dist/ordero-portal/stats.json",
     "test": "ng test",

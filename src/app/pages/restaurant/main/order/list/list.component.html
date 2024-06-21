@@ -1,13 +1,155 @@
-<!-- Start Generation Here -->
-<div class="order-card" *ngFor="let order of orders">
-  <div class="order-details">
-    <h3>{{ order.customerName }}</h3>
-    <p>{{ order.orderDate }}</p>
-    <p>Total Items: {{ order.items.length }}</p>
-  </div>
-  <div class="order-actions">
-    <button (click)="confirmOrder(order)">Confirm</button>
-    <button (click)="cancelOrder(order)">Cancel</button>
-  </div>
+<div class="flex flex-col items-center gap-2 md:flex-row">
+  <mat-form-field class="aka-mat-dense mb-0 w-full max-w-56">
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput placeholder="Search..." />
+  </mat-form-field>
+
+  <mat-form-field class="aka-mat-dense mb-0 w-full max-w-56">
+    <!-- <mat-label></mat-label> -->
+    <mat-select
+      name="variant"
+      placeholder="Choose Status"
+      [(ngModel)]="selectedStatus"
+      (selectionChange)="onStatusChange($event)"
+    >
+      <mat-option [value]="option.value" *ngFor="let option of statuses">{{ option.label }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <p class="text-lg font-medium">Total Orders: {{ (orders$ | async).length }}</p>
 </div>
-<!-- End Generation Here -->
+
+<ng-container *ngIf="isFetching; else doneFetching">
+  <mat-spinner class="m-auto my-8" [diameter]="27"></mat-spinner>
+</ng-container>
+
+<ng-template #doneFetching>
+  <ng-container *ngIf="(orders$ | async).length === 0; else orderList">
+    <div class="m-auto flex h-full w-full flex-col items-center justify-center">
+      <mat-icon class="icon-size-14">restaurant_menu</mat-icon>
+      <p class="text-lg font-medium">No orders found.</p>
+    </div>
+  </ng-container>
+
+  <ng-template #orderList>
+    <div class="order-grid">
+      <div *ngFor="let order of orders$ | async" class="order-card">
+        <!-- <mat-spinner *ngIf="order.loading" [diameter]="27"></mat-spinner> -->
+
+        <div class="mb-2 flex items-center justify-between">
+          <aka-state-label [state]="order.status" class="medium"></aka-state-label>
+
+          <button
+            mat-icon-button
+            class="aka-mat-button-small"
+            color="primary"
+            matTooltip="Show Details"
+            (click)="showDetail(order)"
+          >
+            <mat-icon class="align-middle icon-size-4">visibility</mat-icon>
+          </button>
+        </div>
+
+        <h2 class="mb-1 font-bold">{{ order.number }}</h2>
+
+        <table border="0" class="mb-2">
+          <tr>
+            <td style="vertical-align: middle; width: 25px">
+              <mat-icon class="align-middle icon-size-4">person</mat-icon>
+            </td>
+            <td>{{ order.customer_name || '-' }}</td>
+          </tr>
+          <tr>
+            <td style="vertical-align: middle; width: 25px">
+              <mat-icon class="align-middle icon-size-4">lunch_dining</mat-icon>
+            </td>
+            <td>{{ order.items.length }} {{ order.items.length > 1 ? 'Items' : 'Item' }}</td>
+          </tr>
+          <tr>
+            <td style="vertical-align: middle; width: 25px">
+              <mat-icon class="align-middle icon-size-4">schedule</mat-icon>
+            </td>
+            <td><aka-date-time [date]="order.created_at"></aka-date-time></td>
+          </tr>
+        </table>
+
+        <div *ngIf="isAbleToAction(order)" class="flex flex-col items-center gap-3 md:flex-row">
+          <ng-container *ngIf="order.status === 'waiting_approval'">
+            <button
+              mat-stroked-button
+              color="warn"
+              class="w-full"
+              (click)="action(order, 'cancelled')"
+              [disabled]="order.loading"
+              [akaLoading]="order.loading"
+            >
+              Cancel
+            </button>
+            <button
+              mat-flat-button
+              color="primary"
+              class="w-full"
+              (click)="action(order, 'confirmed')"
+              [disabled]="order.loading"
+              [akaLoading]="order.loading"
+            >
+              Confirm
+            </button>
+          </ng-container>
+
+          <ng-container *ngIf="order.status === 'confirmed'">
+            <button
+              mat-flat-button
+              color="primary"
+              class="w-full"
+              (click)="action(order, 'preparing')"
+              [disabled]="order.loading"
+              [akaLoading]="order.loading"
+            >
+              Preparing
+            </button>
+          </ng-container>
+
+          <ng-container *ngIf="order.status === 'preparing'">
+            <button
+              mat-flat-button
+              color="primary"
+              class="w-full"
+              (click)="action(order, 'served')"
+              [disabled]="order.loading"
+              [akaLoading]="order.loading"
+            >
+              Served
+            </button>
+          </ng-container>
+
+          <ng-container *ngIf="order.status === 'served'">
+            <button
+              mat-flat-button
+              color="primary"
+              class="w-full"
+              (click)="action(order, 'waiting_payment')"
+              [disabled]="order.loading"
+              [akaLoading]="order.loading"
+            >
+              Waiting Payment
+            </button>
+          </ng-container>
+
+          <ng-container *ngIf="order.status === 'waiting_payment'">
+            <button
+              mat-flat-button
+              color="primary"
+              class="w-full"
+              (click)="action(order, 'completed')"
+              [disabled]="order.loading"
+              [akaLoading]="order.loading"
+            >
+              Completed
+            </button>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</ng-template>

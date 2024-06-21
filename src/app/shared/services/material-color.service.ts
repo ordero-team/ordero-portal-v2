@@ -497,6 +497,11 @@ export class MaterialColorService {
     single: this.colors.blue[700],
     multiple: this.colors.yellow[700],
     coming_soon: this.colors.yellow[800],
+    waiting_approval: this.colors.blue[700],
+    confirmed: this.colors.blue[400],
+    preparing: this.colors.cyan[600],
+    served: this.colors.cyan[700],
+    waiting_payment: this.colors.green,
   };
 
   labels: any = {
