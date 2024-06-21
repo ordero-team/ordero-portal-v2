@@ -7,6 +7,7 @@ import { Restaurant } from './restaurant.collection';
 export interface Table extends MetalAPIData {
   number: string;
   status: 'available' | 'in_use' | 'reserved' | 'unavailable';
+  location_id: string;
 
   restaurant?: Restaurant;
 }

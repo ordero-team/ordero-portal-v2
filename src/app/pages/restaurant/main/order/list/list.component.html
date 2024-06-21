@@ -1,0 +1,13 @@
+<!-- Start Generation Here -->
+<div class="order-card" *ngFor="let order of orders">
+  <div class="order-details">
+    <h3>{{ order.customerName }}</h3>
+    <p>{{ order.orderDate }}</p>
+    <p>Total Items: {{ order.items.length }}</p>
+  </div>
+  <div class="order-actions">
+    <button (click)="confirmOrder(order)">Confirm</button>
+    <button (click)="cancelOrder(order)">Cancel</button>
+  </div>
+</div>
+<!-- End Generation Here -->

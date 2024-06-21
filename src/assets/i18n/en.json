@@ -46,6 +46,9 @@
     "dashboard": {
       "parent": "Dashboard"
     },
+    "order": {
+      "parent": "Orders"
+    },
     "customer": {
       "parent": "Customer",
       "home": {
@@ -136,6 +139,9 @@
       "security": {
         "parent": "Security"
       }
+    },
+    "order": {
+      "parent": "Orders"
     },
     "table": {
       "parent": "Tables"

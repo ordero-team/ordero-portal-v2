@@ -160,6 +160,10 @@ export class DetailComponent implements OnInit, AfterViewInit {
             return null;
           }
 
+          if (this.table && val.stocks.filter((val) => val.location_id === this.table.location_id)) {
+            return { ...data, qty: null };
+          }
+
           return { ...data, qty: null };
         })
         .filter((val) => val);
