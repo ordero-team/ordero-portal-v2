@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { OwnerOriginService } from '@app/core/services/owner/origin.service';
 import { MetalCollection, MetalCollectionConfig } from '@lib/metal-data';
 import { MetalAPIData } from '@mtl/interfaces';
+import { OrderStatus } from '../order.collection';
 
 export interface OwnerOrder extends MetalAPIData {
   number: string;
-  status: 'waiting_approval' | 'confirmed' | 'preparing' | 'served' | 'waiting_payment' | 'completed' | 'cancelled';
+  status: OrderStatus;
   gross_total: number;
   discount: number;
   billed_at: string;

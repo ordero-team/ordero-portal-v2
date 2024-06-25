@@ -16,7 +16,7 @@
     </mat-select>
   </mat-form-field>
 
-  <p class="text-lg font-medium">Total Orders: {{ (orders$ | async).length }}</p>
+  <p class="text-lg font-medium">Total Orders: {{ (orderService.orders$ | async).length }}</p>
 </div>
 
 <ng-container *ngIf="isFetching; else doneFetching">
@@ -24,7 +24,7 @@
 </ng-container>
 
 <ng-template #doneFetching>
-  <ng-container *ngIf="(orders$ | async).length === 0; else orderList">
+  <ng-container *ngIf="(orderService.orders$ | async).length === 0; else orderList">
     <div class="m-auto flex h-full w-full flex-col items-center justify-center">
       <mat-icon class="icon-size-14">restaurant_menu</mat-icon>
       <p class="text-lg font-medium">No orders found.</p>
@@ -33,7 +33,7 @@
 
   <ng-template #orderList>
     <div class="order-grid">
-      <div *ngFor="let order of orders$ | async" class="order-card">
+      <div *ngFor="let order of orderService.orders$ | async" class="order-card">
         <!-- <mat-spinner *ngIf="order.loading" [diameter]="27"></mat-spinner> -->
 
         <div class="mb-2 flex items-center justify-between">

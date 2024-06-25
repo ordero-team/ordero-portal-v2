@@ -3,6 +3,7 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatSelectChange } from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OwnerOrder, OwnerOrderCollection } from '@app/collections/owner/order.collection';
+import { OrderService } from '@app/core/services/order.service';
 import { OwnerAuthService } from '@app/core/services/owner/auth.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { OrderDetailItemsComponent } from '@app/shared/components/order-detail-items/order-detail-items.component';
@@ -52,10 +53,11 @@ export class OrderListComponent implements OnInit {
   ];
   selectedStatus = '';
 
-  orders$ = new BehaviorSubject<OwnerOrder[]>([]);
+  // orders$ = new BehaviorSubject<OwnerOrder[]>([]);
   isFetching = true;
 
   constructor(
+    public orderService: OrderService,
     private collection: OwnerOrderCollection,
     private auth: OwnerAuthService,
     private toast: ToastService,
@@ -98,7 +100,7 @@ export class OrderListComponent implements OnInit {
     this.isFetching = true;
     this.collection
       .find({ params: { restaurant_id: this.auth.currentRestaurant.id, include: 'items,table', status } as any })
-      .then((res) => this.orders$.next(res as OwnerOrder[]))
+      .then((res) => this.orderService.setData(res as OwnerOrder[]))
       .catch((error) => this.toast.error('Something bad happened', error))
       .finally(() => (this.isFetching = false));
   }
@@ -124,15 +126,7 @@ export class OrderListComponent implements OnInit {
         params: { restaurant_id: this.auth.currentRestaurant.id, include: 'items,table', status } as any,
       });
 
-      this.orders$.next(
-        this.orders$.value.map((val) => {
-          if (val.id === order.id) {
-            return Object.assign({}, { ...newOrder, loading: false });
-          }
-
-          return { ...val, loading: false };
-        })
-      );
+      this.orderService.updateOrder(order.id, { ...newOrder, loading: false });
     } catch (error) {
       this.toast.error('Something bad hapened', error);
     } finally {

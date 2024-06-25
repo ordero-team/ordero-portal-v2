@@ -35,6 +35,7 @@ interface IPubSubEventData {
     type: PubSubPayloadType;
     body: any;
   };
+  data?: any;
   error?: string;
 }
 
