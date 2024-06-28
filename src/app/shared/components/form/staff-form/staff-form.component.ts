@@ -55,7 +55,6 @@ export class StaffFormComponent implements OnInit {
         email: null,
       });
     } else {
-      console.log(this.record);
       this.formData.$import({
         name: this.record.name,
         email: this.record.email,

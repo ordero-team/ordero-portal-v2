@@ -1,0 +1,147 @@
+<div *ngIf="order">
+  <div class="mb-4 flex w-full flex-row items-center justify-between">
+    <div class="flex items-center gap-2">
+      <mat-icon class="align-middle icon-size-4">receipt_long</mat-icon>
+      <p class="text-lg font-medium">{{ order.number }}</p>
+    </div>
+    <aka-state-label [state]="order.status"></aka-state-label>
+  </div>
+
+  <div class="flex flex-row items-start justify-between gap-8">
+    <table border="0" class="mb-2">
+      <tr>
+        <td style="vertical-align: middle; width: 25px">
+          <mat-icon class="align-middle icon-size-4" icIcon="outlineTableRestaurant"></mat-icon>
+        </td>
+        <td>{{ order.table.number }}</td>
+      </tr>
+      <tr>
+        <td style="vertical-align: middle; width: 25px">
+          <mat-icon class="align-middle icon-size-4">person</mat-icon>
+        </td>
+        <td>{{ order.customer_name || '-' }}</td>
+      </tr>
+    </table>
+
+    <table border="0" class="mb-2">
+      <tr>
+        <td style="vertical-align: middle; width: 25px">
+          <mat-icon class="align-middle icon-size-4">lunch_dining</mat-icon>
+        </td>
+        <td>{{ order.items.length }} {{ order.items.length > 1 ? 'Items' : 'Item' }}</td>
+      </tr>
+      <tr>
+        <td style="vertical-align: middle; width: 25px">
+          <mat-icon class="align-middle icon-size-4">schedule</mat-icon>
+        </td>
+        <td><aka-date-time [date]="order.created_at"></aka-date-time></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="mt-4 flex flex-col divide-y">
+    <div *ngFor="let item of order.items" class="flex items-center justify-between py-2">
+      <div class="flex items-center">
+        <img
+          [src]="item.images[0]?.original || 'assets/images/default-restaurant.jpg'"
+          alt="{{ item.name }}"
+          class="mr-2 h-12 w-12 rounded-md object-cover"
+        />
+        <div class="flex-1">
+          <h3 class="text-lg font-medium">{{ item.product.name }}</h3>
+          <p class="text-hint">{{ item.price | currency }} | {{ item.qty }}pcs</p>
+        </div>
+      </div>
+
+      <div class="ml-auto flex items-center px-3">
+        <p class="text-md font-semibold">Subtotal:</p>
+        <p class="ml-2 text-md">{{ item.price * item.qty | currency }}</p>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between pb-2 pt-4">
+      <p class="text-xl font-medium">Total Amount:</p>
+      <p class="text-xl font-medium">{{ order.gross_total | currency }}</p>
+    </div>
+  </div>
+
+  <div *ngIf="order.status !== 'cancelled'" class="mt-2 flex flex-col items-center gap-3 md:flex-row">
+    <ng-container *ngIf="order.status === 'waiting_approval'">
+      <button
+        mat-stroked-button
+        color="warn"
+        class="w-full"
+        (click)="action(order, 'cancelled')"
+        [disabled]="order.loading"
+        [akaLoading]="order.loading"
+      >
+        Cancel
+      </button>
+      <button
+        mat-flat-button
+        color="primary"
+        class="w-full"
+        (click)="action(order, 'confirmed')"
+        [disabled]="order.loading"
+        [akaLoading]="order.loading"
+      >
+        Confirm
+      </button>
+    </ng-container>
+
+    <ng-container *ngIf="order.status === 'confirmed'">
+      <button
+        mat-flat-button
+        color="primary"
+        class="w-full"
+        (click)="action(order, 'preparing')"
+        [disabled]="order.loading"
+        [akaLoading]="order.loading"
+      >
+        Preparing
+      </button>
+    </ng-container>
+
+    <ng-container *ngIf="order.status === 'preparing'">
+      <button
+        mat-flat-button
+        color="primary"
+        class="w-full"
+        (click)="action(order, 'served')"
+        [disabled]="order.loading"
+        [akaLoading]="order.loading"
+      >
+        Served
+      </button>
+    </ng-container>
+
+    <ng-container *ngIf="order.status === 'served'">
+      <button
+        mat-flat-button
+        color="primary"
+        class="w-full"
+        (click)="action(order, 'waiting_payment')"
+        [disabled]="order.loading"
+        [akaLoading]="order.loading"
+      >
+        Waiting Payment
+      </button>
+    </ng-container>
+
+    <ng-container *ngIf="order.status === 'waiting_payment'">
+      <button
+        mat-flat-button
+        color="primary"
+        class="w-full"
+        (click)="action(order, 'completed')"
+        [disabled]="order.loading"
+        [akaLoading]="order.loading"
+      >
+        Completed
+      </button>
+    </ng-container>
+  </div>
+</div>
+<div *ngIf="!order">
+  <p>No order details available.</p>
+</div>

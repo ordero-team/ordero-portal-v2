@@ -3,10 +3,11 @@ import { Injectable } from '@angular/core';
 import { AuthService } from '@cs/auth.service';
 import { environment } from '@env/environment';
 import * as Sentry from '@sentry/browser';
+import { ToastService } from './toast.service';
 
 @Injectable({ providedIn: 'root' })
 export class LoggerService {
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private toast: ToastService) {
     const { sentryDsn: dsn, envName } = environment;
     if (dsn) {
       Sentry.init({
@@ -23,6 +24,11 @@ export class LoggerService {
       const { id, email, name: username } = this.authService.currentUser;
       Sentry.setUser({ id, email, username });
     }
+    console.error(extractedError);
+    // this.toast.error({
+    //   title: 'Error!',
+    //   detail: extractedError.toString(),
+    // });
 
     Sentry.captureException(extractedError);
   }

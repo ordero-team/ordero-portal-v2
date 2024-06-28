@@ -1,0 +1,30 @@
+<div class="flex h-160 w-full flex-col items-center justify-center">
+  <mat-icon icIcon="roundTableRestaurant" class="icon-size-20"></mat-icon>
+
+  <ng-container *ngIf="isFetching; else content">
+    <h4 class="mb-4 text-xl font-medium">Checking Table Status</h4>
+    <mat-spinner [diameter]="27"></mat-spinner>
+  </ng-container>
+
+  <ng-template #content>
+    <ng-container *ngIf="table; else notFound">
+      <p class="mb-2 text-lg font-medium">
+        Table {{ table.number }} is
+        <span class="capitalize">{{ table.status }}</span>
+      </p>
+
+      <ng-container *ngIf="table.status === 'available'; else backHome">
+        <p>Let's check the menus!</p>
+      </ng-container>
+
+      <ng-template #backHome>
+        <button mat-button routerLink="/">Got to Homepage</button>
+      </ng-template>
+    </ng-container>
+
+    <ng-template #notFound>
+      {{ errorMessage ? errorMessage : 'Sorry, Table is not found!' }}
+      <button mat-button routerLink="/" class="mt-3" color="primary">Got to Homepage</button>
+    </ng-template>
+  </ng-template>
+</div>

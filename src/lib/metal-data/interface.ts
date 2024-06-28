@@ -159,9 +159,6 @@ export interface MetalQueryFilters<T> {
   fields?: Fields<T>;
   excludeFields?: Fields<T>;
   filterRefs?: MetalQueryFilterRefs<T>;
-
-  // Custom Param Filter for Listing
-  company?: string;
 }
 
 export type MetalQueryStatus = 'init' | 'ready' | 'sync';

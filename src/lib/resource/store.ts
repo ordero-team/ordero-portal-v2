@@ -48,11 +48,11 @@ const BaseAdapter = new HttpAdapter({
     }
 
     try {
-      const auth: any = LocalStorage.getItem('auth');
+      const auth: any = LocalStorage.getItem('owner');
 
       if (auth) {
-        const { token } = JSON.parse(auth);
-        const opts = { Authorization: `Bearer ${token}` };
+        const { access_token } = JSON.parse(auth);
+        const opts = { Authorization: `Bearer ${access_token}` };
 
         Object.assign(config.headers, opts);
       }
@@ -70,4 +70,4 @@ const BaseAdapter = new HttpAdapter({
 
 BaseStorage.registerAdapter('http', BaseAdapter, { default: true });
 
-export { BaseStorage, BaseAdapter };
+export { BaseAdapter, BaseStorage };

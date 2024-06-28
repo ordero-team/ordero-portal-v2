@@ -19,6 +19,12 @@
       "backToLogin": "Back To Login",
       "signUp": "Sign Up",
       "signIn": "Sign In"
+    },
+    "imageUpload": {
+      "error": {
+        "size": "{{name}} is too large, maximum file size is 1MB.",
+        "type": "Invalid file type {{type}}"
+      }
     }
   },
   "title": {
@@ -30,7 +36,8 @@
       "login": "Login",
       "forgot-password": "Forgot Password",
       "reset-password": "Reset Password",
-      "verify": "Verify Account"
+      "verify": "Verify Account",
+      "register": "Register"
     },
     "error": {
       "notFound": "Not Found Error",
@@ -39,7 +46,23 @@
     "dashboard": {
       "parent": "Dashboard"
     },
-
+    "order": {
+      "parent": "Orders"
+    },
+    "customer": {
+      "parent": "Customer",
+      "home": {
+        "parent": "Home"
+      },
+      "cart": {
+        "parent": "Cart"
+      },
+      "restaurant": {
+        "detail": {
+          "parent": "Restaurant"
+        }
+      }
+    },
     "category": {
       "parent": "Category",
       "list": "List Category",
@@ -116,6 +139,9 @@
       "security": {
         "parent": "Security"
       }
+    },
+    "order": {
+      "parent": "Orders"
     },
     "table": {
       "parent": "Tables"

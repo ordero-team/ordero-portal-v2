@@ -1,0 +1,60 @@
+<aka-route-activator></aka-route-activator>
+<section class="relative mx-auto flex h-full flex-col gap-4 bg-white dark:bg-gray-800 md:max-w-screen-sm">
+  <div class="bg-primary-500 px-4 py-3 text-white">
+    <p class="text-center text-md font-medium">
+      Welcome to
+      <b>Ordero</b>
+      . Ordering has never been more enjoyable than this! 😄
+    </p>
+  </div>
+
+  <div class="flex h-full flex-col px-4 sm:px-6 lg:px-8">
+    <aka-header class="mb-4"></aka-header>
+
+    <router-outlet></router-outlet>
+  </div>
+
+  <div
+    *ngIf="showScanButton"
+    @fadeInBottom
+    @fadeOutBottom
+    class="fixed inset-x-0 bottom-0 mx-auto h-12 max-w-screen-sm px-4 py-3 text-white"
+  >
+    <div class="relative flex w-full">
+      <button
+        mat-flat-button
+        class="mx-auto -mt-12 rounded-full text-lg button-size-lg"
+        color="accent"
+        (click)="openBottomSheet()"
+      >
+        <mat-icon class="mr-3 icon-size-8">qr_code_scanner</mat-icon>
+        Scan Table QR
+      </button>
+    </div>
+  </div>
+
+  <div
+    *ngIf="showCart | async"
+    @fadeInBottom
+    @fadeOutBottom
+    class="fixed inset-x-0 bottom-0 z-10 mx-auto h-20 max-w-screen-sm px-4 py-3 text-white"
+  >
+    <div
+      class="bg-card relative flex h-full max-h-40 w-full items-center gap-4 rounded-xl border border-primary-700 shadow-lg"
+    >
+      <div class="relative flex h-full rounded-l-xl px-4">
+        <span class="absolute right-1.5 top-1.5 inline-flex rounded-full bg-primary px-1.5 py-0.5 text-xs font-bold">
+          {{ cartItems.length }}
+        </span>
+        <mat-icon color="primary" class="m-auto icon-size-6">shopping_cart</mat-icon>
+      </div>
+
+      <div class="text-default flex flex-1 flex-col gap-0.5">
+        <p>Total</p>
+        <p class="flex-1 text-md font-bold">{{ totalPrice | currency }}</p>
+      </div>
+
+      <button mat-flat-button color="primary" class="mr-3 rounded-xl" (click)="checkOut()">Check Out</button>
+    </div>
+  </div>
+</section>

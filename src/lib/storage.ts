@@ -2,7 +2,7 @@ import { Encryptor } from '@lib/encryptor';
 import { forIn, startsWith } from 'lodash';
 
 const APP_PREFIX = 'kp_aka_';
-const encryptor = new Encryptor('keeppack2021');
+const encryptor = new Encryptor('ordero2024');
 
 export class LocalStorage {
   static getLength() {

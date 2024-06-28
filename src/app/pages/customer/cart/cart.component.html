@@ -1,0 +1,91 @@
+<div class="relative flex h-full w-full flex-col divide-y">
+  <div *ngIf="info" class="flex flex-col items-center justify-center py-4">
+    <h2 class="text-xl font-bold">Restaurant: {{ info.restaurant?.name || 'N/A' }}</h2>
+    <h3 class="text-lg font-semibold">Table: {{ info.table?.number || 'N/A' }}</h3>
+  </div>
+
+  <div class="space-between flex items-center py-2">
+    <p class="flex-1 text-lg font-medium">Ordered Items ({{ cartItems.length }})</p>
+    <button mat-button color="primary" [disabled]="isFetching">
+      <mat-icon matPrefix>add</mat-icon>
+      <span>Add Item</span>
+    </button>
+  </div>
+
+  <ng-container *ngIf="cartItems.length === 0; else itemList">
+    <div class="flex flex-col items-center justify-center py-10">
+      <mat-icon class="icon-size-10">remove_shopping_cart</mat-icon>
+      <p class="mt-2 text-lg font-medium">Your cart is empty!</p>
+    </div>
+  </ng-container>
+
+  <ng-template #itemList>
+    <div class="flex flex-col divide-y">
+      <div *ngFor="let item of cartItems" class="flex items-center justify-between py-2">
+        <div class="flex items-center">
+          <img
+            [src]="item.images[0]?.original || 'assets/images/default-restaurant.jpg'"
+            alt="{{ item.name }}"
+            class="mr-2 h-12 w-12 rounded-md object-cover"
+          />
+          <div class="flex-1">
+            <h3 class="text-lg font-medium">{{ item.name }}</h3>
+            <p class="text-hint">{{ item.price | currency }}</p>
+          </div>
+        </div>
+
+        <div class="ml-auto flex items-center px-3">
+          <p class="text-md font-semibold">Subtotal:</p>
+          <p class="ml-2 text-md">{{ item.price * item.qty | currency }}</p>
+        </div>
+
+        <mat-form-field *ngIf="item.qty" class="aka-mat-dense mb-0 max-w-40">
+          <button mat-icon-button matPrefix (click)="onDecrease(item)" [disabled]="isFetching">
+            <mat-icon>remove</mat-icon>
+          </button>
+          <input type="number" matInput class="text-center" min="1" disabled [(ngModel)]="item.qty" />
+          <button mat-icon-button matSuffix (click)="onIncrease(item)" [disabled]="isFetching">
+            <mat-icon>add</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+
+      <div class="flex items-center justify-between py-2">
+        <p class="text-xl font-medium">Total Amount:</p>
+        <p class="text-xl font-medium">{{ totalPrice | currency }}</p>
+      </div>
+
+      <div class="flex w-full gap-3 py-2">
+        <mat-form-field class="aka-mat-dense mb-0 w-1/2">
+          <mat-label>Customer Name</mat-label>
+          <input matInput placeholder="Enter your name" [(ngModel)]="customerName" [disabled]="isFetching" required />
+        </mat-form-field>
+        <mat-form-field class="aka-mat-dense mb-0 w-1/2">
+          <mat-label>Phone Number (Optional)</mat-label>
+          <input
+            matInput
+            name="phone"
+            type="text"
+            placeholder="Enter your phone number"
+            [disabled]="isFetching"
+            [ngModel]="customerPhone | phoneNumber"
+            (ngModelChange)="customerPhone = $event"
+          />
+        </mat-form-field>
+      </div>
+
+      <div class="mt-4 flex justify-end py-2">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="confirmOrder()"
+          [disabled]="cartItems.length === 0"
+          [disabled]="isFetching || !customerName"
+          [akaLoading]="isFetching"
+        >
+          Confirm Order
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</div>

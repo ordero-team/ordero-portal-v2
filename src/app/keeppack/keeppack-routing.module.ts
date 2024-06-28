@@ -11,6 +11,7 @@ import { EmptyComponent } from '@app/layouts/empty/empty.component';
 import { HorizonalLayoutComponent } from '@app/layouts/horizontal/horizontal.component';
 import { RestaurantDashboardNavRoute } from '@app/pages/restaurant/main/dashboard/dashboard.component';
 import { RestaurantLocationNavRoute } from '@app/pages/restaurant/main/location/location.component';
+import { RestaurantOrderNavRoute } from '@app/pages/restaurant/main/order/order.component';
 import { RestaurantProductNavRoute } from '@app/pages/restaurant/main/product/product.component';
 import { RestaurantSettingNavRoute } from '@app/pages/restaurant/main/setting/setting.component';
 import { RestaurantStaffNavRoute } from '@app/pages/restaurant/main/staff/staff.component';
@@ -26,9 +27,9 @@ const routes: INavMainRoutes = [
   // Landing routes
   {
     path: '',
-    title: 'home.parent',
+    title: 'customer.parent',
     component: EmptyComponent,
-    loadChildren: () => import('@pg/home/home.module').then((m) => m.HomeModule),
+    loadChildren: () => import('@pg/customer/customer.module').then((m) => m.CustomerModule),
   },
 
   // Restaurant routes
@@ -54,9 +55,17 @@ const routes: INavMainRoutes = [
   },
 
   {
+    path: 'restaurant/:rid/orders',
+    title: 'order.parent',
+    canActivate: [OwnerAuthGuardService, OwnerVerifiedGuardService, RestaurantGuardService],
+    component: HorizonalLayoutComponent,
+    loadChildren: () => import('@pg/restaurant/main/order/order.module').then((m) => m.OrderModule),
+  },
+
+  {
     path: 'restaurant/:rid/stocks',
     title: 'stock.parent',
-    canActivate: [OwnerVerifiedGuardService, RestaurantGuardService],
+    canActivate: [OwnerAuthGuardService, OwnerVerifiedGuardService, RestaurantGuardService],
     component: HorizonalLayoutComponent,
     loadChildren: () => import('@pg/restaurant/main/stock/stock.module').then((m) => m.StockModule),
   },
@@ -64,7 +73,7 @@ const routes: INavMainRoutes = [
   {
     path: 'restaurant/:rid/products',
     title: 'product.parent',
-    canActivate: [OwnerVerifiedGuardService, RestaurantGuardService],
+    canActivate: [OwnerAuthGuardService, OwnerVerifiedGuardService, RestaurantGuardService],
     component: HorizonalLayoutComponent,
     loadChildren: () => import('@pg/restaurant/main/product/product.module').then((m) => m.ProductModule),
   },
@@ -72,7 +81,7 @@ const routes: INavMainRoutes = [
   {
     path: 'restaurant/:rid/locations',
     title: 'location.parent',
-    canActivate: [OwnerVerifiedGuardService, RestaurantGuardService],
+    canActivate: [OwnerAuthGuardService, OwnerVerifiedGuardService, RestaurantGuardService],
     component: HorizonalLayoutComponent,
     loadChildren: () => import('@pg/restaurant/main/location/location.module').then((m) => m.LocationModule),
   },
@@ -80,7 +89,7 @@ const routes: INavMainRoutes = [
   {
     path: 'restaurant/:rid/tables',
     title: 'table.parent',
-    canActivate: [OwnerVerifiedGuardService, RestaurantGuardService],
+    canActivate: [OwnerAuthGuardService, OwnerVerifiedGuardService, RestaurantGuardService],
     component: HorizonalLayoutComponent,
     loadChildren: () => import('@pg/restaurant/main/table/table.module').then((m) => m.TableModule),
   },
@@ -88,7 +97,7 @@ const routes: INavMainRoutes = [
   {
     path: 'restaurant/:rid/staff',
     title: 'staff.parent',
-    canActivate: [OwnerVerifiedGuardService, RestaurantGuardService],
+    canActivate: [OwnerAuthGuardService, OwnerVerifiedGuardService, RestaurantGuardService],
     component: HorizonalLayoutComponent,
     loadChildren: () => import('@pg/restaurant/main/staff/staff.module').then((m) => m.StaffModule),
   },
@@ -96,7 +105,7 @@ const routes: INavMainRoutes = [
   {
     path: 'restaurant/:rid/settings',
     title: 'setting.parent',
-    canActivate: [OwnerVerifiedGuardService, RestaurantGuardService],
+    canActivate: [OwnerAuthGuardService, OwnerVerifiedGuardService, RestaurantGuardService],
     component: HorizonalLayoutComponent,
     loadChildren: () => import('@pg/restaurant/main/setting/setting.module').then((m) => m.SettingModule),
   },
@@ -157,6 +166,7 @@ const defaultNavRoutes: INavRoute[] = [];
 const navRoutes: { [key: string]: INavRoute[] } = {
   owner: [
     RestaurantDashboardNavRoute,
+    RestaurantOrderNavRoute,
     RestaurantStockNavRoute,
     RestaurantProductNavRoute,
     RestaurantLocationNavRoute,

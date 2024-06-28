@@ -460,6 +460,7 @@ const config = {
     require(path.resolve(__dirname, 'src/@aka/tailwind/plugins/extract-config')),
     require(path.resolve(__dirname, 'src/@aka/tailwind/plugins/utilities')),
     require(path.resolve(__dirname, 'src/@aka/tailwind/plugins/icon-size')),
+    require(path.resolve(__dirname, 'src/@aka/tailwind/plugins/button-size')),
     require(path.resolve(__dirname, 'src/@aka/tailwind/plugins/theming'))({ themes }),
 
     // Other third party and/or custom plugins

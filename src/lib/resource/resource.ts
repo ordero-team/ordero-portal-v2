@@ -9,7 +9,7 @@ import {
   IRestParams,
   IRestRecord,
 } from '@lib/resource/interface';
-import { createMapper, Mapper } from '@lib/resource/mapper';
+import { Mapper, createMapper } from '@lib/resource/mapper';
 import { BaseStorage } from '@lib/resource/store';
 import { has } from 'lodash';
 

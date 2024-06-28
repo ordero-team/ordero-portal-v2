@@ -45,9 +45,8 @@ export class SettingRestaurantComponent implements OnInit {
     private store: Store
   ) {
     this.currentResstaurant$.pipe(untilDestroyed(this)).subscribe((user) => {
-      if (user) {
+      if (user != this.record) {
         this.record = user;
-        this.applyData();
       }
     });
   }

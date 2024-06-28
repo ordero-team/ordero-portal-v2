@@ -1,9 +1,11 @@
 import { AgmCoreModule } from '@agm/core';
 import { AkaNavigationModule } from '@aka/components/navigation/navigation.module';
+import { ToggleDarkModeModule } from '@aka/components/toggle-dark-mode/toggle-dark-mode.module';
 import { ObserversModule } from '@angular/cdk/observers';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '@mat/material.module';
 import { MetalModule } from '@mtl/metal.module';
@@ -77,6 +79,10 @@ import { IconModule } from '@visurel/iconify-angular';
 import { CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
+import { HeaderComponent } from './components/customer/header/header.component';
+import { CustomerRestaurantListComponent } from './components/customer/restaurant/list/list.component';
+import { ScanQrComponent } from './components/customer/scan-qr/scan-qr.component';
 import { CategoryFormComponent } from './components/form/category-form/category-form.component';
 import { GroupFormComponent } from './components/form/group-form/group-form.component';
 import { LocationFormComponent } from './components/form/location-form/location-form.component';
@@ -86,6 +92,7 @@ import { StockFormComponent } from './components/form/stock-form/stock-form.comp
 import { TableFormComponent } from './components/form/table-form/table-form.component';
 import { VariantFormComponent } from './components/form/variant-form/variant-form.component';
 import { MapComponent } from './components/map/map.component';
+import { OrderDetailItemsComponent } from './components/order-detail-items/order-detail-items.component';
 import { OwnerUserMenuComponent } from './components/owner/user-menu/user-menu.component';
 import { SelectCategoriesComponent } from './components/select-categories/select-categories.component';
 import { SelectLocationComponent } from './components/select-location/select-location.component';
@@ -111,6 +118,9 @@ const modules = [
   NgxJsonViewerModule,
   NgxChartsModule,
   NgxDropzoneModule,
+  ToggleDarkModeModule,
+  MatToolbarModule,
+  NgxScannerQrcodeModule,
 ];
 
 const declarations = [
@@ -187,6 +197,7 @@ const declarations = [
 
   // Owner
   OwnerUserMenuComponent,
+  OrderDetailItemsComponent,
 
   // Form
   LocationFormComponent,
@@ -206,6 +217,11 @@ const declarations = [
   SelectCategoriesComponent,
   SelectVariantsComponent,
   SelectProductComponent,
+
+  // Customer
+  HeaderComponent,
+  ScanQrComponent,
+  CustomerRestaurantListComponent,
 ];
 
 @NgModule({

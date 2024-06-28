@@ -57,6 +57,7 @@ export class ToastService {
       classes: '',
       error: error || {},
       timeout: 5000,
+      detail: null,
     };
     if (typeof opts === 'string') {
       Object.assign(toast, { detail: opts });
@@ -72,7 +73,6 @@ export class ToastService {
 
       if (has(error, 'request.data')) {
         const { message, errors = null } = error.request.data;
-
         Object.assign(toast, { detail: message || get(error, 'request.statusText', 'Something bad happened!') });
 
         if (errors) {
@@ -83,6 +83,10 @@ export class ToastService {
         Object.assign(toast, { detail: error.error.message });
       } else if (has(error, 'message')) {
         Object.assign(toast, { detail: error.message });
+      }
+    } else {
+      if (typeof opts === 'string') {
+        Object.assign(toast, { detail: opts });
       }
     }
 

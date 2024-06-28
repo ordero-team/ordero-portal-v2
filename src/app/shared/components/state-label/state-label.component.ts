@@ -25,14 +25,14 @@ export class StateLabelComponent {
     const color = this.service.colors[clr];
     return color
       ? {
-          color: this.service.colors[`${color}-900`],
-          background: this.service.colors[`${color}-100`],
-          border: `1px solid ${this.service.colors[color + '-900']}`,
+          color: this.service.colors[`${color}`]['900'],
+          background: this.service.colors[`${color}`]['100'],
+          border: `1px solid ${this.service.colors[color]['900']}`,
         }
       : {
-          color: this.service.colors[`grey-500`],
-          background: this.service.colors[`grey-100`],
-          border: `1px solid ${this.service.colors['grey-500']}`,
+          color: this.service.colors[`grey`]['500'],
+          background: this.service.colors[`grey`]['100'],
+          border: `1px solid ${this.service.colors['grey']['500']}`,
         };
   }
 }
