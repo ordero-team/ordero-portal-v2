@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { OwnerOrder } from '@app/collections/owner/order.collection';
+import { OrderStatus } from '@app/collections/order.collection';
+import { OwnerOrder, OwnerOrderCollection } from '@app/collections/owner/order.collection';
+import { OrderService } from '@app/core/services/order.service';
+import { ToastService } from '@app/core/services/toast.service';
+import { get } from 'lodash';
 
 @Component({
   selector: 'aka-order-detail-items',
@@ -10,9 +14,30 @@ import { OwnerOrder } from '@app/collections/owner/order.collection';
 export class OrderDetailItemsComponent implements OnInit {
   order: OwnerOrder = null;
 
-  constructor(private _bottomSheetRef: MatBottomSheetRef<OrderDetailItemsComponent>) {}
+  constructor(
+    private _bottomSheetRef: MatBottomSheetRef<OrderDetailItemsComponent>,
+    private collection: OwnerOrderCollection,
+    private orderService: OrderService,
+    private toast: ToastService
+  ) {}
 
   ngOnInit() {
-    this.order = this._bottomSheetRef.containerInstance.bottomSheetConfig.data || null;
+    const orderId = get(this._bottomSheetRef.containerInstance.bottomSheetConfig.data, 'id', null);
+    if (orderId) {
+      this.order = this.orderService.find(orderId);
+    }
+  }
+
+  async action(order: OwnerOrder, action: OrderStatus) {
+    order.loading = true;
+    try {
+      await this.collection.action(order, action, async (order) => {
+        this.order.status = order.status;
+      });
+    } catch (error) {
+      this.toast.error('Something bad hapened', error);
+    } finally {
+      order.loading = false;
+    }
   }
 }

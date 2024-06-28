@@ -3,7 +3,14 @@ import { MetalCollection, MetalCollectionConfig } from '@lib/metal-data';
 import { MetalAPIData } from '@mtl/interfaces';
 import { OriginService } from '@mtl/services/origin.service';
 
-export type OrderStatus = 'waiting_approval' | 'confirmed' | 'preparing' | 'served' | 'completed' | 'cancelled';
+export type OrderStatus =
+  | 'waiting_approval'
+  | 'confirmed'
+  | 'preparing'
+  | 'served'
+  | 'waiting_payment'
+  | 'completed'
+  | 'cancelled';
 
 export interface Order extends MetalAPIData {
   number: string;
