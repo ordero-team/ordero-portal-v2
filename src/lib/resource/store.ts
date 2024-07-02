@@ -5,6 +5,7 @@ import { RequestTracker } from '@lib/request';
 import { LocalStorage } from '@lib/storage';
 import { DataStore } from 'js-data';
 import { HttpAdapter } from 'js-data-http';
+import { has } from 'lodash';
 
 const BaseStorage = new DataStore();
 const BaseAdapter = new HttpAdapter({
@@ -48,7 +49,9 @@ const BaseAdapter = new HttpAdapter({
     }
 
     try {
-      const auth: any = LocalStorage.getItem('owner');
+      const owner = LocalStorage.getItem('owner');
+      const staff = LocalStorage.getItem('staff');
+      const auth: any = has(owner, 'access_token') ? owner : staff;
 
       if (auth) {
         const { access_token } = JSON.parse(auth);

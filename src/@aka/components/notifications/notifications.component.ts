@@ -15,12 +15,15 @@ import { MatButton } from '@angular/material/button';
 import { OwnerNotification, OwnerNotificationCollection } from '@app/collections/owner/notification.collection';
 import { OwnerOrderCollection } from '@app/collections/owner/order.collection';
 import { OwnerLocation } from '@app/collections/owner/profile.collection';
+import { StaffLocation } from '@app/collections/staff/profile.collection';
 import { NotificationService } from '@app/core/services/notification.service';
 import { OrderService } from '@app/core/services/order.service';
 import { OwnerAuthService } from '@app/core/services/owner/auth.service';
 import { PubsubService } from '@app/core/services/pubsub.service';
+import { StaffAuthService } from '@app/core/services/staff/auth.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { OwnerState } from '@app/core/states/owner/owner.state';
+import { StaffState } from '@app/core/states/staff/staff.state';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Select } from '@ngxs/store';
 import { get, has } from 'lodash';
@@ -50,6 +53,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   @Select(OwnerState.currentLocation) location$: Observable<OwnerLocation>;
+  @Select(StaffState.currentLocation) staffLocation$: Observable<StaffLocation>;
 
   unreadCount = 0;
   private _overlayRef: OverlayRef;
@@ -65,11 +69,26 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     private orderCol: OwnerOrderCollection,
     private toast: ToastService,
     private auth: OwnerAuthService,
+    private staffAuth: StaffAuthService,
     private orderService: OrderService,
     private notifCol: OwnerNotificationCollection,
     public notifService: NotificationService<OwnerNotification>
   ) {
     this.location$
+      .pipe(
+        untilDestroyed(this),
+        takeWhile((location) => !has(location, 'id'), true)
+      )
+      .subscribe((location) => {
+        if (has(location, 'id')) {
+          console.log(`Notification Active for Location ${location.name}`);
+          PubsubService.getInstance().event(`ordero/${location.id}/notification`, (data) => {
+            this.setNotification(data);
+          });
+        }
+      });
+
+    this.staffLocation$
       .pipe(
         untilDestroyed(this),
         takeWhile((location) => !has(location, 'id'), true)
@@ -93,12 +112,15 @@ export class NotificationsComponent implements OnInit, OnDestroy {
    */
   async ngOnInit() {
     this.initAudio();
-    const notifications = await this.notifCol.find({
-      orderBy: { created_at: 'desc' },
-      params: { restaurant_id: this.auth.currentRestaurant.id, sort: '-created_at' } as any,
-    });
-    this.service.notifications.next(notifications);
-    this.unreadCount = notifications.filter((val) => !val.is_read).length;
+    // @TODO: Staff notification
+    if (has(this.auth.currentRestaurant, 'id')) {
+      const notifications = await this.notifCol.find({
+        orderBy: { created_at: 'desc' },
+        params: { restaurant_id: this.auth.currentRestaurant.id, sort: '-created_at' } as any,
+      });
+      this.service.notifications.next(notifications);
+      this.unreadCount = notifications.filter((val) => !val.is_read).length;
+    }
   }
 
   /**

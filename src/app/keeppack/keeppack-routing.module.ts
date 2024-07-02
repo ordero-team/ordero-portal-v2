@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
 import { ExtraOptions, PreloadAllModules, RouterModule } from '@angular/router';
+import { LocationGuardService } from '@app/core/guards/location-guard.service';
 import {
   OwnerAuthGuardService,
   OwnerGuestGuardService,
   OwnerVerifiedGuardService,
 } from '@app/core/guards/owner-guard.service';
 import { RestaurantGuardService } from '@app/core/guards/restaurant-guard.service';
+import { StaffGuardService, StaffGuestGuardService } from '@app/core/guards/staff-guard.service';
 import { RoleStateModel } from '@app/core/states/role/role.actions';
+import { RoleState } from '@app/core/states/role/role.state';
 import { EmptyComponent } from '@app/layouts/empty/empty.component';
 import { HorizonalLayoutComponent } from '@app/layouts/horizontal/horizontal.component';
 import { RestaurantDashboardNavRoute } from '@app/pages/restaurant/main/dashboard/dashboard.component';
@@ -17,8 +20,11 @@ import { RestaurantSettingNavRoute } from '@app/pages/restaurant/main/setting/se
 import { RestaurantStaffNavRoute } from '@app/pages/restaurant/main/staff/staff.component';
 import { RestaurantStockNavRoute } from '@app/pages/restaurant/main/stock/stock.component';
 import { RestaurantTableNavRoute } from '@app/pages/restaurant/main/table/table.component';
+import { StaffDashboardNavRoute } from '@app/pages/staff/main/dashboard/dashboard.component';
+import { StaffOrderNavRoute } from '@app/pages/staff/main/order/order.component';
 import { INavMainRoutes, INavRoute, NavigationService } from '@cs/navigation.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { Store } from '@ngxs/store';
 import { get } from 'lodash';
 import { Observable } from 'rxjs';
@@ -110,6 +116,36 @@ const routes: INavMainRoutes = [
     loadChildren: () => import('@pg/restaurant/main/setting/setting.module').then((m) => m.SettingModule),
   },
 
+  // Staff routes
+  {
+    path: 'staff',
+    title: '',
+    canActivate: [StaffGuestGuardService],
+  },
+
+  {
+    path: 'staff/auth',
+    title: 'auth.parent',
+    component: EmptyComponent,
+    loadChildren: () => import('@pg/staff/auth/auth.module').then((m) => m.StaffAuthModule),
+  },
+
+  {
+    path: 'staff/:locid/dashboard',
+    title: 'dashboard.parent',
+    canActivate: [StaffGuardService, LocationGuardService],
+    component: HorizonalLayoutComponent,
+    loadChildren: () => import('@pg/staff/main/dashboard/dashboard.module').then((m) => m.DashboardModule),
+  },
+
+  {
+    path: 'staff/:locid/orders',
+    title: 'order.parent',
+    canActivate: [StaffGuardService, LocationGuardService],
+    component: HorizonalLayoutComponent,
+    loadChildren: () => import('@pg/staff/main/order/order.module').then((m) => m.OrderModule),
+  },
+
   // Main Section
   // {
   //   path: '',
@@ -174,18 +210,18 @@ const navRoutes: { [key: string]: INavRoute[] } = {
     RestaurantStaffNavRoute,
     RestaurantSettingNavRoute,
   ],
+  cashier: [StaffDashboardNavRoute, StaffOrderNavRoute],
 };
 
 @UntilDestroy()
 @NgModule({
-  imports: [RouterModule.forRoot(routes, routerConfig)],
+  imports: [RouterModule.forRoot(routes, routerConfig), NgxsStoragePluginModule],
   exports: [RouterModule],
 })
 export class KeeppackRoutingModule {
-  role$: Observable<any>;
+  role$: Observable<RoleStateModel> = this.store.select(RoleState.currentRole);
 
-  constructor(nav: NavigationService, store: Store) {
-    this.role$ = store.select((state) => state.role);
+  constructor(nav: NavigationService, private store: Store) {
     this.role$.pipe(untilDestroyed(this)).subscribe((val: RoleStateModel) => {
       nav.register(navRoutes[get(val, 'name')] || defaultNavRoutes);
     });

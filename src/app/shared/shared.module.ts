@@ -76,7 +76,7 @@ import { ToNumberPipe } from '@sp/to-number.pipe';
 import { UnescapePipe } from '@sp/unescape.pipe';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { IconModule } from '@visurel/iconify-angular';
-import { CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
+import { CURRENCY_MASK_CONFIG, CurrencyMaskModule } from 'ng2-currency-mask';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
@@ -102,6 +102,7 @@ import { SelectProductComponent } from './components/select-product/select-produ
 import { SelectRoleComponent } from './components/select-role/select-role.component';
 import { SelectVariantGroupComponent } from './components/select-variant-group/select-variant-group.component';
 import { SelectVariantsComponent } from './components/select-variants/select-variants.component';
+import { StaffUserMenuComponent } from './components/staff/user-menu/user-menu.component';
 
 const modules = [
   CommonModule,
@@ -222,6 +223,9 @@ const declarations = [
   HeaderComponent,
   ScanQrComponent,
   CustomerRestaurantListComponent,
+
+  // Staff
+  StaffUserMenuComponent,
 ];
 
 @NgModule({

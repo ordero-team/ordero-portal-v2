@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { OwnerAuthService } from '../services/owner/auth.service';
+import { StaffAuthService } from '../services/staff/auth.service';
 import { ToastService } from '../services/toast.service';
 
-@Injectable({ providedIn: 'root' })
-export class RestaurantGuardService implements CanActivate {
-  constructor(private router: Router, private auth: OwnerAuthService, private toats: ToastService) {}
+@Injectable({
+  providedIn: 'root',
+})
+export class LocationGuardService implements CanActivate {
+  constructor(private router: Router, private auth: StaffAuthService, private toats: ToastService) {}
 
   canActivate(router: ActivatedRouteSnapshot): Observable<boolean> | Promise<boolean> | boolean | UrlTree {
     if (this.auth.isAuthenticated()) {
@@ -14,7 +16,7 @@ export class RestaurantGuardService implements CanActivate {
       let url = '';
 
       // Verify and Replace current slug
-      if (slug !== router.params.rid) {
+      if (slug !== router.params.locid) {
         this.router.navigateByUrl(url);
         return false;
       }

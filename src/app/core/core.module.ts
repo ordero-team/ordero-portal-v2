@@ -53,10 +53,10 @@ const declarations = [ToastComponent, QueueComponent, CanDirective];
       developmentMode: !environment.production,
     }),
     NgxsStoragePluginModule.forRoot({
-      key: ['role', 'owner'],
+      key: ['role', 'owner', 'staff'],
     }),
     NgxsReduxDevtoolsPluginModule.forRoot({
-      name: 'Keeppack App',
+      name: 'Ordero',
       disabled: environment.production,
     }),
     NgxsRouterPluginModule.forRoot(),
@@ -70,7 +70,7 @@ const declarations = [ToastComponent, QueueComponent, CanDirective];
     },
     {
       provide: LANGUAGES,
-      useValue: ['en', 'fr'],
+      useValue: ['en'],
     },
     {
       provide: ErrorHandler,

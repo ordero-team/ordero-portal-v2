@@ -30,7 +30,7 @@ export const RestaurantAuthRoute: INavRoute = {
     {
       path: '',
       pathMatch: 'full',
-      redirectTo: 'restaurant.auth.login',
+      redirectTo: 'login',
     },
     RestaurantLoginRoute,
     RestaurantRegisterRoute,
