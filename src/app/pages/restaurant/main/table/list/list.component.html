@@ -3,6 +3,11 @@
 <aka-table-list [user]="auth.currentUser" [rowActions]="rowActions" [bulkActions]="bulkActions"></aka-table-list>
 <aka-dialog #createDialog="akaDialog" class="small">
   <ng-container *akaDialogContent>
-    <aka-table-form [record]="createDialog._data" (onClose)="createDialog.hide()" (onSuccess)="onSuccess()"></aka-table-form>
+    <aka-table-form
+      [user]="auth.currentUser"
+      [record]="createDialog._data"
+      (onClose)="createDialog.hide()"
+      (onSuccess)="onSuccess()"
+    ></aka-table-form>
   </ng-container>
 </aka-dialog>

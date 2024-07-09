@@ -37,7 +37,7 @@ export class StockFormComponent implements OnInit {
   }
 
   get isAbleToSubmit() {
-    return this.items.length > 0 && this.formData.$payload.locations.length > 0;
+    return this.isOwner ? this.items.length > 0 && this.formData.$payload.locations.length > 0 : this.items.length > 0;
   }
 
   get isOwner() {
@@ -109,26 +109,27 @@ export class StockFormComponent implements OnInit {
   async submit() {
     this.formData.$loading = true;
     try {
-      const location_ids = get(this.formData.$payload, 'locations', []).map((val) => val.value);
       const products = this.items.map((val) => ({
         id: val.id,
         variant_id: get(val, 'variant.variant_id', null),
         qty: val.qty,
       }));
 
-      const payload = { location_ids, products };
-
       let res: any;
 
       if (this.isOwner) {
+        const location_ids = get(this.formData.$payload, 'locations', []).map((val) => val.value);
+
         res = (await this.collection.create({
-          ...payload,
-          restaurant_id: this.auth.currentRestaurant.id,
+          products,
+          restaurant_id: this.user.restaurant.id,
+          location_ids,
         } as any)) as any;
       } else {
         res = (await this.staffCol.create({
-          ...payload,
-          restaurant_id: this.auth.currentRestaurant.id,
+          products,
+          restaurant_id: this.user.restaurant.id,
+          location_ids: [this.user.location.id],
         } as any)) as any;
       }
 

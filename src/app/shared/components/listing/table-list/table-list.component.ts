@@ -24,6 +24,22 @@ export class TableListComponent implements OnInit {
   @Input()
   user: OwnerProfile | StaffProfile = null;
 
+  _isFetching = false;
+  @Input()
+  get isFetching() {
+    return this._isFetching;
+  }
+
+  set isFetching(val: boolean) {
+    if (val !== this.isFetching) {
+      this._isFetching = val;
+      this.query.fetch();
+      setTimeout(() => {
+        this._isFetching = false;
+      }, 100);
+    }
+  }
+
   constructor(private ownerCol: OwnerTableCollection, private staffCol: StaffTableCollection) {
     // if (!this.user) {
     //   throw new Error(`Require input "user"`);

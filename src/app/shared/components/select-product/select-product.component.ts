@@ -1,6 +1,9 @@
-import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OwnerProduct, OwnerProductCollection } from '@app/collections/owner/product.collection';
+import { OwnerProfile } from '@app/collections/owner/profile.collection';
+import { StaffProductCollection } from '@app/collections/staff/product.collection';
+import { StaffProfile } from '@app/collections/staff/profile.collection';
 import { OwnerAuthService } from '@app/core/services/owner/auth.service';
 import { MetalQueryFilters } from '@lib/metal-data';
 import { get } from 'lodash';
@@ -17,10 +20,9 @@ import { get } from 'lodash';
     },
   ],
 })
-export class SelectProductComponent implements ControlValueAccessor {
+export class SelectProductComponent implements OnInit, ControlValueAccessor {
   _loading = false;
   _class: string;
-  customFilter: MetalQueryFilters<OwnerProduct> = { where: { restaurant_id: this.auth.currentRestaurant.id } };
   params: any = { include: 'variants.variant' };
 
   _value: any;
@@ -32,6 +34,8 @@ export class SelectProductComponent implements ControlValueAccessor {
   @Input() required?: boolean;
   @Input() disabled?: boolean;
   @Input() clearable = true;
+
+  @Input() user: OwnerProfile | StaffProfile = null;
 
   @Input()
   get fieldClass() {
@@ -47,7 +51,21 @@ export class SelectProductComponent implements ControlValueAccessor {
   onChange: (_: any) => void = () => null;
   onTouched = () => {};
 
-  constructor(public collection: OwnerProductCollection, private auth: OwnerAuthService) {}
+  customFilter: MetalQueryFilters<OwnerProduct> = {};
+
+  get productCollection() {
+    return this.user.role.name === 'owner' ? this.collection : this.staffCol;
+  }
+
+  constructor(
+    public collection: OwnerProductCollection,
+    private staffCol: StaffProductCollection,
+    private auth: OwnerAuthService
+  ) {}
+
+  ngOnInit(): void {
+    this.customFilter = { where: { restaurant_id: this.user.restaurant.id } };
+  }
 
   public writeValue(value: any): void {
     this._value = value;

@@ -13,6 +13,7 @@
     </mat-form-field>
 
     <aka-select-location
+      *ngIf="isOwner"
       placeholder="Choose Location"
       [(ngModel)]="formData.location"
       name="location"

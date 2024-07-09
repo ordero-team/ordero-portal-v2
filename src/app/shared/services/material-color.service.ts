@@ -502,6 +502,7 @@ export class MaterialColorService {
     preparing: this.colors.cyan[600],
     served: this.colors.cyan[700],
     waiting_payment: this.colors.green,
+    in_use: this.colors.yellow[800],
   };
 
   labels: any = {

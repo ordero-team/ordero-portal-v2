@@ -1,8 +1,18 @@
 <aka-route-activator></aka-route-activator>
 <aka-breadcrumb-actions [actions]="actionGroup"></aka-breadcrumb-actions>
-<aka-table-list [user]="auth.currentUser" [rowActions]="rowActions" [bulkActions]="bulkActions"></aka-table-list>
+<aka-table-list
+  [user]="auth.currentUser"
+  [rowActions]="rowActions"
+  [bulkActions]="bulkActions"
+  [isFetching]="isFetching"
+></aka-table-list>
 <aka-dialog #createDialog="akaDialog" class="small">
   <ng-container *akaDialogContent>
-    <aka-table-form [record]="createDialog._data" (onClose)="createDialog.hide()" (onSuccess)="onSuccess()"></aka-table-form>
+    <aka-table-form
+      [user]="auth.currentUser"
+      [record]="createDialog._data"
+      (onClose)="createDialog.hide()"
+      (onSuccess)="onSuccess()"
+    ></aka-table-form>
   </ng-container>
 </aka-dialog>

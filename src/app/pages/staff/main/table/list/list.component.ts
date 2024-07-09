@@ -46,6 +46,8 @@ export class TableListComponent implements OnInit {
     },
   ];
 
+  isFetching = false;
+
   @ViewChild('createDialog', { static: true }) createDialog: DialogComponent;
 
   constructor(private collection: OwnerTableCollection, public auth: StaffAuthService) {}
@@ -53,7 +55,8 @@ export class TableListComponent implements OnInit {
   ngOnInit(): void {}
 
   onSuccess() {
-    // this.query.fetch();
+    this.isFetching = true;
     this.createDialog.hide();
+    setTimeout(() => (this.isFetching = false), 100);
   }
 }
