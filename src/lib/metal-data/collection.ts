@@ -17,7 +17,7 @@ import {
 } from './interface';
 import { MetalOrigin } from './origin';
 import { MetalPath } from './path';
-import { filterToQueryParams, MetalQuery } from './query';
+import { MetalQuery, filterToQueryParams } from './query';
 import { MetalDataList, MetalRecord, MetalRecordList } from './record';
 import { MetalRequest, MetalTransaction, MetalTransactionError } from './request';
 import { SchemaError, validateSchemas } from './schema';
@@ -610,7 +610,6 @@ export class MetalCollection<
       for (const { name, foreignKey } of this.configs.relations.belongsTo) {
         if (where[foreignKey] || params[foreignKey] || (payload && payload[foreignKey])) {
           const collection = this.origin.getCollection(name);
-
           if (collection) {
             const collectionId = where[foreignKey] || params[foreignKey] || (payload || {})[foreignKey];
             if (typeof collectionId === 'string') {

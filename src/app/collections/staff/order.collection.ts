@@ -28,7 +28,7 @@ export interface StaffOrder extends MetalAPIData {
 }
 
 const OrderConfig: MetalCollectionConfig<StaffOrder> = {
-  name: 'order',
+  name: 'staff.order',
   endpointPrefix: 'staff',
   endpoint: 'orders',
   relations: {

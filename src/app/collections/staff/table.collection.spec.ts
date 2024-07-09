@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { StaffOrderCollection } from './order.collection';
+import { StaffTableCollection } from './table.collection';
 
-describe('StaffOrderCollection', () => {
-  let collection: StaffOrderCollection;
+describe('StaffTableCollection', () => {
+  let collection: StaffTableCollection;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    collection = TestBed.inject(StaffOrderCollection);
+    collection = TestBed.inject(StaffTableCollection);
   });
 
   it('should be created', () => {

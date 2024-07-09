@@ -91,6 +91,8 @@ import { StaffFormComponent } from './components/form/staff-form/staff-form.comp
 import { StockFormComponent } from './components/form/stock-form/stock-form.component';
 import { TableFormComponent } from './components/form/table-form/table-form.component';
 import { VariantFormComponent } from './components/form/variant-form/variant-form.component';
+import { StockListComponent } from './components/listing/stock-list/stock-list.component';
+import { TableListComponent } from './components/listing/table-list/table-list.component';
 import { MapComponent } from './components/map/map.component';
 import { OrderDetailItemsComponent } from './components/order-detail-items/order-detail-items.component';
 import { OwnerUserMenuComponent } from './components/owner/user-menu/user-menu.component';
@@ -226,6 +228,10 @@ const declarations = [
 
   // Staff
   StaffUserMenuComponent,
+
+  // Listing
+  TableListComponent,
+  StockListComponent,
 ];
 
 @NgModule({

@@ -6,6 +6,7 @@
         <span class="text-red-500">*</span>
       </div>
       <aka-select-locations
+        *ngIf="isOwner"
         [(ngModel)]="formData.locations"
         name="locations"
         [required]="true"
@@ -16,6 +17,7 @@
 
     <div class="flex w-full flex-col items-center gap-3 md:flex-row">
       <aka-select-product
+        *ngIf="isOwner"
         placeholder="Choose Product"
         [(ngModel)]="formData.product"
         name="product"

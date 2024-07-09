@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OwnerStock, OwnerStockCollection } from '@app/collections/owner/stock.collection';
-import { OwnerAuthService } from '@app/core/services/owner/auth.service';
+import { StaffStock } from '@app/collections/staff/stock.collection';
+import { StaffAuthService } from '@app/core/services/staff/auth.service';
 import { IActionGroup } from '@app/core/states/breadcrumb/breadcrumb.actions';
 import { MetalQueryRowAction } from '@mtl/components/metal-query/metal-query.component';
 
@@ -24,7 +24,7 @@ export class StockListComponent implements OnInit {
     ],
   ];
 
-  public rowActions: MetalQueryRowAction<OwnerStock>[] = [
+  public rowActions: MetalQueryRowAction<StaffStock>[] = [
     {
       icon: 'roundEdit',
       text: 'Edit',
@@ -34,12 +34,7 @@ export class StockListComponent implements OnInit {
     },
   ];
 
-  constructor(
-    private collection: OwnerStockCollection,
-    public auth: OwnerAuthService,
-    private router: Router,
-    private active: ActivatedRoute
-  ) {}
+  constructor(public auth: StaffAuthService, private router: Router, private active: ActivatedRoute) {}
 
   ngOnInit() {}
 }

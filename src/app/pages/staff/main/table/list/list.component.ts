@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { OwnerTable, OwnerTableCollection } from '@app/collections/owner/table.collection';
-import { OwnerAuthService } from '@app/core/services/owner/auth.service';
+import { StaffAuthService } from '@app/core/services/staff/auth.service';
 import { IActionGroup } from '@app/core/states/breadcrumb/breadcrumb.actions';
 import { DialogComponent } from '@app/shared/components/dialog/dialog.component';
 import { MetalQueryBulkAction, MetalQueryRowAction } from '@mtl/components/metal-query/metal-query.component';
@@ -48,9 +48,9 @@ export class TableListComponent implements OnInit {
 
   @ViewChild('createDialog', { static: true }) createDialog: DialogComponent;
 
-  constructor(private collection: OwnerTableCollection, public auth: OwnerAuthService) {}
+  constructor(private collection: OwnerTableCollection, public auth: StaffAuthService) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {}
 
   onSuccess() {
     // this.query.fetch();

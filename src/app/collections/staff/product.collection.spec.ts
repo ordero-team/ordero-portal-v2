@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { StaffOrderCollection } from './order.collection';
+import { ProductCollection } from './product.collection';
 
-describe('StaffOrderCollection', () => {
-  let collection: StaffOrderCollection;
+describe('ProductCollection', () => {
+  let collection: ProductCollection;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    collection = TestBed.inject(StaffOrderCollection);
+    collection = TestBed.inject(ProductCollection);
   });
 
   it('should be created', () => {

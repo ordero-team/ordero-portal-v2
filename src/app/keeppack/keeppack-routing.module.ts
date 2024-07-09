@@ -22,6 +22,8 @@ import { RestaurantStockNavRoute } from '@app/pages/restaurant/main/stock/stock.
 import { RestaurantTableNavRoute } from '@app/pages/restaurant/main/table/table.component';
 import { StaffDashboardNavRoute } from '@app/pages/staff/main/dashboard/dashboard.component';
 import { StaffOrderNavRoute } from '@app/pages/staff/main/order/order.component';
+import { StaffStockNavRoute } from '@app/pages/staff/main/stock/stock.component';
+import { StaffTableNavRoute } from '@app/pages/staff/main/table/table.component';
 import { INavMainRoutes, INavRoute, NavigationService } from '@cs/navigation.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
@@ -146,6 +148,22 @@ const routes: INavMainRoutes = [
     loadChildren: () => import('@pg/staff/main/order/order.module').then((m) => m.OrderModule),
   },
 
+  {
+    path: 'staff/:locid/tables',
+    title: 'table.parent',
+    canActivate: [StaffGuardService, LocationGuardService],
+    component: HorizonalLayoutComponent,
+    loadChildren: () => import('@pg/staff/main/table/table.module').then((m) => m.TableModule),
+  },
+
+  {
+    path: 'staff/:locid/stocks',
+    title: 'stock.parent',
+    canActivate: [StaffGuardService, LocationGuardService],
+    component: HorizonalLayoutComponent,
+    loadChildren: () => import('@pg/staff/main/stock/stock.module').then((m) => m.StockModule),
+  },
+
   // Main Section
   // {
   //   path: '',
@@ -210,7 +228,7 @@ const navRoutes: { [key: string]: INavRoute[] } = {
     RestaurantStaffNavRoute,
     RestaurantSettingNavRoute,
   ],
-  cashier: [StaffDashboardNavRoute, StaffOrderNavRoute],
+  cashier: [StaffDashboardNavRoute, StaffOrderNavRoute, StaffTableNavRoute, StaffStockNavRoute],
 };
 
 @UntilDestroy()
