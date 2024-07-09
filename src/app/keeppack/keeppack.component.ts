@@ -36,7 +36,6 @@ export class KeeppackComponent implements OnInit, OnDestroy {
   @Select(UIState.getLanguage) language$: Observable<string>;
   @Select(AuthState.currentUser) user$: Observable<Profile>;
 
-  networkStatus = false;
   networkStatus$: Subscription = Subscription.EMPTY;
 
   get isAuthenticated() {
@@ -144,13 +143,9 @@ export class KeeppackComponent implements OnInit, OnDestroy {
   checkNetworkStatus() {
     let snackbar;
 
-    this.networkStatus = navigator.onLine;
     this.networkStatus$ = merge(of(null), fromEvent(window, 'online'), fromEvent(window, 'offline'))
       .pipe(map(() => navigator.onLine))
       .subscribe((status) => {
-        console.log('status', status);
-        this.networkStatus = status;
-
         if (!status) {
           snackbar = this._snackBar.open(`No Internet Connection`);
         } else {

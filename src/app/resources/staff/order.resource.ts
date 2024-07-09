@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { BaseResource, IRestConfigs } from '@lib/resource';
-import { RestaurantResource } from './restaurant.resource';
+import { StaffRestaurantResource } from './restaurant.resource';
 
 const StaffOrderConfig: IRestConfigs = {
-  name: 'staff_order',
+  name: 'staff.order',
   endpoint: 'orders',
   relations: {
     belongsTo: {
-      restaurant: {
+      staff_restaurant: {
         parent: true,
-        localField: 'staff.restaurant',
+        localField: 'staff_restaurant',
         foreignKey: 'restaurant_id',
       },
     },
@@ -18,8 +18,7 @@ const StaffOrderConfig: IRestConfigs = {
 
 @Injectable({ providedIn: 'root' })
 export class StaffOrderResource extends BaseResource {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor(restaurant: RestaurantResource) {
+  constructor(private restaurant: StaffRestaurantResource) {
     super(StaffOrderConfig);
   }
 }

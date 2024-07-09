@@ -10,6 +10,7 @@ import { MetalAPIData } from '@mtl/interfaces';
 import { capitalize } from 'lodash';
 import { OrderStatus } from '../order.collection';
 import { OwnerTable } from '../owner/table.collection';
+import { StaffRestaurantCollection } from './restaurant.collection';
 
 export interface StaffOrder extends MetalAPIData {
   number: string;
@@ -27,7 +28,7 @@ export interface StaffOrder extends MetalAPIData {
   loading?: boolean;
 }
 
-const OrderConfig: MetalCollectionConfig<StaffOrder> = {
+const StockConfig: MetalCollectionConfig<StaffOrder> = {
   name: 'staff.order',
   endpointPrefix: 'staff',
   endpoint: 'orders',
@@ -45,12 +46,13 @@ const OrderConfig: MetalCollectionConfig<StaffOrder> = {
 export class StaffOrderCollection extends MetalCollection<StaffOrder, StaffOriginService> {
   constructor(
     public origin: StaffOriginService,
-    private toast: ToastService,
+    private restCol: StaffRestaurantCollection,
+    private auth: StaffAuthService,
     private orderService: OrderService,
-    private dialog: MatDialog,
-    private auth: StaffAuthService
+    private toast: ToastService,
+    private dialog: MatDialog
   ) {
-    super(origin, OrderConfig);
+    super(origin, StockConfig);
   }
 
   async fetchOrder(order: StaffOrder): Promise<StaffOrder> {

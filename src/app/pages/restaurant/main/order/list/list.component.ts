@@ -164,10 +164,10 @@ export class OrderListComponent implements OnInit, OnDestroy {
   }
 
   showDetail(order: OwnerOrder) {
-    this._bottomSheet.open<OrderDetailItemsComponent, OwnerOrder>(OrderDetailItemsComponent, {
+    this._bottomSheet.open<OrderDetailItemsComponent, any>(OrderDetailItemsComponent, {
       hasBackdrop: true,
       panelClass: ['p-6'],
-      data: order,
+      data: { isOwner: true, order },
     });
   }
 

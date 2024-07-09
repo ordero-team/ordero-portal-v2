@@ -74,8 +74,16 @@
               <button mat-icon-button matPrefix (click)="onDecrease(menu)">
                 <mat-icon>remove</mat-icon>
               </button>
-              <input type="number" matInput class="text-center" min="1" disabled [(ngModel)]="menu.qty" />
-              <button mat-icon-button matSuffix (click)="onIncrease(menu)">
+              <input
+                type="number"
+                matInput
+                class="text-center"
+                min="1"
+                disabled
+                [(ngModel)]="menu.qty"
+                [max]="menu.available"
+              />
+              <button mat-icon-button matSuffix [disabled]="menu.qty === menu.available" (click)="onIncrease(menu)">
                 <mat-icon>add</mat-icon>
               </button>
             </mat-form-field>

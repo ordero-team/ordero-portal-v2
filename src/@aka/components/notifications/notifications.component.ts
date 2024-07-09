@@ -13,8 +13,9 @@ import {
 } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { OwnerNotification, OwnerNotificationCollection } from '@app/collections/owner/notification.collection';
-import { OwnerOrderCollection } from '@app/collections/owner/order.collection';
+import { OwnerOrder, OwnerOrderCollection } from '@app/collections/owner/order.collection';
 import { OwnerLocation } from '@app/collections/owner/profile.collection';
+import { StaffOrder, StaffOrderCollection } from '@app/collections/staff/order.collection';
 import { StaffLocation } from '@app/collections/staff/profile.collection';
 import { NotificationService } from '@app/core/services/notification.service';
 import { OrderService } from '@app/core/services/order.service';
@@ -23,6 +24,8 @@ import { PubsubService } from '@app/core/services/pubsub.service';
 import { StaffAuthService } from '@app/core/services/staff/auth.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { OwnerState } from '@app/core/states/owner/owner.state';
+import { RoleStateModel } from '@app/core/states/role/role.actions';
+import { RoleState } from '@app/core/states/role/role.state';
 import { StaffState } from '@app/core/states/staff/staff.state';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Select } from '@ngxs/store';
@@ -48,12 +51,15 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   show = false;
   audio = new Audio();
 
+  role = '';
+
   get showClearAllButton() {
     return this.service.all.filter((item) => item.show).length > 1;
   }
 
   @Select(OwnerState.currentLocation) location$: Observable<OwnerLocation>;
   @Select(StaffState.currentLocation) staffLocation$: Observable<StaffLocation>;
+  @Select(RoleState.currentRole) role$: Observable<RoleStateModel>;
 
   unreadCount = 0;
   private _overlayRef: OverlayRef;
@@ -67,6 +73,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     private _viewContainerRef: ViewContainerRef,
     public service: NotificationService<OwnerNotification>,
     private orderCol: OwnerOrderCollection,
+    private staffOrderCol: StaffOrderCollection,
     private toast: ToastService,
     private auth: OwnerAuthService,
     private staffAuth: StaffAuthService,
@@ -102,6 +109,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         }
       });
 
+    this.role$.pipe(untilDestroyed(this)).subscribe((val) => (this.role = val.name));
+
     this.service.notifications.pipe(untilDestroyed(this)).subscribe((val) => {
       this.notifications = val;
     });
@@ -116,7 +125,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     if (has(this.auth.currentRestaurant, 'id')) {
       const notifications = await this.notifCol.find({
         orderBy: { created_at: 'desc' },
-        params: { restaurant_id: this.auth.currentRestaurant.id, sort: '-created_at' } as any,
+        params: {
+          restaurant_id: this.role === 'owner' ? this.auth.currentRestaurant.id : this.staffAuth.currentRestaurant.id,
+          sort: '-created_at',
+        } as any,
       });
       this.service.notifications.next(notifications);
       this.unreadCount = notifications.filter((val) => !val.is_read).length;
@@ -136,9 +148,17 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   async setNotification(data) {
     await this.service.enqueue({ ...data.data, show: true }, async (notif: OwnerNotification) => {
       if (notif.type === 'order_created') {
-        const order = await this.orderCol.findOne(get(data, 'data.order_id'), {
-          params: { restaurant_id: this.auth.currentRestaurant.id, include: 'items,table', status } as any,
-        });
+        let order: OwnerOrder | StaffOrder;
+
+        if (this.role === 'owner') {
+          order = await this.orderCol.findOne(get(data, 'data.order_id'), {
+            params: { restaurant_id: this.auth.currentRestaurant.id, include: 'items,table', status } as any,
+          });
+        } else {
+          order = await this.staffOrderCol.findOne(get(data, 'data.order_id'), {
+            params: { restaurant_id: this.staffAuth.currentRestaurant.id, include: 'items,table', status } as any,
+          });
+        }
 
         if (order) {
           this.orderService.add(order);
