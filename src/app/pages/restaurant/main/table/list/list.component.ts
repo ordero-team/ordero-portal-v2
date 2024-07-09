@@ -3,7 +3,6 @@ import { OwnerTable, OwnerTableCollection } from '@app/collections/owner/table.c
 import { OwnerAuthService } from '@app/core/services/owner/auth.service';
 import { IActionGroup } from '@app/core/states/breadcrumb/breadcrumb.actions';
 import { DialogComponent } from '@app/shared/components/dialog/dialog.component';
-import { MetalQuery } from '@lib/metal-data';
 import { MetalQueryBulkAction, MetalQueryRowAction } from '@mtl/components/metal-query/metal-query.component';
 
 @Component({
@@ -12,9 +11,6 @@ import { MetalQueryBulkAction, MetalQueryRowAction } from '@mtl/components/metal
   styleUrls: ['./list.component.scss'],
 })
 export class TableListComponent implements OnInit {
-  public query: MetalQuery<OwnerTable>;
-  public type: OwnerTable;
-
   public actionGroup: IActionGroup = [
     [
       {
@@ -54,12 +50,10 @@ export class TableListComponent implements OnInit {
 
   constructor(private collection: OwnerTableCollection, public auth: OwnerAuthService) {}
 
-  ngOnInit() {
-    this.query = this.collection.query().params({ restaurant_id: this.auth.currentRestaurant.id, include: 'location' });
-  }
+  ngOnInit() {}
 
   onSuccess() {
-    this.query.fetch();
+    // this.query.fetch();
     this.createDialog.hide();
   }
 }

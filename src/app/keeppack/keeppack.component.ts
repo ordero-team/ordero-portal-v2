@@ -1,9 +1,11 @@
 import { DOCUMENT } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ErrorHandler, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ErrorHandler, Inject, OnDestroy, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 import { AuthService } from '@app/core/services/auth.service';
 import { DarkModeService } from '@app/core/services/dark-mode.service';
 import { OwnerAuthService } from '@app/core/services/owner/auth.service';
+import { StaffAuthService } from '@app/core/services/staff/auth.service';
 import { appIcons } from '@ch/icon.helper';
 import { LANGUAGES } from '@ch/language.helper';
 import { Profile } from '@cl/profile.collection';
@@ -20,7 +22,8 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
 import { IconService } from '@visurel/iconify-angular';
-import { Observable } from 'rxjs';
+import { Observable, Subscription, fromEvent, merge, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({
@@ -29,9 +32,19 @@ import { Observable } from 'rxjs';
   styleUrls: ['./keeppack.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class KeeppackComponent implements OnInit {
+export class KeeppackComponent implements OnInit, OnDestroy {
   @Select(UIState.getLanguage) language$: Observable<string>;
   @Select(AuthState.currentUser) user$: Observable<Profile>;
+
+  networkStatus$: Subscription = Subscription.EMPTY;
+
+  get isAuthenticated() {
+    return (
+      (this.auth.isAuthenticated() && this.auth.currentUser) ||
+      (this.ownerAuth.isAuthenticated() && this.ownerAuth.currentUser) ||
+      (this.staffAuth.isAuthenticated() && this.staffAuth.currentUser)
+    );
+  }
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -46,7 +59,9 @@ export class KeeppackComponent implements OnInit {
     private iconService: IconService,
     public auth: AuthService,
     public ownerAuth: OwnerAuthService,
-    private darkModeService: DarkModeService
+    public staffAuth: StaffAuthService,
+    private darkModeService: DarkModeService,
+    private _snackBar: MatSnackBar
   ) {
     iconService.registerAll(appIcons);
 
@@ -117,5 +132,29 @@ export class KeeppackComponent implements OnInit {
     if (navigator.userAgent.indexOf('Chrome') > -1) {
       document.body.classList.add('advanced-styling');
     }
+
+    this.checkNetworkStatus();
+  }
+
+  ngOnDestroy(): void {
+    this.networkStatus$.unsubscribe();
+  }
+
+  checkNetworkStatus() {
+    let snackbar;
+
+    this.networkStatus$ = merge(of(null), fromEvent(window, 'online'), fromEvent(window, 'offline'))
+      .pipe(map(() => navigator.onLine))
+      .subscribe((status) => {
+        if (!status) {
+          snackbar = this._snackBar.open(`No Internet Connection`);
+        } else {
+          if (snackbar) {
+            snackbar.dismiss();
+            this._snackBar.open(`You are online!`, null, { duration: 1500 });
+            snackbar = null;
+          }
+        }
+      });
   }
 }

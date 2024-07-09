@@ -53,6 +53,10 @@ export class StaffFormComponent implements OnInit {
       this.formData.$import({
         name: null,
         email: null,
+        phone: null,
+        status: null,
+        role: null,
+        location: null,
       });
     } else {
       this.formData.$import({
@@ -84,10 +88,10 @@ export class StaffFormComponent implements OnInit {
 
       if (has(this.record, 'id')) {
         res = await this.collection.update(this.record.id, payload);
-        this.toast.info(`Table successfully updated`);
+        this.toast.info(`Staff successfully updated`);
       } else {
         res = await this.collection.create(payload);
-        this.toast.info(`Table ${res.name} successfully created`);
+        this.toast.info(`Staff ${res.name} successfully created`);
       }
 
       this.onSuccess.emit(res);

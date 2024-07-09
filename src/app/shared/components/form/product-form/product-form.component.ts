@@ -2,7 +2,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ImageCollection } from '@app/collections/image.collection';
 import { OwnerProduct, OwnerProductCollection } from '@app/collections/owner/product.collection';
-import { OwnerAuthService } from '@app/core/services/owner/auth.service';
+import { OwnerProfile } from '@app/collections/owner/profile.collection';
+import { StaffProduct, StaffProductCollection } from '@app/collections/staff/product.collection';
+import { StaffProfile } from '@app/collections/staff/profile.collection';
 import { ToastService } from '@app/core/services/toast.service';
 import { Form, FormRecord } from '@lib/form';
 import { forEach, get } from 'lodash';
@@ -39,6 +41,8 @@ export class ProductFormComponent implements OnInit {
     }
   }
 
+  @Input() user: OwnerProfile | StaffProfile = null;
+
   @Output() onSuccess = new EventEmitter<any>();
 
   another = false;
@@ -60,11 +64,16 @@ export class ProductFormComponent implements OnInit {
     return this.record && this.record.id;
   }
 
+  get isOwner() {
+    return this.user.role.name === 'owner';
+  }
+
   constructor(
     private collection: OwnerProductCollection,
+    private staffCol: StaffProductCollection,
     private imageCol: ImageCollection<OwnerProduct>,
+    private staffImageCol: ImageCollection<StaffProduct>,
     private toast: ToastService,
-    private auth: OwnerAuthService,
     private dialog: MatDialog
   ) {}
 
@@ -116,23 +125,49 @@ export class ProductFormComponent implements OnInit {
       }
 
       if (!this.isEdit) {
-        res = await this.collection.create({ ...payload, restaurant_id: this.auth.currentRestaurant.id });
+        if (this.isOwner) {
+          res = await this.collection.create({ ...payload, restaurant_id: this.user.restaurant.id });
+        } else {
+          res = await this.staffCol.create({ ...payload, restaurant_id: this.user.restaurant.id });
+        }
       } else {
-        await this.collection.update(this.record.id, {
-          ...payload,
-          restaurant_id: this.auth.currentRestaurant.id,
-        });
+        if (this.isOwner) {
+          await this.collection.update(this.record.id, {
+            ...payload,
+            restaurant_id: this.user.restaurant.id,
+          });
+        } else {
+          await this.staffCol.update(this.record.id, {
+            ...payload,
+            restaurant_id: this.user.restaurant.id,
+          });
+        }
+
         await this.fetch();
 
         res = this.record;
       }
-      const record = this.collection.createRecord(res.id, res);
-      record.path.url = `products/${res.id}`;
 
-      if (this.images.length > 0) {
-        for (let i = 0; i < this.images.length; i++) {
-          if (typeof this.images[i] === 'object') {
-            await this.imageCol.createFor(`/owner/restaurants/${this.auth.currentRestaurant.id}`, record, this.images[i]);
+      if (this.isOwner) {
+        const record = this.collection.createRecord(res.id, res);
+        record.path.url = `products/${res.id}`;
+
+        if (this.images.length > 0) {
+          for (let i = 0; i < this.images.length; i++) {
+            if (typeof this.images[i] === 'object') {
+              await this.imageCol.createFor(`/owner/restaurants/${this.user.restaurant.id}`, record, this.images[i]);
+            }
+          }
+        }
+      } else {
+        const record = this.staffCol.createRecord(res.id, res);
+        record.path.url = `products/${res.id}`;
+
+        if (this.images.length > 0) {
+          for (let i = 0; i < this.images.length; i++) {
+            if (typeof this.images[i] === 'object') {
+              await this.staffImageCol.createFor(`/staff/restaurants/${this.user.restaurant.id}`, record, this.images[i]);
+            }
           }
         }
       }
@@ -185,7 +220,7 @@ export class ProductFormComponent implements OnInit {
           if (result) {
             try {
               const record = this.collection.createRecord(this.record.id, this.record);
-              await this.imageCol.removeFor(`/restaurants/${this.auth.currentRestaurant.id}`, record, image);
+              await this.imageCol.removeFor(`/restaurants/${this.user.restaurant.id}`, record, image);
               this.toast.info('Image deleted successfully!');
               this.removeImageField(index);
             } catch (error) {
@@ -202,8 +237,14 @@ export class ProductFormComponent implements OnInit {
   }
 
   async fetch() {
-    this.record = await this.collection.findOne(this.record.id, {
-      params: { restaurant_id: this.auth.currentRestaurant.id },
-    });
+    if (this.isOwner) {
+      this.record = await this.collection.findOne(this.record.id, {
+        params: { restaurant_id: this.user.restaurant.id },
+      });
+    } else {
+      this.record = await this.staffCol.findOne(this.record.id, {
+        params: { restaurant_id: this.user.restaurant.id },
+      });
+    }
   }
 }

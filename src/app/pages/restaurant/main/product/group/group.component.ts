@@ -43,7 +43,7 @@ export class RestaurantProductGroupComponent implements OnInit {
 
   @ViewChild('createDialog', { static: true }) createDialog: DialogComponent;
 
-  constructor(private collection: OwnerVariantGroupCollection, private auth: OwnerAuthService) {}
+  constructor(private collection: OwnerVariantGroupCollection, public auth: OwnerAuthService) {}
 
   ngOnInit() {
     this.query = this.collection.query().params({ restaurant_id: this.auth.currentRestaurant.id, include: 'category' });

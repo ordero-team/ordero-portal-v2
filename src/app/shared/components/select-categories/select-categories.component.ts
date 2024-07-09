@@ -1,7 +1,9 @@
 import { Component, EventEmitter, forwardRef, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OwnerCategoryCollection } from '@app/collections/owner/category.collection';
-import { OwnerAuthService } from '@app/core/services/owner/auth.service';
+import { OwnerProfile } from '@app/collections/owner/profile.collection';
+import { StaffCategoryCollection } from '@app/collections/staff/category.collection';
+import { StaffProfile } from '@app/collections/staff/profile.collection';
 import { ToastService } from '@app/core/services/toast.service';
 import { capitalize, map } from 'lodash';
 
@@ -56,11 +58,21 @@ export class SelectCategoriesComponent implements OnInit, OnChanges, ControlValu
     }
   }
 
+  @Input() user: OwnerProfile | StaffProfile = null;
+
+  get isOwner() {
+    return this.user.role.name === 'owner';
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onChange: (_: any) => void = () => null;
   onTouched = () => {};
 
-  constructor(private collection: OwnerCategoryCollection, private toast: ToastService, private auth: OwnerAuthService) {}
+  constructor(
+    private collection: OwnerCategoryCollection,
+    private staffCol: StaffCategoryCollection,
+    private toast: ToastService
+  ) {}
 
   async ngOnInit() {
     await this.findData();
@@ -81,7 +93,14 @@ export class SelectCategoriesComponent implements OnInit, OnChanges, ControlValu
   async findData(selected = null) {
     this.isLoading = true;
     try {
-      const res = await this.collection.find({ where: { restaurant_id: this.auth.currentRestaurant.id } }, {});
+      let res;
+
+      if (this.isOwner) {
+        res = await this.collection.find({ where: { restaurant_id: this.user.restaurant.id } }, {});
+      } else {
+        res = await this.staffCol.find({ where: { restaurant_id: this.user.restaurant.id } }, {});
+      }
+
       this.options = map(res, (val: { id: string; name: string }) => {
         return {
           label: `${capitalize(val.name)}`,

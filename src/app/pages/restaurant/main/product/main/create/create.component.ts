@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OwnerProduct } from '@app/collections/owner/product.collection';
 import { INavRoute } from '@app/core/services/navigation.service';
+import { OwnerAuthService } from '@app/core/services/owner/auth.service';
 import { ToastService } from '@app/core/services/toast.service';
 
 @Component({
@@ -10,7 +11,12 @@ import { ToastService } from '@app/core/services/toast.service';
   styleUrls: ['./create.component.scss'],
 })
 export class RestaurantProductCreateComponent {
-  constructor(private toast: ToastService, private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private toast: ToastService,
+    private router: Router,
+    private route: ActivatedRoute,
+    public auth: OwnerAuthService
+  ) {}
 
   onSuccess(data: { product: OwnerProduct; another: boolean }) {
     this.toast.info(`${data.product.name} successfully added!`);

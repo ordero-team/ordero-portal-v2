@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { OrderStatus } from '@app/collections/order.collection';
 import { BaseResource, IRestConfigs } from '@lib/resource';
-import { RestaurantResource } from './restaurant.resource';
+import { OwnerRestaurantResource } from './restaurant.resource';
 
 export interface Order {
   number: string;
@@ -9,13 +9,13 @@ export interface Order {
 }
 
 const OwnerOrderConfig: IRestConfigs = {
-  name: 'owner_order',
+  name: 'owner.order',
   endpoint: 'orders',
   relations: {
     belongsTo: {
-      restaurant: {
+      owner_restaurant: {
         parent: true,
-        localField: 'owner.restaurant',
+        localField: 'owner_restaurant',
         foreignKey: 'restaurant_id',
       },
     },
@@ -24,8 +24,7 @@ const OwnerOrderConfig: IRestConfigs = {
 
 @Injectable({ providedIn: 'root' })
 export class OwnerOrderResource extends BaseResource {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor(restaurant: RestaurantResource) {
+  constructor(private restaurant: OwnerRestaurantResource) {
     super(OwnerOrderConfig);
   }
 }

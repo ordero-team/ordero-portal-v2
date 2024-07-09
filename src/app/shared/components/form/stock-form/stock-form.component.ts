@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OwnerProduct } from '@app/collections/owner/product.collection';
+import { OwnerProfile } from '@app/collections/owner/profile.collection';
 import { OwnerStockCollection } from '@app/collections/owner/stock.collection';
 import { OwnerVariant } from '@app/collections/owner/variant.collection';
+import { StaffProfile } from '@app/collections/staff/profile.collection';
+import { StaffStockCollection } from '@app/collections/staff/stock.collection';
 import { appIcons } from '@app/core/helpers/icon.helper';
 import { OwnerAuthService } from '@app/core/services/owner/auth.service';
 import { QueueService } from '@app/core/services/queue.service';
@@ -27,17 +30,24 @@ export class StockFormComponent implements OnInit {
   variants: Array<any> = [];
   items: Array<{ id: string; product: OwnerProduct; variant: OwnerVariant | any; qty: number }> = [];
 
+  @Input() user: OwnerProfile | StaffProfile;
+
   get disabledVariants() {
     return this.variants.length === 0;
   }
 
   get isAbleToSubmit() {
-    return this.items.length > 0 && this.formData.$payload.locations.length > 0;
+    return this.isOwner ? this.items.length > 0 && this.formData.$payload.locations.length > 0 : this.items.length > 0;
+  }
+
+  get isOwner() {
+    return this.user && this.user.role.name === 'owner';
   }
 
   constructor(
     private toast: ToastService,
     private collection: OwnerStockCollection,
+    private staffCol: StaffStockCollection,
     private auth: OwnerAuthService,
     private queue: QueueService,
     private router: Router,
@@ -99,19 +109,29 @@ export class StockFormComponent implements OnInit {
   async submit() {
     this.formData.$loading = true;
     try {
-      const location_ids = get(this.formData.$payload, 'locations', []).map((val) => val.value);
       const products = this.items.map((val) => ({
         id: val.id,
         variant_id: get(val, 'variant.variant_id', null),
         qty: val.qty,
       }));
 
-      const payload = { location_ids, products };
+      let res: any;
 
-      const res = (await this.collection.create({
-        ...payload,
-        restaurant_id: this.auth.currentRestaurant.id,
-      } as any)) as any;
+      if (this.isOwner) {
+        const location_ids = get(this.formData.$payload, 'locations', []).map((val) => val.value);
+
+        res = (await this.collection.create({
+          products,
+          restaurant_id: this.user.restaurant.id,
+          location_ids,
+        } as any)) as any;
+      } else {
+        res = (await this.staffCol.create({
+          products,
+          restaurant_id: this.user.restaurant.id,
+          location_ids: [this.user.location.id],
+        } as any)) as any;
+      }
 
       if (has(res, 'request_id')) {
         this.toast.info(`We are processing ${products.length} Products.`);

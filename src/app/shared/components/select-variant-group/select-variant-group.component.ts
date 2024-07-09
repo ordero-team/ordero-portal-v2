@@ -1,7 +1,9 @@
-import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { OwnerProfile } from '@app/collections/owner/profile.collection';
 import { OwnerVariantGroup, OwnerVariantGroupCollection } from '@app/collections/owner/variant/group.collection';
-import { OwnerAuthService } from '@app/core/services/owner/auth.service';
+import { StaffProfile } from '@app/collections/staff/profile.collection';
+import { StaffVariantGroupCollection } from '@app/collections/staff/variant/group.collection';
 import { MetalRequestParams } from '@lib/metal-data';
 import { get } from 'lodash';
 
@@ -17,11 +19,11 @@ import { get } from 'lodash';
     },
   ],
 })
-export class SelectVariantGroupComponent implements ControlValueAccessor {
+export class SelectVariantGroupComponent implements OnInit, ControlValueAccessor {
   _loading = false;
   _class: string;
   locations: OwnerVariantGroup[];
-  params: MetalRequestParams = { where: { restaurant_id: this.auth.currentRestaurant.id } };
+  params: MetalRequestParams;
 
   _value: any;
   _disabled: boolean;
@@ -42,12 +44,22 @@ export class SelectVariantGroupComponent implements ControlValueAccessor {
     this._class = value;
   }
 
+  @Input() user: OwnerProfile | StaffProfile = null;
+
   @Output() change = new EventEmitter<any>();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onChange: (_: any) => void = () => null;
   onTouched = () => {};
 
-  constructor(public collection: OwnerVariantGroupCollection, private auth: OwnerAuthService) {}
+  get groupCollection() {
+    return this.user.role.name === 'owner' ? this.collection : this.staffCol;
+  }
+
+  constructor(public collection: OwnerVariantGroupCollection, private staffCol: StaffVariantGroupCollection) {}
+
+  ngOnInit(): void {
+    this.params = { where: { restaurant_id: this.user.restaurant.id } };
+  }
 
   public writeValue(value: any): void {
     this._value = value;

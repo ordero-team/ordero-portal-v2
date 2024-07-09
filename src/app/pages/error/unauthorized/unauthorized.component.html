@@ -8,6 +8,7 @@
     <div class="text-secondary mt-2 text-center text-lg font-medium tracking-tight md:text-xl">
       Sorry but you don't have authorization to access this page.
     </div>
-    <a class="mt-12 underline" [routerLink]="['/']">Back to Dashboard</a>
+    <a class="mb-6 mt-12 underline" [routerLink]="['/']">Back to Dashboard</a>
+    <button mat-button color="warn" (click)="logout()">Logout</button>
   </div>
 </div>

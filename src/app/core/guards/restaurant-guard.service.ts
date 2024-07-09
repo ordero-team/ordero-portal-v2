@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { OwnerAuthService } from '../services/owner/auth.service';
 import { ToastService } from '../services/toast.service';
 
 @Injectable({ providedIn: 'root' })
-export class RestaurantGuardService {
+export class RestaurantGuardService implements CanActivate {
   constructor(private router: Router, private auth: OwnerAuthService, private toats: ToastService) {}
 
   canActivate(router: ActivatedRouteSnapshot): Observable<boolean> | Promise<boolean> | boolean | UrlTree {

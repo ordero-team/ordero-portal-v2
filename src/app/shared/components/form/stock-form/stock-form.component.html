@@ -1,6 +1,6 @@
 <form role="form" [akaForm]="formData">
   <div class="flex flex-col gap-4">
-    <div class="flex w-full flex-col items-start gap-1.5">
+    <div *ngIf="isOwner" class="flex w-full flex-col items-start gap-1.5">
       <div class="w-full">
         Locations
         <span class="text-red-500">*</span>
@@ -16,6 +16,7 @@
 
     <div class="flex w-full flex-col items-center gap-3 md:flex-row">
       <aka-select-product
+        [user]="user"
         placeholder="Choose Product"
         [(ngModel)]="formData.product"
         name="product"
@@ -97,7 +98,7 @@
   </div>
 
   <div class="mt-4 flex items-center justify-end">
-    <button mat-button type="button" tabindex="-1" (click)="cancel()">CANCEL</button>
+    <button mat-button type="button" tabindex="-1" (click)="cancel()" [disabled]="formData.$loading">CANCEL</button>
     <button
       mat-flat-button
       color="primary"

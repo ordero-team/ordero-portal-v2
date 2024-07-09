@@ -1,9 +1,11 @@
 import { formatCurrency } from '@angular/common';
 import { Component, EventEmitter, forwardRef, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { OwnerProfile } from '@app/collections/owner/profile.collection';
 import { OwnerVariantCollection } from '@app/collections/owner/variant.collection';
 import { OwnerVariantGroup } from '@app/collections/owner/variant/group.collection';
-import { OwnerAuthService } from '@app/core/services/owner/auth.service';
+import { StaffProfile } from '@app/collections/staff/profile.collection';
+import { StaffVariantCollection } from '@app/collections/staff/variant.collection';
 import { ToastService } from '@app/core/services/toast.service';
 import { capitalize, map } from 'lodash';
 
@@ -58,11 +60,21 @@ export class SelectVariantsComponent implements OnInit, OnChanges, ControlValueA
     }
   }
 
+  @Input() user: OwnerProfile | StaffProfile = null;
+
+  get isOwner() {
+    return this.user.role.name === 'owner';
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onChange: (_: any) => void = () => null;
   onTouched = () => {};
 
-  constructor(private collection: OwnerVariantCollection, private toast: ToastService, private auth: OwnerAuthService) {}
+  constructor(
+    private collection: OwnerVariantCollection,
+    private staffCol: StaffVariantCollection,
+    private toast: ToastService
+  ) {}
 
   async ngOnInit() {
     await this.findData();
@@ -83,10 +95,20 @@ export class SelectVariantsComponent implements OnInit, OnChanges, ControlValueA
   async findData(selected = null) {
     this.isLoading = true;
     try {
-      const res = await this.collection.find(
-        { where: { restaurant_id: this.auth.currentRestaurant.id } },
-        { params: { include: 'group' } }
-      );
+      let res;
+
+      if (this.isOwner) {
+        res = await this.collection.find(
+          { where: { restaurant_id: this.user.restaurant.id } },
+          { params: { include: 'group' } }
+        );
+      } else {
+        res = await this.staffCol.find(
+          { where: { restaurant_id: this.user.restaurant.id } },
+          { params: { include: 'group' } }
+        );
+      }
+
       this.options = map(res, (val: { id: string; name: string; price: number; group: OwnerVariantGroup }) => {
         return {
           label: `${capitalize(val.group.name)} - ${capitalize(val.name)} (${formatCurrency(

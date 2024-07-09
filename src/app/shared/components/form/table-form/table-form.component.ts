@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { OwnerProfile } from '@app/collections/owner/profile.collection';
 import { OwnerTable, OwnerTableCollection } from '@app/collections/owner/table.collection';
+import { StaffProfile } from '@app/collections/staff/profile.collection';
+import { StaffTableCollection } from '@app/collections/staff/table.collection';
 import { OwnerAuthService } from '@app/core/services/owner/auth.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { Form, FormRecord } from '@lib/form';
@@ -38,6 +41,8 @@ export class TableFormComponent implements OnInit {
     }
   }
 
+  @Input() user: OwnerProfile | StaffProfile;
+
   @Output() onClose: EventEmitter<boolean> = new EventEmitter();
   @Output() onSuccess: EventEmitter<OwnerTable> = new EventEmitter();
 
@@ -45,7 +50,16 @@ export class TableFormComponent implements OnInit {
     return has(this.record, 'id');
   }
 
-  constructor(private collection: OwnerTableCollection, private auth: OwnerAuthService, private toast: ToastService) {}
+  get isOwner() {
+    return this.user && this.user.role.name === 'owner';
+  }
+
+  constructor(
+    private collection: OwnerTableCollection,
+    private staffCol: StaffTableCollection,
+    private auth: OwnerAuthService,
+    private toast: ToastService
+  ) {}
 
   ngOnInit() {
     if (!this.isEdit) {
@@ -69,26 +83,41 @@ export class TableFormComponent implements OnInit {
   }
 
   async execute() {
+    this.formData.$loading = true;
     try {
       let res = null;
 
       const payload = {
         ...this.formData.$payload,
         location_id: get(this.formData.$payload, 'location.id', null),
-        restaurant_id: this.auth.currentRestaurant.id,
+        restaurant_id: this.user.restaurant.id,
       };
 
       if (has(this.record, 'id')) {
-        res = await this.collection.update(this.record.id, payload);
-        this.toast.info(`Table successfully updated`);
-      } else {
-        res = await this.collection.create(payload);
-        this.toast.info(`Table ${res.name} successfully created`);
-      }
+        if (this.isOwner) {
+          res = await this.collection.update(this.record.id, payload);
+        } else {
+          payload['location_id'] = this.user.location.id;
+          res = await this.staffCol.update(this.record.id, payload);
+        }
 
-      this.onSuccess.emit(res);
+        this.toast.info(`Table successfully updated`);
+        this.onSuccess.emit(payload);
+      } else {
+        if (this.isOwner) {
+          res = await this.collection.create(payload);
+        } else {
+          payload['location_id'] = this.user.location.id;
+          res = await this.staffCol.create(payload);
+        }
+
+        this.toast.info(`Table ${res.name} successfully created`);
+        this.onSuccess.emit(res);
+      }
     } catch (error) {
       this.toast.error('Something bad happened', error);
+    } finally {
+      this.formData.$loading = false;
     }
   }
 }

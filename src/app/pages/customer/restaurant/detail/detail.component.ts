@@ -161,12 +161,13 @@ export class DetailComponent implements OnInit, AfterViewInit {
           }
 
           if (this.table && val.stocks.filter((val) => val.location_id === this.table.location_id)) {
-            return { ...data, qty: null };
+            return { ...data, qty: null, available: val.stocks[0].available };
           }
 
           return { ...data, qty: null };
         })
         .filter((val) => val);
+      console.log(this.menus);
       this.tempMenus = cloneDeep(this.menus);
     } catch (error) {
       this.toast.error(error);

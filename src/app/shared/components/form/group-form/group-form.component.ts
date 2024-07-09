@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { OwnerProfile } from '@app/collections/owner/profile.collection';
 import { OwnerVariantGroup, OwnerVariantGroupCollection } from '@app/collections/owner/variant/group.collection';
+import { StaffProfile } from '@app/collections/staff/profile.collection';
+import { StaffVariantGroupCollection } from '@app/collections/staff/variant/group.collection';
 import { OwnerAuthService } from '@app/core/services/owner/auth.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { Form, FormRecord } from '@lib/form';
@@ -35,6 +38,8 @@ export class GroupFormComponent implements OnInit {
     }
   }
 
+  @Input() user: OwnerProfile | StaffProfile = null;
+
   @Output() onClose: EventEmitter<boolean> = new EventEmitter();
   @Output() onSuccess: EventEmitter<OwnerVariantGroup> = new EventEmitter();
 
@@ -42,8 +47,13 @@ export class GroupFormComponent implements OnInit {
     return has(this.record, 'id');
   }
 
+  get isOwner() {
+    return this.user.role.name === 'owner';
+  }
+
   constructor(
     private collection: OwnerVariantGroupCollection,
+    private staffCol: StaffVariantGroupCollection,
     private auth: OwnerAuthService,
     private toast: ToastService
   ) {}
@@ -70,28 +80,49 @@ export class GroupFormComponent implements OnInit {
   }
 
   async execute() {
+    this.formData.$loading = true;
     try {
       let res = null;
 
       if (has(this.record, 'id')) {
-        res = await this.collection.update(this.record.id, {
-          ...this.formData.$payload,
-          required: get(this.formData.$payload, 'is_required'),
-          restaurant_id: this.auth.currentRestaurant.id,
-        });
+        if (this.isOwner) {
+          res = await this.collection.update(this.record.id, {
+            ...this.formData.$payload,
+            required: get(this.formData.$payload, 'is_required'),
+            restaurant_id: this.user.restaurant.id,
+          });
+        } else {
+          res = await this.staffCol.update(this.record.id, {
+            ...this.formData.$payload,
+            required: get(this.formData.$payload, 'is_required'),
+            restaurant_id: this.user.restaurant.id,
+          });
+        }
+
         this.toast.info(`Variant Group successfully updated`);
       } else {
-        res = await this.collection.create({
-          ...this.formData.$payload,
-          required: get(this.formData.$payload, 'is_required'),
-          restaurant_id: this.auth.currentRestaurant.id,
-        });
+        if (this.isOwner) {
+          res = await this.collection.create({
+            ...this.formData.$payload,
+            required: get(this.formData.$payload, 'is_required'),
+            restaurant_id: this.user.restaurant.id,
+          });
+        } else {
+          res = await this.staffCol.create({
+            ...this.formData.$payload,
+            required: get(this.formData.$payload, 'is_required'),
+            restaurant_id: this.user.restaurant.id,
+          });
+        }
+
         this.toast.info(`Variant Group ${res.name} successfully created`);
       }
 
       this.onSuccess.emit(res);
     } catch (error) {
       this.toast.error('Something bad happened', error);
+    } finally {
+      this.formData.$loading = false;
     }
   }
 }

@@ -11,7 +11,7 @@ import { OwnerAuthService } from '@app/core/services/owner/auth.service';
 export class StockCreateComponent implements OnInit {
   product: any;
 
-  constructor(private auth: OwnerAuthService, private productCollection: OwnerProductCollection) {}
+  constructor(public auth: OwnerAuthService, private productCollection: OwnerProductCollection) {}
 
   async ngOnInit(): Promise<void> {
     const products = await this.productCollection.find({

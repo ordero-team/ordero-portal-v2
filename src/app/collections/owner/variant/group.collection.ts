@@ -15,7 +15,7 @@ export interface OwnerVariantGroup extends MetalAPIData {
 }
 
 const VariantGroup: MetalCollectionConfig<OwnerVariantGroup> = {
-  name: 'variant_group',
+  name: 'variant.group',
   endpointPrefix: 'owner',
   endpoint: 'variants/groups',
   relations: {

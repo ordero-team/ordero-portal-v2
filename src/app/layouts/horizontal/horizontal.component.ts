@@ -3,10 +3,13 @@ import { AkaMediaWatcherService } from '@aka/services/tailwind';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OwnerLocation, OwnerProfileCollection } from '@app/collections/owner/profile.collection';
+import { StaffLocation } from '@app/collections/staff/profile.collection';
 import { NavigationService } from '@app/core/services/navigation.service';
 import { OwnerAuthService } from '@app/core/services/owner/auth.service';
+import { StaffAuthService } from '@app/core/services/staff/auth.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { OwnerState } from '@app/core/states/owner/owner.state';
+import { StaffState } from '@app/core/states/staff/staff.state';
 import { DialogComponent } from '@app/shared/components/dialog/dialog.component';
 import { Form, FormRecord } from '@lib/form';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -32,6 +35,7 @@ export class HorizonalLayoutComponent implements OnInit, OnDestroy {
   formData: FormRecord;
 
   @Select(OwnerState.currentLocation) currentLocation$: Observable<OwnerLocation>;
+  @Select(StaffState.currentLocation) staffLocation$: Observable<StaffLocation>;
 
   @ViewChild('locationDialog', { static: true }) locationDialog: DialogComponent;
 
@@ -44,7 +48,8 @@ export class HorizonalLayoutComponent implements OnInit, OnDestroy {
     private _akaMediaWatcherService: AkaMediaWatcherService,
     private _akaNavigationService: AkaNavigationService,
     private navService: NavigationService,
-    private auth: OwnerAuthService,
+    public auth: OwnerAuthService,
+    public staffAuth: StaffAuthService,
     private collection: OwnerProfileCollection,
     private toast: ToastService
   ) {}
