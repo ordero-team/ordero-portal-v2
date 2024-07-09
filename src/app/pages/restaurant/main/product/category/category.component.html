@@ -21,6 +21,7 @@
 <aka-dialog #createDialog="akaDialog" class="small">
   <ng-container *akaDialogContent>
     <aka-category-form
+      [user]="auth.currentUser"
       [record]="createDialog._data"
       (onClose)="createDialog.hide()"
       (onSuccess)="onSuccess()"

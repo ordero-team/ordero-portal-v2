@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { appIcons } from '@app/core/helpers/icon.helper';
 import { INavRoute } from '@app/core/services/navigation.service';
+import { StaffProductCategoryNavRoute, StaffProductCategoryRoute } from './category/category.component';
+import { StaffProductGroupNavRoute, StaffProductGroupRoute } from './group/group.component';
 import { StaffProductMainNavRoute, StaffProductMainRoute } from './main/main.component';
+import { StaffProductVariantNavRoute, StaffProductVariantRoute } from './variant/variant.component';
 
 @Component({
   selector: 'aka-product',
@@ -24,9 +27,9 @@ export const StaffProductNavRoute: INavRoute = {
     {
       type: 'divider',
     },
-    // StaffProductCategoryNavRoute,
-    // StaffProductGroupNavRoute,
-    // StaffProductVariantNavRoute,
+    StaffProductCategoryNavRoute,
+    StaffProductGroupNavRoute,
+    StaffProductVariantNavRoute,
   ],
 };
 
@@ -41,8 +44,8 @@ export const StaffProductRoute: INavRoute = {
       redirectTo: 'main',
     },
     StaffProductMainRoute,
-    // StaffProductCategoryRoute,
-    // StaffProductGroupRoute,
-    // StaffProductVariantRoute,
+    StaffProductCategoryRoute,
+    StaffProductGroupRoute,
+    StaffProductVariantRoute,
   ],
 };

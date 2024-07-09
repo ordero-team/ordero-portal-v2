@@ -1,20 +1,20 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { OwnerVariantGroup, OwnerVariantGroupCollection } from '@app/collections/owner/variant/group.collection';
+import { StaffVariantGroup, StaffVariantGroupCollection } from '@app/collections/staff/variant/group.collection';
 import { INavRoute } from '@app/core/services/navigation.service';
-import { OwnerAuthService } from '@app/core/services/owner/auth.service';
+import { StaffAuthService } from '@app/core/services/staff/auth.service';
 import { IActionGroup } from '@app/core/states/breadcrumb/breadcrumb.actions';
 import { DialogComponent } from '@app/shared/components/dialog/dialog.component';
 import { MetalQuery } from '@lib/metal-data';
 import { MetalQueryRowAction } from '@mtl/components/metal-query/metal-query.component';
 
 @Component({
-  selector: 'aka-product-group',
+  selector: 'aka-group',
   templateUrl: './group.component.html',
   styleUrls: ['./group.component.scss'],
 })
-export class RestaurantProductGroupComponent implements OnInit {
-  public query: MetalQuery<OwnerVariantGroup>;
-  public type: OwnerVariantGroup;
+export class StaffProductGroupComponent implements OnInit {
+  public query: MetalQuery<StaffVariantGroup>;
+  public type: StaffVariantGroup;
 
   public actionGroup: IActionGroup = [
     [
@@ -29,7 +29,7 @@ export class RestaurantProductGroupComponent implements OnInit {
     ],
   ];
 
-  public rowActions: MetalQueryRowAction<OwnerVariantGroup>[] = [
+  public rowActions: MetalQueryRowAction<StaffVariantGroup>[] = [
     {
       icon: 'roundEdit',
       text: 'Edit',
@@ -43,7 +43,7 @@ export class RestaurantProductGroupComponent implements OnInit {
 
   @ViewChild('createDialog', { static: true }) createDialog: DialogComponent;
 
-  constructor(private collection: OwnerVariantGroupCollection, public auth: OwnerAuthService) {}
+  constructor(private collection: StaffVariantGroupCollection, public auth: StaffAuthService) {}
 
   ngOnInit() {
     this.query = this.collection.query().params({ restaurant_id: this.auth.currentRestaurant.id, include: 'category' });
@@ -55,13 +55,13 @@ export class RestaurantProductGroupComponent implements OnInit {
   }
 }
 
-export const RestaurantProductGroupNavRoute: INavRoute = {
+export const StaffProductGroupNavRoute: INavRoute = {
   path: 'groups',
-  name: 'restaurant.product.group',
+  name: 'staff.product.group',
   title: 'product.group.parent',
 };
 
-export const RestaurantProductGroupRoute: INavRoute = {
-  ...RestaurantProductGroupNavRoute,
-  component: RestaurantProductGroupComponent,
+export const StaffProductGroupRoute: INavRoute = {
+  ...StaffProductGroupNavRoute,
+  component: StaffProductGroupComponent,
 };

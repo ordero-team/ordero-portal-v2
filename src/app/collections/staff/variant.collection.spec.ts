@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { VariantCollection } from './variant.collection';
+import { StaffVariantCollection } from './variant.collection';
 
-describe('VariantCollection', () => {
-  let collection: VariantCollection;
+describe('StaffVariantCollection', () => {
+  let collection: StaffVariantCollection;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    collection = TestBed.inject(VariantCollection);
+    collection = TestBed.inject(StaffVariantCollection);
   });
 
   it('should be created', () => {

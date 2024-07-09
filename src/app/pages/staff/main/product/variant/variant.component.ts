@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { OwnerVariant, OwnerVariantCollection } from '@app/collections/owner/variant.collection';
+import { StaffVariant, StaffVariantCollection } from '@app/collections/staff/variant.collection';
 import { INavRoute } from '@app/core/services/navigation.service';
-import { OwnerAuthService } from '@app/core/services/owner/auth.service';
+import { StaffAuthService } from '@app/core/services/staff/auth.service';
 import { IActionGroup } from '@app/core/states/breadcrumb/breadcrumb.actions';
 import { DialogComponent } from '@app/shared/components/dialog/dialog.component';
 import { MetalQuery } from '@lib/metal-data';
@@ -12,9 +12,9 @@ import { MetalQueryRowAction } from '@mtl/components/metal-query/metal-query.com
   templateUrl: './variant.component.html',
   styleUrls: ['./variant.component.scss'],
 })
-export class RestaurantProductVariantComponent implements OnInit {
-  public query: MetalQuery<OwnerVariant>;
-  public type: OwnerVariant;
+export class StaffProductVariantComponent implements OnInit {
+  public query: MetalQuery<StaffVariant>;
+  public type: StaffVariant;
 
   public actionGroup: IActionGroup = [
     [
@@ -29,7 +29,7 @@ export class RestaurantProductVariantComponent implements OnInit {
     ],
   ];
 
-  public rowActions: MetalQueryRowAction<OwnerVariant>[] = [
+  public rowActions: MetalQueryRowAction<StaffVariant>[] = [
     {
       icon: 'roundEdit',
       text: 'Edit',
@@ -43,7 +43,7 @@ export class RestaurantProductVariantComponent implements OnInit {
 
   @ViewChild('createDialog', { static: true }) createDialog: DialogComponent;
 
-  constructor(private collection: OwnerVariantCollection, public auth: OwnerAuthService) {}
+  constructor(private collection: StaffVariantCollection, public auth: StaffAuthService) {}
 
   ngOnInit() {
     this.query = this.collection.query().params({ restaurant_id: this.auth.currentRestaurant.id, include: 'group' });
@@ -55,13 +55,13 @@ export class RestaurantProductVariantComponent implements OnInit {
   }
 }
 
-export const RestaurantProductVariantNavRoute: INavRoute = {
+export const StaffProductVariantNavRoute: INavRoute = {
   path: 'variants',
-  name: 'restaurant.product.variant',
+  name: 'staff.product.variant',
   title: 'product.variant.parent',
 };
 
-export const RestaurantProductVariantRoute: INavRoute = {
-  ...RestaurantProductVariantNavRoute,
-  component: RestaurantProductVariantComponent,
+export const StaffProductVariantRoute: INavRoute = {
+  ...StaffProductVariantNavRoute,
+  component: StaffProductVariantComponent,
 };
