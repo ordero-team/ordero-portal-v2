@@ -1,8 +1,9 @@
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { TemplatePortal } from '@angular/cdk/portal';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Input,
   OnDestroy,
   OnInit,
   TemplateRef,
@@ -10,10 +11,29 @@ import {
   ViewContainerRef,
   ViewEncapsulation,
 } from '@angular/core';
-import { Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { TemplatePortal } from '@angular/cdk/portal';
 import { MatButton } from '@angular/material/button';
+import { OwnerNotification, OwnerNotificationCollection } from '@app/collections/owner/notification.collection';
+import { OwnerOrder, OwnerOrderCollection } from '@app/collections/owner/order.collection';
+import { OwnerLocation } from '@app/collections/owner/profile.collection';
+import { StaffOrder, StaffOrderCollection } from '@app/collections/staff/order.collection';
+import { StaffLocation } from '@app/collections/staff/profile.collection';
+import { NotificationService } from '@app/core/services/notification.service';
+import { OrderService } from '@app/core/services/order.service';
+import { OwnerAuthService } from '@app/core/services/owner/auth.service';
+import { PubsubService } from '@app/core/services/pubsub.service';
+import { StaffAuthService } from '@app/core/services/staff/auth.service';
+import { ToastService } from '@app/core/services/toast.service';
+import { OwnerState } from '@app/core/states/owner/owner.state';
+import { RoleStateModel } from '@app/core/states/role/role.actions';
+import { RoleState } from '@app/core/states/role/role.state';
+import { StaffState } from '@app/core/states/staff/staff.state';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Select } from '@ngxs/store';
+import { get, has } from 'lodash';
+import { Observable } from 'rxjs';
+import { takeWhile } from 'rxjs/operators';
 
+@UntilDestroy()
 @Component({
   selector: 'notifications',
   templateUrl: './notifications.component.html',
@@ -23,11 +43,25 @@ import { MatButton } from '@angular/material/button';
   exportAs: 'notifications',
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
-  @Input() notifications: any[];
   @ViewChild('notificationsOrigin') private _notificationsOrigin: MatButton;
   @ViewChild('notificationsPanel') private _notificationsPanel: TemplateRef<any>;
 
-  unreadCount = 10;
+  notifications: any[];
+
+  show = false;
+  audio = new Audio();
+
+  role = '';
+
+  get showClearAllButton() {
+    return this.service.all.filter((item) => item.show).length > 1;
+  }
+
+  @Select(OwnerState.currentLocation) location$: Observable<OwnerLocation>;
+  @Select(StaffState.currentLocation) staffLocation$: Observable<StaffLocation>;
+  @Select(RoleState.currentRole) role$: Observable<RoleStateModel>;
+
+  unreadCount = 0;
   private _overlayRef: OverlayRef;
 
   /**
@@ -36,13 +70,70 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   constructor(
     private _changeDetectorRef: ChangeDetectorRef,
     private _overlay: Overlay,
-    private _viewContainerRef: ViewContainerRef
-  ) {}
+    private _viewContainerRef: ViewContainerRef,
+    public service: NotificationService<OwnerNotification>,
+    private orderCol: OwnerOrderCollection,
+    private staffOrderCol: StaffOrderCollection,
+    private toast: ToastService,
+    private auth: OwnerAuthService,
+    private staffAuth: StaffAuthService,
+    private orderService: OrderService,
+    private notifCol: OwnerNotificationCollection,
+    public notifService: NotificationService<OwnerNotification>
+  ) {
+    this.location$
+      .pipe(
+        untilDestroyed(this),
+        takeWhile((location) => !has(location, 'id'), true)
+      )
+      .subscribe((location) => {
+        if (has(location, 'id')) {
+          console.log(`Notification Active for Location ${location.name}`);
+          PubsubService.getInstance().event(`ordero/${location.id}/notification`, (data) => {
+            this.setNotification(data);
+          });
+        }
+      });
+
+    this.staffLocation$
+      .pipe(
+        untilDestroyed(this),
+        takeWhile((location) => !has(location, 'id'), true)
+      )
+      .subscribe((location) => {
+        if (has(location, 'id')) {
+          console.log(`Notification Active for Location ${location.name}`);
+          PubsubService.getInstance().event(`ordero/${location.id}/notification`, (data) => {
+            this.setNotification(data);
+          });
+        }
+      });
+
+    this.role$.pipe(untilDestroyed(this)).subscribe((val) => (this.role = val.name));
+
+    this.service.notifications.pipe(untilDestroyed(this)).subscribe((val) => {
+      this.notifications = val;
+    });
+  }
 
   /**
    * On init
    */
-  ngOnInit(): void {}
+  async ngOnInit() {
+    this.initAudio();
+    // @TODO: Staff notification
+    if (has(this.auth.currentRestaurant, 'id')) {
+      const notifications = await this.notifCol.find({
+        orderBy: { created_at: 'desc' },
+        params: {
+          restaurant_id: this.role === 'owner' ? this.auth.currentRestaurant.id : this.staffAuth.currentRestaurant.id,
+          sort: '-created_at',
+        } as any,
+      });
+      this.service.notifications.next(notifications);
+      this.unreadCount = notifications.filter((val) => !val.is_read).length;
+    }
+  }
 
   /**
    * On destroy
@@ -54,9 +145,50 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     }
   }
 
-  // -----------------------------------------------------------------------------------------------------
-  // @ Public methods
-  // -----------------------------------------------------------------------------------------------------
+  async setNotification(data) {
+    await this.service.enqueue({ ...data.data, show: true }, async (notif: OwnerNotification) => {
+      if (notif.type === 'order_created') {
+        let order: OwnerOrder | StaffOrder;
+
+        if (this.role === 'owner') {
+          order = await this.orderCol.findOne(get(data, 'data.order_id'), {
+            params: { restaurant_id: this.auth.currentRestaurant.id, include: 'items,table', status } as any,
+          });
+        } else {
+          order = await this.staffOrderCol.findOne(get(data, 'data.order_id'), {
+            params: { restaurant_id: this.staffAuth.currentRestaurant.id, include: 'items,table', status } as any,
+          });
+        }
+
+        if (order) {
+          this.orderService.add(order);
+          this.toast.info(`New Order ${order.number}`);
+          this.audio.load();
+          this.audio.play().catch((error) => console.error(error));
+          // @TODO: Push to Order state
+        }
+      }
+    });
+    // this.store.dispatch(new NotificationAction());
+
+    const interval = setInterval(() => {
+      this.service.dequeue();
+      clearInterval(interval);
+    }, 7000);
+  }
+
+  initAudio() {
+    this.audio.src = 'assets/audio/notif.wav';
+    this.audio.load();
+  }
+
+  hidden(notif: any) {
+    notif.show = false;
+  }
+
+  clearAll() {
+    this.service.clear();
+  }
 
   /**
    * Open the notifications panel

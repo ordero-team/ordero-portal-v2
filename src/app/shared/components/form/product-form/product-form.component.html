@@ -1,0 +1,150 @@
+<form role="form" [akaForm]="formData">
+  <div class="aka-form-row">
+    <div class="mx-auto flex w-full flex-col gap-4">
+      <!-- Start: General Info -->
+      <aka-card>
+        <aka-card-head>
+          <aka-card-title>General Info</aka-card-title>
+        </aka-card-head>
+        <aka-card-content class="flex flex-col">
+          <mat-form-field akaProps>
+            <mat-label>Name</mat-label>
+            <input matInput [(ngModel)]="formData.name" name="name" akaAutofocus />
+          </mat-form-field>
+
+          <mat-form-field akaProps>
+            <mat-label>Description</mat-label>
+            <textarea matInput rows="5" [(ngModel)]="formData.description" name="description"></textarea>
+          </mat-form-field>
+
+          <div class="aka-form-row">
+            <mat-form-field class="w-full md:w-1/2 md:pr-2" akaProps>
+              <mat-label>SKU</mat-label>
+              <input matInput [(ngModel)]="formData.sku" name="sku" placeholder="Stock Keeping Unit" [disabled]="isEdit" />
+            </mat-form-field>
+
+            <mat-form-field class="w-full md:w-1/2" akaProps>
+              <mat-label>Price</mat-label>
+              <input matInput [(ngModel)]="formData.price" name="price" placeholder="Rp0" currencyMask />
+            </mat-form-field>
+          </div>
+        </aka-card-content>
+      </aka-card>
+      <!-- End: General Info -->
+
+      <!-- Start: Attributes -->
+      <aka-card class="h-full">
+        <aka-card-head>
+          <aka-card-title>Attributes</aka-card-title>
+        </aka-card-head>
+        <aka-card-content class="flex flex-col">
+          <div class="aka-form-row">
+            <mat-form-field class="w-full md:w-1/2 md:pr-2" akaProps>
+              <mat-label>Status</mat-label>
+              <mat-select [(ngModel)]="formData.status" name="status" placeholder="Choose Status">
+                <mat-option [value]="option.value" *ngFor="let option of statuses">{{ option.label }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <div class="flex w-full flex-col items-start gap-1.5 md:w-1/2">
+              <div class="w-full">Categories</div>
+              <aka-select-categories
+                [(ngModel)]="formData.categories"
+                name="categories"
+                [required]="false"
+                [placeholder]="'Choose Categories'"
+                [user]="user"
+              ></aka-select-categories>
+            </div>
+          </div>
+
+          <div class="flex w-full flex-col items-start gap-1.5">
+            <div class="w-full">Variants</div>
+            <aka-select-variants
+              [(ngModel)]="formData.variants"
+              name="variants"
+              [required]="false"
+              [placeholder]="'Choose Variants'"
+              [user]="user"
+            ></aka-select-variants>
+          </div>
+        </aka-card-content>
+      </aka-card>
+      <!-- End: Attributes -->
+
+      <!-- Start: Images -->
+      <aka-card class="h-full">
+        <aka-card-head>
+          <aka-card-title>Images</aka-card-title>
+        </aka-card-head>
+        <aka-card-content>
+          <div class="product-image grid grid-cols-5 gap-3">
+            <ng-container *ngFor="let field of totalImage; let index = index">
+              <div class="relative">
+                <aka-image-upload
+                  icon="outlineAddPhotoAlternate"
+                  editIcon="outlinePhotoCamera"
+                  [image]="images[index]"
+                  (select)="setImage($event, index)"
+                  [showHint]="false"
+                ></aka-image-upload>
+
+                <button
+                  *ngIf="images[index]"
+                  mat-mini-fab
+                  color="warn"
+                  class="delete-field"
+                  matTooltip="Delete Image"
+                  type="button"
+                  (click)="removeImage(index)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+                <button
+                  *ngIf="!images[index] && index > 4"
+                  mat-mini-fab
+                  color="warn"
+                  class="delete-field"
+                  matTooltip="Remove Field"
+                  type="button"
+                  (click)="removeImageField(index, true)"
+                >
+                  <mat-icon>remove</mat-icon>
+                </button>
+              </div>
+            </ng-container>
+
+            <!-- <div class="w-full h-full add-image-trigger"
+              (click)="addImageField()">
+            </div> -->
+            <!-- <button mat-stroked-button (click)="addImageField()" type="button" class="w-full">
+              <mat-icon [icIcon]="'plusIcon'"></mat-icon>
+              Add More
+            </button> -->
+          </div>
+        </aka-card-content>
+      </aka-card>
+      <!-- End: Images -->
+    </div>
+  </div>
+
+  <!-- Start: Action Button -->
+  <div class="mx-auto mt-4 flex flex-row items-center justify-between gap-2">
+    <mat-checkbox name="another" [color]="'primary'" [(ngModel)]="another">Make another</mat-checkbox>
+
+    <div class="flex items-center gap-2">
+      <a [routerLink]="['../']" mat-button>Cancel</a>
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        [akaLoading]="formData.$loading"
+        [disabled]="isEdit ? formData.$loading : formData.$disabled || formData.$loading"
+        (click)="submit()"
+      >
+        Save
+      </button>
+    </div>
+  </div>
+  <!-- End: Action Button -->
+</form>

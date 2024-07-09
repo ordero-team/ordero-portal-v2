@@ -39,3 +39,11 @@ textarea {
     -webkit-transition-delay: 9999s;
   }
 }
+
+mat-form-field {
+  &.mb-0 {
+    .mat-form-field-wrapper {
+      margin-bottom: 0 !important;
+    }
+  }
+}

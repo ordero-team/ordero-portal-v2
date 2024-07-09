@@ -31,7 +31,7 @@ export class RestaurantRegisterComponent implements OnInit {
   async submit() {
     this.formData.$loading = true;
     try {
-      await this.auth.register(this.formData.$payload);
+      await this.auth.register({ ...this.formData.$payload, description: null });
       this.toast.info('Successfully registered');
     } catch (error) {
       this.toast.error('Something bad happened!', error);

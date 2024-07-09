@@ -14,7 +14,12 @@
 <!-- Wrapper -->
 <div class="flex w-full min-w-0 flex-auto flex-col items-center bg-gray-200 dark:bg-card">
   <!-- Header -->
-  <div class="relative z-49 flex w-full justify-center overflow-hidden bg-primary-700">
+  <div
+    class="relative z-49 flex w-full justify-center overflow-hidden"
+    [class.bg-primary-700]="auth.isAuthenticated()"
+    [class.dark:bg-primary-900]="staffAuth.isAuthenticated()"
+    [class.bg-primary-300]="staffAuth.isAuthenticated()"
+  >
     <div
       class="bg-card w-full max-w-360 overflow-hidden border-b sm:m-8 sm:mb-0 sm:rounded-t-xl sm:py-3 sm:shadow-2xl md:mx-8 md:mt-12 md:pb-3 md:pt-4"
     >
@@ -29,6 +34,7 @@
             <img class="hidden w-24 dark:flex" src="assets/images/logo/logo-text-on-dark.svg" alt="Logo image" />
 
             <div
+              *ngIf="auth.isAuthenticated()"
               class="account-badge cursor-pointer pl-0"
               [matTooltip]="'Click to Change'"
               (click)="openChangeLocationDialog()"
@@ -42,6 +48,21 @@
                   <span class="account-desc">{{ (currentLocation$ | async).name }}</span>
                 </ng-container>
                 <ng-container *ngIf="!(currentLocation$ | async)">
+                  <span class="account-desc">Choose Location</span>
+                </ng-container>
+              </div>
+            </div>
+
+            <div *ngIf="staffAuth.isAuthenticated()" class="account-badge pl-0">
+              <div class="account-icon">
+                <mat-icon class="text-gray-600 dark:text-gray-300" icIcon="roundApartment"></mat-icon>
+              </div>
+              <div class="account-info">
+                <ng-container *ngIf="staffLocation$ | async">
+                  <span class="account-title">Current Location</span>
+                  <span class="account-desc">{{ (staffLocation$ | async).name }}</span>
+                </ng-container>
+                <ng-container *ngIf="!(staffLocation$ | async)">
                   <span class="account-desc">Choose Location</span>
                 </ng-container>
               </div>
@@ -61,8 +82,9 @@
                     <shortcuts [shortcuts]="data.shortcuts"></shortcuts>
                     <messages [messages]="data.messages"></messages> -->
           <toggle-dark-mode [iconOnly]="true"></toggle-dark-mode>
-          <notifications [notifications]="[]"></notifications>
-          <aka-owner-user-menu></aka-owner-user-menu>
+          <notifications></notifications>
+          <aka-owner-user-menu *ngIf="auth.isAuthenticated()"></aka-owner-user-menu>
+          <aka-staff-user-menu *ngIf="staffAuth.isAuthenticated()"></aka-staff-user-menu>
         </div>
       </div>
       <!-- Bottom bar -->

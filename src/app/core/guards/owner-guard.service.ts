@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { OwnerAuthService } from '../services/owner/auth.service';
 
 @Injectable({ providedIn: 'root' })
-export class OwnerAuthGuardService {
+export class OwnerAuthGuardService implements CanActivate {
   private $path = 'restaurant';
 
   constructor(private auth: OwnerAuthService, private router: Router) {}

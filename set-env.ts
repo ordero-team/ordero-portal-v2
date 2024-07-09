@@ -21,6 +21,7 @@ const envConfigFile = `export const environment = {
   encryptKey: '${process.env.ENCRYPT_KEY || ''}',
   sentryDsn: '${process.env.SENTRY_DSN || ''}',
   socketType: '${process.env.SOCKET_TYPE || ''}',
+  socketUrl: '${process.env.SOCKET_URL || ''}',
   centrifugoUrl: '${process.env.CENTRIFUGO_URL || ''}',
 };
 `;

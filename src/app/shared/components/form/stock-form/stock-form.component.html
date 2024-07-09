@@ -1,0 +1,114 @@
+<form role="form" [akaForm]="formData">
+  <div class="flex flex-col gap-4">
+    <div *ngIf="isOwner" class="flex w-full flex-col items-start gap-1.5">
+      <div class="w-full">
+        Locations
+        <span class="text-red-500">*</span>
+      </div>
+      <aka-select-locations
+        [(ngModel)]="formData.locations"
+        name="locations"
+        [required]="true"
+        [placeholder]="'Choose Locations'"
+        fieldClass="aka-mat-dense"
+      ></aka-select-locations>
+    </div>
+
+    <div class="flex w-full flex-col items-center gap-3 md:flex-row">
+      <aka-select-product
+        [user]="user"
+        placeholder="Choose Product"
+        [(ngModel)]="formData.product"
+        name="product"
+        [required]="true"
+        fieldClass="w-full aka-mat-dense"
+        (ngModelChange)="onProductChange($event)"
+        label="Product"
+      ></aka-select-product>
+
+      <mat-form-field class="aka-mat-dense w-full" akaProps>
+        <mat-label>Variant</mat-label>
+        <mat-select
+          [(ngModel)]="formData.variant"
+          [required]="!disabledVariants"
+          [disabled]="disabledVariants"
+          name="variant"
+          placeholder="Choose Variant"
+        >
+          <mat-option [value]="option.id" *ngFor="let option of variants">{{ option.variant.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="aka-mat-dense w-24" akaProps>
+        <mat-label>Quantity</mat-label>
+        <input
+          matInput
+          [(ngModel)]="formData.qty"
+          name="qty"
+          placeholder="Min. 1"
+          type="number"
+          min="0"
+          [disabled]="!formData.product"
+        />
+      </mat-form-field>
+
+      <button mat-icon-button color="primary" matTooltip="Add Item" type="button" (click)="addItem()">
+        <mat-icon icIcon="roundAddCircle"></mat-icon>
+      </button>
+    </div>
+
+    <aka-card>
+      <aka-card-head>
+        <aka-card-title>Items</aka-card-title>
+      </aka-card-head>
+      <aka-card-inner>
+        <aka-table [rows]="items">
+          <ng-container psTCol>
+            <th psTHeadCell *psTHeadCellRef>Product</th>
+            <td psTCell *psTCellRef="let row">
+              <span>{{ row.product.name }}</span>
+              <br />
+              <small class="text-secondary">SKU: {{ row.product.sku }}</small>
+            </td>
+          </ng-container>
+          <ng-container psTCol>
+            <th psTHeadCell *psTHeadCellRef>Variant</th>
+            <td psTCell *psTCellRef="let row">
+              <span *ngIf="!row.variant.variant">-</span>
+              <span *ngIf="row.variant.variant">{{ row.variant.variant.name }}</span>
+            </td>
+          </ng-container>
+          <ng-container psTCol>
+            <th psTHeadCell *psTHeadCellRef># Qty</th>
+            <td psTCell *psTCellRef="let row">
+              <span>{{ row.qty | number }}</span>
+            </td>
+          </ng-container>
+          <ng-container psTCol>
+            <th psTHeadCell *psTHeadCellRef></th>
+            <td psTCell *psTCellRef="let row" class="text-right" width="200">
+              <button mat-icon-button color="warn" matTooltip="Rejected Products">
+                <mat-icon icIcon="archiveRemoveOutline"></mat-icon>
+              </button>
+            </td>
+          </ng-container>
+        </aka-table>
+      </aka-card-inner>
+    </aka-card>
+  </div>
+
+  <div class="mt-4 flex items-center justify-end">
+    <button mat-button type="button" tabindex="-1" (click)="cancel()" [disabled]="formData.$loading">CANCEL</button>
+    <button
+      mat-flat-button
+      color="primary"
+      class="ml-3"
+      [disabled]="!isAbleToSubmit"
+      [akaLoading]="formData.$loading"
+      (click)="submit()"
+      type="button"
+    >
+      SAVE
+    </button>
+  </div>
+</form>

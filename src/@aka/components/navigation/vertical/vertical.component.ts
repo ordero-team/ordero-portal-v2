@@ -1,3 +1,16 @@
+import { AkaAnimations } from '@aka/animations';
+import { AkaNavigationService } from '@aka/components/navigation/navigation.service';
+import {
+  AkaNavigationItem,
+  AkaVerticalNavigationAppearance,
+  AkaVerticalNavigationMode,
+  AkaVerticalNavigationPosition,
+} from '@aka/components/navigation/navigation.types';
+import { AkaScrollbarDirective } from '@aka/directives/scrollbar/scrollbar.directive';
+import { AkaUtilsService } from '@aka/services/utils/utils.service';
+import { animate, AnimationBuilder, AnimationPlayer, style } from '@angular/animations';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
+import { ScrollStrategy, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -19,22 +32,9 @@ import {
   ViewChildren,
   ViewEncapsulation,
 } from '@angular/core';
-import { animate, AnimationBuilder, AnimationPlayer, style } from '@angular/animations';
 import { NavigationEnd, Router } from '@angular/router';
-import { ScrollStrategy, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { merge, ReplaySubject, Subject, Subscription } from 'rxjs';
 import { delay, filter, takeUntil } from 'rxjs/operators';
-import { AkaAnimations } from '@aka/animations';
-import {
-  AkaNavigationItem,
-  AkaVerticalNavigationAppearance,
-  AkaVerticalNavigationMode,
-  AkaVerticalNavigationPosition,
-} from '@aka/components/navigation/navigation.types';
-import { AkaNavigationService } from '@aka/components/navigation/navigation.service';
-import { AkaScrollbarDirective } from '@aka/directives/scrollbar/scrollbar.directive';
-import { AkaUtilsService } from '@aka/services/utils/utils.service';
-import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'aka-vertical-navigation',
@@ -60,7 +60,7 @@ export class AkaVerticalNavigationComponent implements OnChanges, OnInit, AfterV
   @Input() position: AkaVerticalNavigationPosition = 'left';
   @Input() transparentOverlay = false;
   @Output()
-  readonly appearanceChanged: EventEmitter<AkaVerticalNavigationAppearance> = new EventEmitter<AkaVerticalNavigationAppearance>();
+  readonly appearanceChanged: EventEmitter<any> = new EventEmitter<any>();
   @Output() readonly modeChanged: EventEmitter<AkaVerticalNavigationMode> = new EventEmitter<AkaVerticalNavigationMode>();
   @Output() readonly openedChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output()

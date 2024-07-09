@@ -19,6 +19,12 @@
       "backToLogin": "Back To Login",
       "signUp": "Sign Up",
       "signIn": "Sign In"
+    },
+    "imageUpload": {
+      "error": {
+        "size": "{{name}} is too large, maximum file size is 1MB.",
+        "type": "Invalid file type {{type}}"
+      }
     }
   },
   "title": {
@@ -30,7 +36,8 @@
       "login": "Login",
       "forgot-password": "Forgot Password",
       "reset-password": "Reset Password",
-      "verify": "Verify Account"
+      "verify": "Verify Account",
+      "register": "Register"
     },
     "error": {
       "notFound": "Not Found Error",
@@ -39,7 +46,23 @@
     "dashboard": {
       "parent": "Dashboard"
     },
-
+    "order": {
+      "parent": "Orders"
+    },
+    "customer": {
+      "parent": "Customer",
+      "home": {
+        "parent": "Home"
+      },
+      "cart": {
+        "parent": "Cart"
+      },
+      "restaurant": {
+        "detail": {
+          "parent": "Restaurant"
+        }
+      }
+    },
     "category": {
       "parent": "Category",
       "list": "List Category",
@@ -68,6 +91,33 @@
     },
     "staff": {
       "parent": "Staff"
+    },
+    "stock": {
+      "parent": "Stocks",
+      "create": {
+        "parent": "Create Stock"
+      }
+    },
+    "product": {
+      "parent": "Products",
+      "main": {
+        "parent": "Main",
+        "list": {
+          "parent": "Products"
+        },
+        "create": {
+          "parent": "Create Product"
+        }
+      },
+      "category": {
+        "parent": "Categories"
+      },
+      "group": {
+        "parent": "Groups"
+      },
+      "variant": {
+        "parent": "Variants"
+      }
     }
   },
   "pages": {},
@@ -90,6 +140,9 @@
         "parent": "Security"
       }
     },
+    "order": {
+      "parent": "Orders"
+    },
     "table": {
       "parent": "Tables"
     },
@@ -109,6 +162,33 @@
     },
     "location": {
       "parent": "Locations"
+    },
+    "stock": {
+      "parent": "Stocks",
+      "create": {
+        "parent": "Create"
+      }
+    },
+    "product": {
+      "parent": "Products",
+      "main": {
+        "parent": "Main",
+        "list": {
+          "parent": "List"
+        },
+        "create": {
+          "parent": "Create"
+        }
+      },
+      "category": {
+        "parent": "Categories"
+      },
+      "group": {
+        "parent": "Groups"
+      },
+      "variant": {
+        "parent": "Variants"
+      }
     },
     "subtitle": {
       "main": ""

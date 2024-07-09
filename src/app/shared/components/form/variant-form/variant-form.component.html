@@ -1,0 +1,45 @@
+<form role="form" [akaForm]="formData" (ngSubmit)="execute()">
+  <div class="flex flex-col">
+    <mat-form-field class="aka-mat-dense w-full" akaProps>
+      <mat-label>Name</mat-label>
+      <input type="text" name="name" [(ngModel)]="formData.name" matInput placeholder="e.g. Level 1" />
+    </mat-form-field>
+
+    <mat-form-field class="aka-mat-dense w-full" akaProps>
+      <mat-label>Price</mat-label>
+      <input type="text" currencyMask name="price" [(ngModel)]="formData.price" matInput [autocomplete]="false" />
+    </mat-form-field>
+
+    <mat-form-field class="aka-mat-dense" akaProps>
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="formData.status" name="status" placeholder="Choose Status">
+        <mat-option [value]="option.value" *ngFor="let option of statuses">{{ option.label }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <aka-select-variant-group
+      [user]="user"
+      placeholder="Choose Group"
+      [(ngModel)]="formData.group"
+      name="group"
+      [required]="true"
+      fieldClass="w-full aka-mat-dense"
+      tabindex="-1"
+      label="Group"
+    ></aka-select-variant-group>
+  </div>
+
+  <div class="mt-4 flex items-center justify-end">
+    <button mat-button type="button" tabindex="-1" (click)="cancel()" [disabled]="formData.$loading">CANCEL</button>
+    <button
+      mat-flat-button
+      color="primary"
+      class="ml-3"
+      [disabled]="formData.$disabled || formData.$loading"
+      [akaLoading]="formData.$loading"
+      type="submit"
+    >
+      SAVE
+    </button>
+  </div>
+</form>
