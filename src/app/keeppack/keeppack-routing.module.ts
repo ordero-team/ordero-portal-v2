@@ -22,6 +22,7 @@ import { RestaurantStockNavRoute } from '@app/pages/restaurant/main/stock/stock.
 import { RestaurantTableNavRoute } from '@app/pages/restaurant/main/table/table.component';
 import { StaffDashboardNavRoute } from '@app/pages/staff/main/dashboard/dashboard.component';
 import { StaffOrderNavRoute } from '@app/pages/staff/main/order/order.component';
+import { StaffProductNavRoute } from '@app/pages/staff/main/product/product.component';
 import { StaffStockNavRoute } from '@app/pages/staff/main/stock/stock.component';
 import { StaffTableNavRoute } from '@app/pages/staff/main/table/table.component';
 import { INavMainRoutes, INavRoute, NavigationService } from '@cs/navigation.service';
@@ -157,6 +158,14 @@ const routes: INavMainRoutes = [
   },
 
   {
+    path: 'staff/:locid/products',
+    title: 'product.parent',
+    canActivate: [StaffGuardService, LocationGuardService],
+    component: HorizonalLayoutComponent,
+    loadChildren: () => import('@pg/staff/main/product/product.module').then((m) => m.ProductModule),
+  },
+
+  {
     path: 'staff/:locid/stocks',
     title: 'stock.parent',
     canActivate: [StaffGuardService, LocationGuardService],
@@ -228,7 +237,7 @@ const navRoutes: { [key: string]: INavRoute[] } = {
     RestaurantStaffNavRoute,
     RestaurantSettingNavRoute,
   ],
-  cashier: [StaffDashboardNavRoute, StaffOrderNavRoute, StaffTableNavRoute, StaffStockNavRoute],
+  cashier: [StaffDashboardNavRoute, StaffOrderNavRoute, StaffTableNavRoute, StaffProductNavRoute, StaffStockNavRoute],
 };
 
 @UntilDestroy()

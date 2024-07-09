@@ -34,7 +34,7 @@ export const RestaurantProductNavRoute: INavRoute = {
 };
 
 export const RestaurantProductRoute: INavRoute = {
-  ...RestaurantProductCategoryNavRoute,
+  ...RestaurantProductNavRoute,
   path: '',
   component: RestaurantProductComponent,
   children: [

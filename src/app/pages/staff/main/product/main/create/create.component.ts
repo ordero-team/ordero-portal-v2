@@ -1,24 +1,24 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OwnerProduct } from '@app/collections/owner/product.collection';
+import { StaffProduct } from '@app/collections/staff/product.collection';
 import { INavRoute } from '@app/core/services/navigation.service';
-import { OwnerAuthService } from '@app/core/services/owner/auth.service';
+import { StaffAuthService } from '@app/core/services/staff/auth.service';
 import { ToastService } from '@app/core/services/toast.service';
 
 @Component({
-  selector: 'aka-product-create',
+  selector: 'aka-create',
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss'],
 })
-export class RestaurantProductCreateComponent {
+export class StaffProductMainCreateComponent {
   constructor(
     private toast: ToastService,
     private router: Router,
     private route: ActivatedRoute,
-    public auth: OwnerAuthService
+    public auth: StaffAuthService
   ) {}
 
-  onSuccess(data: { product: OwnerProduct; another: boolean }) {
+  onSuccess(data: { product: StaffProduct; another: boolean }) {
     this.toast.info(`${data.product.name} successfully added!`);
     if (!data.another) {
       this.router.navigate([`../`], { relativeTo: this.route });
@@ -26,13 +26,13 @@ export class RestaurantProductCreateComponent {
   }
 }
 
-export const RestaurantProductMainCreateNavRoute: INavRoute = {
+export const StaffProductMainCreateNavRoute: INavRoute = {
   path: 'create',
-  name: 'restaurant.product.main.create',
+  name: 'staff.product.main.create',
   title: 'product.main.create.parent',
 };
 
-export const RestaurantProductMainCreateRoute: INavRoute = {
-  ...RestaurantProductMainCreateNavRoute,
-  component: RestaurantProductCreateComponent,
+export const StaffProductMainCreateRoute: INavRoute = {
+  ...StaffProductMainCreateNavRoute,
+  component: StaffProductMainCreateComponent,
 };

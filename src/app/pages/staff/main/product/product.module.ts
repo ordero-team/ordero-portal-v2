@@ -1,13 +1,29 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
-import { ProductRoutingModule } from './product-routing.module';
-import { ProductComponent } from './product.component';
+import { SharedModule } from '@app/shared/shared.module';
 import { CategoryComponent } from './category/category.component';
-import { MainComponent } from './main/main.component';
+import { StaffProductMainCreateComponent } from './main/create/create.component';
+import { StaffProductMainDetailComponent } from './main/detail/detail.component';
+import { StaffProductMainDetailHistoryComponent } from './main/detail/history/history.component';
+import { ManageComponent } from './main/detail/manage/manage.component';
+import { StaffProductMainDetailOverviewComponent } from './main/detail/overview/overview.component';
+import { StaffProductMainListComponent } from './main/list/list.component';
+import { StaffProductMainComponent } from './main/main.component';
+import { ProductRoutingModule } from './product-routing.module';
+import { StaffProductComponent } from './product.component';
 
 @NgModule({
-  declarations: [ProductComponent, CategoryComponent, MainComponent],
-  imports: [CommonModule, ProductRoutingModule],
+  declarations: [
+    StaffProductComponent,
+    StaffProductMainComponent,
+    CategoryComponent,
+    StaffProductMainListComponent,
+    StaffProductMainCreateComponent,
+    StaffProductMainDetailComponent,
+    StaffProductMainDetailOverviewComponent,
+    ManageComponent,
+    StaffProductMainDetailHistoryComponent,
+  ],
+  imports: [SharedModule, ProductRoutingModule],
 })
 export class ProductModule {}

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OwnerProduct } from '@app/collections/owner/product.collection';
+import { StaffProduct } from '@app/collections/staff/product.collection';
 import { INavRoute } from '@app/core/services/navigation.service';
-import { OwnerAuthService } from '@app/core/services/owner/auth.service';
+import { StaffAuthService } from '@app/core/services/staff/auth.service';
 import { IActionGroup } from '@app/core/states/breadcrumb/breadcrumb.actions';
 import { MetalQueryRowAction } from '@mtl/components/metal-query/metal-query.component';
 
@@ -11,7 +11,7 @@ import { MetalQueryRowAction } from '@mtl/components/metal-query/metal-query.com
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
 })
-export class RestaurantProductListComponent implements OnInit {
+export class StaffProductMainListComponent implements OnInit {
   public actionGroup: IActionGroup = [
     [
       {
@@ -25,7 +25,7 @@ export class RestaurantProductListComponent implements OnInit {
     ],
   ];
 
-  public rowActions: MetalQueryRowAction<OwnerProduct>[] = [
+  public rowActions: MetalQueryRowAction<StaffProduct>[] = [
     {
       icon: 'roundEdit',
       text: 'Edit',
@@ -37,18 +37,18 @@ export class RestaurantProductListComponent implements OnInit {
     },
   ];
 
-  constructor(private router: Router, private active: ActivatedRoute, public auth: OwnerAuthService) {}
+  constructor(public auth: StaffAuthService, private router: Router, private active: ActivatedRoute) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {}
 }
 
-export const RestaurantProductMainListNavRoute: INavRoute = {
+export const StaffProductMainListNavRoute: INavRoute = {
   path: '',
-  name: 'restaurant.product.main.list',
+  name: 'staff.product.main.list',
   title: 'product.main.list.parent',
 };
 
-export const RestaurantProductMainListRoute: INavRoute = {
-  ...RestaurantProductMainListNavRoute,
-  component: RestaurantProductListComponent,
+export const StaffProductMainListRoute: INavRoute = {
+  ...StaffProductMainListNavRoute,
+  component: StaffProductMainListComponent,
 };

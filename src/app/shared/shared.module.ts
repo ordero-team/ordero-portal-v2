@@ -91,6 +91,7 @@ import { StaffFormComponent } from './components/form/staff-form/staff-form.comp
 import { StockFormComponent } from './components/form/stock-form/stock-form.component';
 import { TableFormComponent } from './components/form/table-form/table-form.component';
 import { VariantFormComponent } from './components/form/variant-form/variant-form.component';
+import { ProductListComponent } from './components/listing/product-list/product-list.component';
 import { StockListComponent } from './components/listing/stock-list/stock-list.component';
 import { TableListComponent } from './components/listing/table-list/table-list.component';
 import { MapComponent } from './components/map/map.component';
@@ -232,6 +233,7 @@ const declarations = [
   // Listing
   TableListComponent,
   StockListComponent,
+  ProductListComponent,
 ];
 
 @NgModule({
