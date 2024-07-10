@@ -49,12 +49,12 @@ const BaseAdapter = new HttpAdapter({
     }
 
     try {
-      const owner = LocalStorage.getItem('owner');
-      const staff = LocalStorage.getItem('staff');
+      const owner = JSON.parse(LocalStorage.getItem('owner').toString());
+      const staff = JSON.parse(LocalStorage.getItem('staff').toString());
       const auth: any = has(owner, 'access_token') ? owner : staff;
 
       if (auth) {
-        const { access_token } = JSON.parse(auth);
+        const { access_token } = auth;
         const opts = { Authorization: `Bearer ${access_token}` };
 
         Object.assign(config.headers, opts);

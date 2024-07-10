@@ -5,7 +5,7 @@
     <ng-container akaVerticalNavigationContentHeader>
       <!-- Logo -->
       <div class="flex h-20 items-center px-8 pt-6">
-        <img class="w-24" src="assets/images/logo/logo-text-on-dark.svg" alt="Logo image" />
+        <img class="w-24" src="assets/images/logo/logo-text-primary-white.png" alt="Logo image" />
       </div>
     </ng-container>
   </aka-vertical-navigation>
@@ -29,9 +29,9 @@
         <ng-container *ngIf="!isScreenSmall">
           <div class="mx-2 flex items-center gap-8">
             <!-- Light version -->
-            <img class="w-24 dark:hidden" src="assets/images/logo/logo-text.svg" alt="Logo image" />
+            <img class="w-28 dark:hidden" src="assets/images/logo/logo-text-primary.png" alt="Logo image" />
             <!-- Dark version -->
-            <img class="hidden w-24 dark:flex" src="assets/images/logo/logo-text-on-dark.svg" alt="Logo image" />
+            <img class="hidden w-28 dark:flex" src="assets/images/logo/logo-text-secondary-white.png" alt="Logo image" />
 
             <div
               *ngIf="auth.isAuthenticated()"

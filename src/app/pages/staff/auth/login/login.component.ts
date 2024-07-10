@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StaffGuestGuardService } from '@app/core/guards/staff-guard.service';
+import { DarkModeService } from '@app/core/services/dark-mode.service';
 import { INavRoute } from '@app/core/services/navigation.service';
 import { StaffAuthService } from '@app/core/services/staff/auth.service';
 import { ToastService } from '@app/core/services/toast.service';
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit {
   })
   formData: FormRecord;
 
-  constructor(private toast: ToastService, private auth: StaffAuthService) {}
+  constructor(private toast: ToastService, private auth: StaffAuthService, public darkMode: DarkModeService) {}
 
   ngOnInit() {
     this.formData.$reset();

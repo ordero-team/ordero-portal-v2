@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { OrderCollection } from '@app/collections/order.collection';
 import { CartInfo, CartService, MenuItem } from '@app/core/services/cart.service';
 import { INavRoute } from '@app/core/services/navigation.service';
@@ -23,7 +24,12 @@ export class CustomerCartComponent implements OnInit, OnDestroy {
 
   isFetching = false;
 
-  constructor(private cart: CartService, private orderCol: OrderCollection, private toast: ToastService) {}
+  constructor(
+    private cart: CartService,
+    private orderCol: OrderCollection,
+    private toast: ToastService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.cart.infoObservable.pipe(untilDestroyed(this)).subscribe((val) => (this.info = val));
@@ -65,6 +71,7 @@ export class CustomerCartComponent implements OnInit, OnDestroy {
       const res = await this.orderCol.create(payload as any);
 
       this.toast.info(`Order ${res.number} successfully created`);
+      this.router.navigate(['/orders', res.id]);
     } catch (error) {
       this.toast.error('Something bad happened', error);
     } finally {

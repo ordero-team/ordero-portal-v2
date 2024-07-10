@@ -1,6 +1,6 @@
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { KeeppackModule } from '@app/keeppack/keeppack.module';
+import { OrderoModule } from '@app/ordero/ordero.module';
 import { environment } from '@env/environment';
 
 if (environment.production) {
@@ -8,5 +8,5 @@ if (environment.production) {
 }
 
 platformBrowserDynamic()
-  .bootstrapModule(KeeppackModule)
+  .bootstrapModule(OrderoModule)
   .catch((err) => console.error(err));
