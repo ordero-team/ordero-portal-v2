@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Order, OrderCollection } from '@app/collections/order.collection';
 import { INavRoute } from '@app/core/services/navigation.service';
+import { PubsubService } from '@app/core/services/pubsub.service';
 import { ScanTableService } from '@app/core/services/scan-table.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { has } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 
 @UntilDestroy()
@@ -25,7 +28,8 @@ export class OrderComponent implements OnInit {
     private toast: ToastService,
     private collection: OrderCollection,
     private title: Title,
-    private scan: ScanTableService
+    private scan: ScanTableService,
+    private snackBar: MatSnackBar
   ) {
     active.params.pipe(untilDestroyed(this)).subscribe((val) => {
       if (val.order_id) {
@@ -47,10 +51,19 @@ export class OrderComponent implements OnInit {
       }
 
       this.fetch(val);
+      PubsubService.getInstance().event(`ordero/${val}/notification`, (data) => {
+        if (has(data, 'data')) {
+          const order = data.data;
+          this.fetch(order.order_id).then(() =>
+            this.snackBar.open(`Your order ${this.order.number} has been updated.`, null, { duration: 3000 })
+          );
+        }
+      });
     });
   }
 
   async fetch(id: string) {
+    this.isFetching = true;
     try {
       this.order = await this.collection.findOne(id, { params: { include: 'items,table' } });
       this.title.setTitle(this.order.number);

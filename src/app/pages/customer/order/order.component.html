@@ -1,6 +1,16 @@
 <div class="mx-auto max-w-4xl">
   <ng-container *ngIf="!isFetching && order">
-    <h2 class="text-default mb-6 text-3xl font-bold">Order Detail</h2>
+    <aka-alert dismissible showIcon type="info">
+      <mat-icon akaAlertIcon icIcon="informationCircle"></mat-icon>
+      <p akaAlertTitle>Information</p>
+      To check your current order, simply scan the QR code on your table.
+    </aka-alert>
+
+    <div class="mb-6 mt-3 flex items-center gap-3">
+      <h2 class="text-default text-3xl font-bold">Order Detail</h2>
+
+      <aka-state-label state="completed" text="Auto Update"></aka-state-label>
+    </div>
 
     <div class="mb-8 grid grid-cols-2 gap-4">
       <div class="col-span-2 sm:col-span-1">
@@ -35,7 +45,7 @@
         <img [src]="item.images[0].url" [alt]="item.product.name" class="mr-4 h-24 w-24 rounded-md object-cover" />
         <div class="flex-grow">
           <h4 class="text-default mb-2 text-xl font-semibold">{{ item.product.name }}</h4>
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-start gap-3">
             <div>
               <p class="text-default text-sm font-medium">Quantity</p>
               <p class="text-default text-lg font-semibold">{{ item.qty }}</p>
@@ -44,10 +54,10 @@
               <p class="text-default text-sm font-medium">Price</p>
               <p class="text-default text-lg font-semibold">{{ item.price | currency }}</p>
             </div>
-            <div>
+            <!-- <div>
               <p class="text-default text-sm font-medium">Status</p>
               <aka-state-label [state]="item.status"></aka-state-label>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
