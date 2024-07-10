@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Restaurant, RestaurantCollection } from '@app/collections/restaurant.collection';
 import { Table, TableCollection } from '@app/collections/table.collection';
 import { CartService, MenuItem } from '@app/core/services/cart.service';
@@ -44,7 +44,8 @@ export class DetailComponent implements OnInit, AfterViewInit {
     private title: Title,
     private cart: CartService,
     private elem: ElementRef,
-    private scanTable: ScanTableService
+    private scanTable: ScanTableService,
+    private router: Router
   ) {
     this.route.params.pipe(untilDestroyed(this)).subscribe((val) => {
       if (val.restaurant_id) {
@@ -118,7 +119,18 @@ export class DetailComponent implements OnInit, AfterViewInit {
     try {
       this.isFetching = true;
 
-      const data = await this.tableCol.findOne(id);
+      const data = await this.tableCol.findOne(id, { params: { include: 'order' } });
+
+      if (data.status !== 'available') {
+        if (data.order.status !== 'completed') {
+          this.router.navigate(['/orders', data.order.id]);
+          return;
+        }
+
+        this.toast.error(`Sorry, Table ${data.number} is not available right now.`);
+        return;
+      }
+
       this.table = data;
       this.cart.setInfo({ restaurant: this.restaurant, table: this.table });
     } catch (error) {

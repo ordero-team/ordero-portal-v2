@@ -47,7 +47,10 @@
       "parent": "Dashboard"
     },
     "order": {
-      "parent": "Orders"
+      "parent": "Orders",
+      "detail": {
+        "parent": "Order"
+      }
     },
     "customer": {
       "parent": "Customer",

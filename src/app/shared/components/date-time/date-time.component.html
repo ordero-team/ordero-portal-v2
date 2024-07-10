@@ -1,1 +1,1 @@
-<span>{{ date | timestamp: format:pretty:isUtc }}</span>
+<span [matTooltip]="date | date: 'medium'">{{ date | timestamp: format:pretty:isUtc }}</span>

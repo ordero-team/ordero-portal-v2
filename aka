@@ -8,7 +8,7 @@ const stdio = [stdin, stdout, stderr];
 const stdop = { stdio };
 const angular = './node_modules/@angular/cli/bin/ng';
 
-program.version('0.0.1').usage('<commands> [options]').description('Kelola SaaS Client - Command Control');
+program.version('0.0.1').usage('<commands> [options]').description('Ordero - Command Control');
 
 program
   .command('gm [name]')

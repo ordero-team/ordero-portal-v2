@@ -13,9 +13,9 @@ const OwnerOrderConfig: IRestConfigs = {
   endpoint: 'orders',
   relations: {
     belongsTo: {
-      owner_restaurant: {
+      restaurant: {
         parent: true,
-        localField: 'owner_restaurant',
+        localField: 'restaurant',
         foreignKey: 'restaurant_id',
       },
     },

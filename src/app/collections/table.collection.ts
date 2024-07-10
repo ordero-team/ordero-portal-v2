@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MetalCollection, MetalCollectionConfig } from '@lib/metal-data';
 import { MetalAPIData } from '@mtl/interfaces';
 import { OriginService } from '@mtl/services/origin.service';
+import { Order } from './order.collection';
 import { Restaurant } from './restaurant.collection';
 
 export interface Table extends MetalAPIData {
@@ -10,6 +11,7 @@ export interface Table extends MetalAPIData {
   location_id: string;
 
   restaurant?: Restaurant;
+  order?: Order;
 }
 
 const TableConfig: MetalCollectionConfig<Table> = {
