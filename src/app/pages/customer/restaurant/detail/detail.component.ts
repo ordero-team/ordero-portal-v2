@@ -119,6 +119,12 @@ export class DetailComponent implements OnInit, AfterViewInit {
       this.isFetching = true;
 
       const data = await this.tableCol.findOne(id);
+
+      if (data.status !== 'available') {
+        this.toast.error(`Sorry, Table ${data.number} is not available right now.`);
+        return;
+      }
+
       this.table = data;
       this.cart.setInfo({ restaurant: this.restaurant, table: this.table });
     } catch (error) {

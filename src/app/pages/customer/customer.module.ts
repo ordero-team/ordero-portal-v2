@@ -8,6 +8,7 @@ import { DetailComponent } from './restaurant/detail/detail.component';
 import { ListComponent } from './restaurant/list/list.component';
 import { RestaurantComponent } from './restaurant/restaurant.component';
 import { CustomerTableComponent } from './table/table.component';
+import { OrderComponent } from './order/order.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { CustomerTableComponent } from './table/table.component';
     DetailComponent,
     CustomerTableComponent,
     CustomerCartComponent,
+    OrderComponent,
   ],
   imports: [SharedModule, CustomerRoutingModule],
 })

@@ -23,6 +23,10 @@
   <div *ngIf="table" class="mt-4 rounded-lg bg-gray-100 p-4">
     <h2 class="text-md font-semibold">Table Information</h2>
     <p>Table Number: {{ table.number }}</p>
+    <p>
+      Table Status:
+      <aka-state-label [state]="table.status"></aka-state-label>
+    </p>
   </div>
 
   <div class="flex flex-col gap-4 pb-20" [ngClass]="{ 'divide-y': menus.length > 0 }">

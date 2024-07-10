@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BaseResource, IRestConfigs } from '@lib/resource';
 
 export const RestaurantConfig: IRestConfigs = {
-  name: 'owner_restaurant',
+  name: 'restaurant',
   endpoint: 'owner/restaurants',
 };
 

@@ -5,7 +5,7 @@ import { environment } from '@env/environment';
 
 export class Debug {
   public static debug = environment.debug;
-  public static prefix = 'BONBON';
+  public static prefix = 'ORDERO';
   public static prefixStyle = 'background: #4d4d4d; color: #fff';
 
   static log(...args) {

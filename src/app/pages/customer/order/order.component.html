@@ -1,0 +1,83 @@
+<div class="mx-auto max-w-4xl">
+  <ng-container *ngIf="!isFetching && order">
+    <h2 class="text-default mb-6 text-3xl font-bold">Order Detail</h2>
+
+    <div class="mb-8 grid grid-cols-2 gap-4">
+      <div class="col-span-2 sm:col-span-1">
+        <p class="text-default text-sm font-medium">Order Number</p>
+        <p class="text-default text-lg font-semibold">{{ order.number }}</p>
+      </div>
+      <div class="col-span-2 sm:col-span-1">
+        <p class="text-default text-sm font-medium">Table Number</p>
+        <p class="text-default text-lg font-semibold">{{ order.table.number }}</p>
+      </div>
+      <div class="col-span-2 sm:col-span-1">
+        <p class="text-default text-sm font-medium">Order Status</p>
+        <aka-state-label [state]="order.status"></aka-state-label>
+      </div>
+      <div class="col-span-2 sm:col-span-1">
+        <p class="text-default text-sm font-medium">Customer Name</p>
+        <p class="text-default text-lg font-semibold">{{ order.customer_name }}</p>
+      </div>
+      <div class="col-span-2 sm:col-span-1">
+        <p class="text-default text-sm font-medium">Total Amount</p>
+        <p class="text-2xl font-bold text-green-600 dark:text-green-400">{{ order.gross_total | currency }}</p>
+      </div>
+      <div class="col-span-2 sm:col-span-1">
+        <p class="text-default text-sm font-medium">Created at</p>
+        <aka-date-time [date]="order.created_at"></aka-date-time>
+      </div>
+    </div>
+
+    <h3 class="text-default mb-4 text-2xl font-semibold">Order Items</h3>
+    <div class="space-y-6">
+      <div *ngFor="let item of order.items" class="flex items-start rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
+        <img [src]="item.images[0].url" [alt]="item.product.name" class="mr-4 h-24 w-24 rounded-md object-cover" />
+        <div class="flex-grow">
+          <h4 class="text-default mb-2 text-xl font-semibold">{{ item.product.name }}</h4>
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-default text-sm font-medium">Quantity</p>
+              <p class="text-default text-lg font-semibold">{{ item.qty }}</p>
+            </div>
+            <div>
+              <p class="text-default text-sm font-medium">Price</p>
+              <p class="text-default text-lg font-semibold">{{ item.price | currency }}</p>
+            </div>
+            <div>
+              <p class="text-default text-sm font-medium">Status</p>
+              <aka-state-label [state]="item.status"></aka-state-label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <div *ngIf="isFetching" class="animate-pulse">
+    <div class="mb-6 h-8 w-64 rounded bg-gray-200"></div>
+
+    <div class="mb-8 grid grid-cols-2 gap-4">
+      <div class="col-span-2 sm:col-span-1" *ngFor="let i of [1, 2, 3, 4, 5, 6]">
+        <div class="mb-2 h-4 w-24 rounded bg-gray-200"></div>
+        <div class="h-6 w-32 rounded bg-gray-300"></div>
+      </div>
+    </div>
+
+    <div class="mb-4 h-6 w-48 rounded bg-gray-200"></div>
+    <div class="space-y-6">
+      <div *ngFor="let i of [1, 2, 3]" class="flex items-start rounded-lg bg-gray-50 p-4">
+        <div class="mr-4 h-24 w-24 rounded-md bg-gray-200"></div>
+        <div class="flex-grow">
+          <div class="mb-2 h-6 w-48 rounded bg-gray-200"></div>
+          <div class="flex items-center justify-between">
+            <div *ngFor="let j of [1, 2, 3]">
+              <div class="mb-1 h-4 w-16 rounded bg-gray-200"></div>
+              <div class="h-5 w-20 rounded bg-gray-300"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

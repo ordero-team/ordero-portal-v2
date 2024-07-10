@@ -10,6 +10,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Observable } from 'rxjs';
 import { CustomerCartNavRoute, CustomerCartRoute } from './cart/cart.component';
 import { CustomerHomeNavRoute, CustomerHomeRoute } from './home/home.component';
+import { OrderNavRoute, OrderRoute } from './order/order.component';
 import { CustomerRestaurantNavRoute, CustomerRestaurantRoute } from './restaurant/restaurant.component';
 import { CustomerTableNavRoute, CustomerTableRoute } from './table/table.component';
 
@@ -60,7 +61,7 @@ export const CustomerNavRoute: INavRoute = {
   path: '',
   name: 'customer',
   title: 'customer.parent',
-  children: [CustomerHomeNavRoute, CustomerRestaurantNavRoute, CustomerTableNavRoute, CustomerCartNavRoute],
+  children: [CustomerHomeNavRoute, CustomerRestaurantNavRoute, CustomerTableNavRoute, CustomerCartNavRoute, OrderNavRoute],
 };
 
 export const CustomerRoute: INavRoute = {
@@ -76,5 +77,6 @@ export const CustomerRoute: INavRoute = {
     CustomerRestaurantRoute,
     CustomerTableRoute,
     CustomerCartRoute,
+    OrderRoute,
   ],
 };
