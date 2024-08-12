@@ -1,0 +1,11 @@
+:host {
+    ::ng-deep {
+      aka-dropdown-date-range {
+        @apply sticky top-0 w-full z-20;
+      }
+  
+      aka-empty-page {
+        @apply my-0 #{'!important'};
+      }
+    }
+  }

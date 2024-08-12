@@ -41,9 +41,9 @@
     "@ngxs/storage-plugin": "^3.7.1",
     "@ngxs/store": "^3.7.1",
     "@sentry/browser": "^6.3.6",
-    "@swimlane/ngx-charts": "^19.0.1",
     "@visurel/iconify-angular": "^11.0.0",
     "angular-cc-library": "^2.1.2",
+    "apexcharts": "3.35.2",
     "axios": "^0.21.1",
     "centrifuge": "^3.1.0",
     "crypto-js": "^4.0.0",
@@ -57,6 +57,7 @@
     "localforage": "^1.9.0",
     "lodash": "^4.17.21",
     "metal-event-client": "^2.0.0",
+    "ng-apexcharts": "1.6.0",
     "ng2-currency-mask": "^11.0.0",
     "ngx-currency": "^2.5.2",
     "ngx-dropzone": "^3.0.0",
@@ -103,13 +104,13 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
-    "lint-staged": "^13.0.3",
-    "prettier": "^2.7.1",
-    "prettier-plugin-tailwindcss": "^0.2.8",
+    "lint-staged": "13.0.3",
+    "prettier": "2.7.1",
+    "prettier-plugin-tailwindcss": "^0.1.13",
     "protractor": "~7.0.0",
     "tailwindcss": "^2.2.12",
     "ts-node": "~8.3.0",
     "typescript": "~4.1.5",
-    "webpack-bundle-analyzer": "^4.5.0"
+    "webpack-bundle-analyzer": "^4.6.1"
   }
 }

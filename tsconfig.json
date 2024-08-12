@@ -21,26 +21,62 @@
       "dom"
     ],
     "paths": {
-      "@mtl/*": ["src/@metal/*"],
-      "@aka/*": ["src/@aka/*"],
-      "@mat/*": ["src/@material/*"],
-      "@app/*": ["src/app/*"],
-      "@env/*": ["src/environments/*"],
-      "@lib/*": ["src/lib/*"],
-      "@cl/*": ["src/app/collections/*"],
-      "@pg/*": ["src/app/pages/*"],
+      "@mtl/*": [
+        "src/@metal/*"
+      ],
+      "@aka/*": [
+        "src/@aka/*"
+      ],
+      "@mat/*": [
+        "src/@material/*"
+      ],
+      "@app/*": [
+        "src/app/*"
+      ],
+      "@env/*": [
+        "src/environments/*"
+      ],
+      "@lib/*": [
+        "src/lib/*"
+      ],
+      "@cl/*": [
+        "src/app/collections/*"
+      ],
+      "@pg/*": [
+        "src/app/pages/*"
+      ],
       // Core
-      "@cc/*": ["src/app/core/components/*"],
-      "@cd/*": ["src/app/core/directives/*"],
-      "@cs/*": ["src/app/core/services/*"],
-      "@ch/*": ["src/app/core/helpers/*"],
-      "@cp/*": ["src/app/core/pipes/*"],
-      "@ct/*": ["src/app/core/states/*"],
+      "@cc/*": [
+        "src/app/core/components/*"
+      ],
+      "@cd/*": [
+        "src/app/core/directives/*"
+      ],
+      "@cs/*": [
+        "src/app/core/services/*"
+      ],
+      "@ch/*": [
+        "src/app/core/helpers/*"
+      ],
+      "@cp/*": [
+        "src/app/core/pipes/*"
+      ],
+      "@ct/*": [
+        "src/app/core/states/*"
+      ],
       // Shared
-      "@sc/*": ["src/app/shared/components/*"],
-      "@sd/*": ["src/app/shared/directives/*"],
-      "@ss/*": ["src/app/shared/services/*"],
-      "@sp/*": ["src/app/shared/pipes/*"]
+      "@sc/*": [
+        "src/app/shared/components/*"
+      ],
+      "@sd/*": [
+        "src/app/shared/directives/*"
+      ],
+      "@ss/*": [
+        "src/app/shared/services/*"
+      ],
+      "@sp/*": [
+        "src/app/shared/pipes/*"
+      ]
     }
   },
   "angularCompilerOptions": {

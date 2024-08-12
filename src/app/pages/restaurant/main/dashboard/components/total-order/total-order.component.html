@@ -1,0 +1,34 @@
+<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+  <aka-card-counter
+    [title]="summary.total"
+    [loading]="loading.total"
+    subtitle="Total Order"
+    icon="cartArrowDown"
+    iconColor="text-yellow-500"
+    bgIcon="bg-yellow-100"
+  ></aka-card-counter>
+  <aka-card-counter
+    [title]="summary.waiting"
+    [loading]="loading.waiting"
+    subtitle="Total New Order (Waiting Approval)"
+    icon="cartArrowDown"
+    iconColor="text-blue-500"
+    bgIcon="bg-blue-100"
+  ></aka-card-counter>
+  <aka-card-counter
+    [title]="summary.completed"
+    [loading]="loading.completed"
+    subtitle="Total Completed Order"
+    icon="cartArrowDown"
+    iconColor="text-green-500"
+    bgIcon="bg-green-100"
+  ></aka-card-counter>
+  <aka-card-counter
+    [title]="summary.cancelled"
+    [loading]="loading.cancelled"
+    subtitle="Total Cancelled Order"
+    icon="cartArrowDown"
+    iconColor="text-red-500"
+    bgIcon="bg-red-100"
+  ></aka-card-counter>
+</div>

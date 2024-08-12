@@ -1,0 +1,56 @@
+<aka-card>
+  <aka-card-head>
+    <aka-card-title>Sales</aka-card-title>
+  </aka-card-head>
+  <aka-card-content>
+    <div class="flex flex-wrap items-center justify-between">
+      <div>
+        <!-- Loading Total -->
+        <div *ngIf="loading.total" class="animate-pulse">
+          <div class="h-13 w-60 rounded bg-gray-200 dark:bg-gray-500"></div>
+          <div class="mb-8 mt-5 flex items-center justify-center">
+            <div class="mr-5 border-r border-gray-200 py-3 pr-5 dark:border-gray-500">
+              <div class="mb-2 h-3 w-44 rounded bg-gray-200 dark:bg-gray-500"></div>
+              <div class="h-6 w-32 rounded bg-gray-200 dark:bg-gray-500"></div>
+            </div>
+            <div>
+              <div class="mb-2 h-3 w-44 rounded bg-gray-200 dark:bg-gray-500"></div>
+              <div class="h-6 w-32 rounded bg-gray-200 dark:bg-gray-500"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Total -->
+        <div *ngIf="!loading.total">
+          <!-- <p class="mb-3 text-5xl font-semibold">{{ sales.total | currency }}</p> -->
+          <div class="flex items-center justify-center">
+            <div class="mr-5">
+              <p class="text-disabled text-sm dark:text-gray-400">Total Sales (by completed order)</p>
+              <p class="text-md font-medium md:text-xl">{{ sales.total | currency }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading CHart -->
+    <div *ngIf="loading.chart" class="animate-pulse px-10">
+      <div class="mt-10 h-96 w-full rounded bg-gray-200 dark:bg-gray-500"></div>
+    </div>
+
+    <!-- Chart -->
+    <div *ngIf="!loading.chart" class="mb-5 mt-10 flex items-center justify-center">
+      <apx-chart
+        class="w-full"
+        [series]="chartOptions.series"
+        [chart]="chartOptions.chart"
+        [xaxis]="chartOptions.xaxis"
+        [dataLabels]="chartOptions.dataLabels"
+        [grid]="chartOptions.grid"
+        [stroke]="chartOptions.stroke"
+        [title]="chartOptions.title"
+        [tooltip]="chartOptions.tooltip"
+      ></apx-chart>
+    </div>
+  </aka-card-content>
+</aka-card>
