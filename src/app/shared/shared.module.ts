@@ -107,9 +107,6 @@ import { SelectVariantsComponent } from './components/select-variants/select-var
 import { StaffUserMenuComponent } from './components/staff/user-menu/user-menu.component';
 import { DropdownDateRangeComponent } from './components/dropdown-date-range/dropdown-date-range.component';
 import { CardCounterComponent } from './components/card-counter/card-counter.component';
-import { ChartLineComponent } from './components/chart/line/line.component';
-import { ChartsModule } from 'ng2-charts';
-import { NgApexchartsModule } from 'ng-apexcharts';
 
 const modules = [
   CommonModule,
@@ -239,9 +236,6 @@ const declarations = [
   TableListComponent,
   StockListComponent,
   ProductListComponent,
-
-  // Chart
-  ChartLineComponent,
 ];
 
 @NgModule({
