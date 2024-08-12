@@ -24,7 +24,18 @@
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "allowedCommonJsDependencies": [
-              "crypto-js", "lodash", "axios", "papaparse", "simple-encryptor", "@ch/encrypt.helper", "socket.io-client", "centrifuge", "clone-deep"
+              "chart.js",
+              "crypto-js",
+              "lodash",
+              "axios",
+              "papaparse",
+              "simple-encryptor",
+              "@ch/encrypt.helper",
+              "socket.io-client",
+              "centrifuge",
+              "clone-deep",
+              "ng2-charts",
+              "apexcharts"
             ],
             "outputPath": "dist/ordero-portal",
             "index": "src/index.html",

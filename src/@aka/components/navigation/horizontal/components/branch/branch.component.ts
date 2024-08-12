@@ -45,8 +45,6 @@ export class AkaHorizontalNavigationBranchItemComponent implements OnInit, OnDes
       // Mark for check
       this._changeDetectorRef.markForCheck();
     });
-
-    console.log(this.item, this.item.exactMatch);
   }
 
   /**

@@ -1,0 +1,41 @@
+:host {
+    .dropdown-date-range {
+      backdrop-filter: blur(6px) !important;
+      width: -webkit-fill-available !important;
+      max-width: -webkit-fill-available !important;
+      @apply bg-white dark:bg-gray-700 px-4 py-3 bg-opacity-50 dark:bg-opacity-50 flex flex-col lg:flex-row gap-2 lg:gap-0 items-start w-full justify-between #{'!important'};
+    }
+  
+    ul {
+      list-style: none;
+      padding: 0;
+      column-count: 1;
+      -moz-column-count: 1;
+  
+      li {
+        line-height: 21px !important;
+  
+        @apply block h-full border border-gray-300 rounded-md bg-white w-full text-center px-5 py-2 mr-2 hover:border-primary-500 hover:text-primary-500 dark:bg-gray-700 dark:border-gray-500 m-auto cursor-pointer;
+  
+        &.active {
+          @apply border-primary-500 text-primary-500 dark:border-primary-700 dark:text-primary-500 border-opacity-100 #{'!important'};
+        }
+      }
+    }
+  
+    @media screen and (max-width: 1450px) {
+      .dropdown-date-range {
+        @apply flex-col gap-2 #{'!important'};
+      }
+    }
+  
+    ::ng-deep {
+      .mat-form-field.date-range-field {
+        @apply min-h-0 w-full md:w-56 shadow-none #{'!important'};
+      }
+  
+      .mat-form-field .mat-form-field-wrapper {
+        margin-bottom: 0 !important;
+      }
+    }
+  }

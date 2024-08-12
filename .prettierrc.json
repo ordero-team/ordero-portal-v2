@@ -5,5 +5,20 @@
   "trailingComma": "es5",
   "printWidth": 125,
   "arrowParens": "always",
-  "parser": "typescript"
+  "parser": "typescript",
+  "overrides": [
+    {
+      "files": ["*.component.html"],
+      "options": {
+        "parser": "angular",
+        "htmlWhitespaceSensitivity": "ignore"
+      }
+    },
+    {
+      "files": ["*.ts"],
+      "options": {
+        "parser": "typescript"
+      }
+    }
+  ]
 }

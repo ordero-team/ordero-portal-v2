@@ -1,0 +1,26 @@
+<aka-card>
+  <aka-card-head>
+    <aka-card-title>Orders</aka-card-title>
+  </aka-card-head>
+  <aka-card-content>
+    <!-- Loading CHart -->
+    <div *ngIf="loading.chart" class="animate-pulse px-10">
+      <div class="mt-10 h-96 w-full rounded bg-gray-200 dark:bg-gray-500"></div>
+    </div>
+
+    <!-- Chart -->
+    <div *ngIf="!loading.chart" class="mb-5 mt-10 flex items-center justify-center">
+      <apx-chart
+        class="w-full"
+        [series]="chartOptions.series"
+        [chart]="chartOptions.chart"
+        [xaxis]="chartOptions.xaxis"
+        [dataLabels]="chartOptions.dataLabels"
+        [grid]="chartOptions.grid"
+        [stroke]="chartOptions.stroke"
+        [title]="chartOptions.title"
+        [tooltip]="chartOptions.tooltip"
+      ></apx-chart>
+    </div>
+  </aka-card-content>
+</aka-card>
