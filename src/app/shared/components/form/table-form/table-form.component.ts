@@ -54,6 +54,10 @@ export class TableFormComponent implements OnInit {
     return this.user && this.user.role.name === 'owner';
   }
 
+  get ownerLocation() {
+    return this.auth.currentUser.location || null;
+  }
+
   constructor(
     private collection: OwnerTableCollection,
     private staffCol: StaffTableCollection,
@@ -89,7 +93,7 @@ export class TableFormComponent implements OnInit {
 
       const payload = {
         ...this.formData.$payload,
-        location_id: get(this.formData.$payload, 'location.id', null),
+        location_id: this.ownerLocation ? this.ownerLocation.id : get(this.formData.$payload, 'location.id', null),
         restaurant_id: this.user.restaurant.id,
       };
 
@@ -111,7 +115,7 @@ export class TableFormComponent implements OnInit {
           res = await this.staffCol.create(payload);
         }
 
-        this.toast.info(`Table ${res.name} successfully created`);
+        this.toast.info(`Table ${res.number} successfully created`);
         this.onSuccess.emit(res);
       }
     } catch (error) {

@@ -10,6 +10,7 @@ import { ToastService } from '@app/core/services/toast.service';
 import { OwnerOrderResource } from '@app/resources/owner/order.resource';
 import { OrderDetailItemsComponent } from '@app/shared/components/order-detail-items/order-detail-items.component';
 import { IRestPagination } from '@lib/resource';
+import { time } from '@lib/time';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { get, has } from 'lodash';
 
@@ -59,6 +60,7 @@ export class OrderListComponent implements OnInit, OnDestroy {
   // orders$ = new BehaviorSubject<OwnerOrder[]>([]);
   isFetching = true;
   subscriberPaginate: any;
+  date: { start: number; end: number };
 
   // Order Pagination
   currentPage = 1;
@@ -84,7 +86,7 @@ export class OrderListComponent implements OnInit, OnDestroy {
     }
   }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.activeRoute.queryParams.pipe(untilDestroyed(this)).subscribe((val) => {
       let status = '';
 
@@ -94,7 +96,7 @@ export class OrderListComponent implements OnInit, OnDestroy {
       } else {
         this.route.navigate([], {
           relativeTo: this.activeRoute,
-          queryParams: { status: '' },
+          queryParams: { ...val, status: '' },
           queryParamsHandling: 'merge',
         });
       }
@@ -108,6 +110,16 @@ export class OrderListComponent implements OnInit, OnDestroy {
         this.generatePaginate(pagination);
       }
     });
+  }
+
+  callbackDateRange(e: any) {
+    const startDate = time.tz(e.start, 'UTC').subtract(1, 'day').set('hour', 17).set('minute', 0).set('second', 0).unix();
+    const endDate = time.tz(e.end, 'UTC').utc().set('hour', 16).set('minute', 59).set('second', 59).unix();
+
+    this.date = {
+      start: Number(startDate),
+      end: Number(endDate),
+    };
   }
 
   goTo(page: 'next' | 'prev' | number) {
@@ -151,6 +163,7 @@ export class OrderListComponent implements OnInit, OnDestroy {
         per_page: 15,
         sort: '-created_at',
         page: this.currentPage,
+        ...this.date,
       })
       .then((res) => {
         this.orderService.setData(get(res, 'result.data', []) as OwnerOrder[]);
