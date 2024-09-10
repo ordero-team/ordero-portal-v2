@@ -4,8 +4,8 @@ import { MetalCollection, MetalCollectionConfig } from '@lib/metal-data';
 import { MetalAPIData } from '@mtl/interfaces';
 
 export interface OwnerLocation extends MetalAPIData {
-  name: string;
-  is_default: boolean;
+  name?: string;
+  is_default?: boolean;
   restaurant_id?: string;
 }
 

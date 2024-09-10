@@ -4,6 +4,7 @@ import { OwnerAuthService } from '@app/core/services/owner/auth.service';
 import { IActionGroup } from '@app/core/states/breadcrumb/breadcrumb.actions';
 import { DialogComponent } from '@app/shared/components/dialog/dialog.component';
 import { MetalQueryBulkAction, MetalQueryRowAction } from '@mtl/components/metal-query/metal-query.component';
+import { TableListComponent as TableListing } from '@sc/listing/table-list/table-list.component';
 
 @Component({
   selector: 'aka-list',
@@ -34,6 +35,15 @@ export class TableListComponent implements OnInit {
         };
       },
     },
+    {
+      icon: 'printerIcon',
+      text: 'Print',
+      action: (data) => {
+        return async () => {
+          await this.collection.printLabel(this.auth.currentRestaurant.id, [data]);
+        };
+      },
+    },
   ];
 
   public bulkActions: MetalQueryBulkAction<OwnerTable>[] = [
@@ -47,13 +57,14 @@ export class TableListComponent implements OnInit {
   ];
 
   @ViewChild('createDialog', { static: true }) createDialog: DialogComponent;
+  @ViewChild('tableList', { static: true }) tableList: TableListing;
 
   constructor(private collection: OwnerTableCollection, public auth: OwnerAuthService) {}
 
   ngOnInit() {}
 
   onSuccess() {
-    // this.query.fetch();
+    this.tableList.query.fetch();
     this.createDialog.hide();
   }
 }

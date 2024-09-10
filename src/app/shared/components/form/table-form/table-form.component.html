@@ -13,7 +13,7 @@
     </mat-form-field>
 
     <aka-select-location
-      *ngIf="isOwner"
+      *ngIf="isOwner && !ownerLocation"
       placeholder="Choose Location"
       [(ngModel)]="formData.location"
       name="location"
@@ -22,6 +22,11 @@
       tabindex="-1"
       label="Location"
     ></aka-select-location>
+
+    <div *ngIf="isOwner && ownerLocation" class="flex flex-col items-start">
+      <p class="mb-1.5 font-medium">Selected Location:</p>
+      <p>{{ ownerLocation.name }}</p>
+    </div>
   </div>
 
   <div class="mt-4 flex items-center justify-end">
