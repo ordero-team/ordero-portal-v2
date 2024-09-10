@@ -12,4 +12,13 @@
       @apply text-sm text-gray-600;
     }
   }
+
+  ::ng-deep {
+    .daterange {
+      div.dropdown-date-range {
+        padding: 0 !important;
+        background-color: transparent !important;
+      }
+    }
+  }
 }
