@@ -74,7 +74,6 @@ import { StateLabelPipe } from '@sp/state-label.pipe';
 import { TimestampPipe } from '@sp/timestamp.pipe';
 import { ToNumberPipe } from '@sp/to-number.pipe';
 import { UnescapePipe } from '@sp/unescape.pipe';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { IconModule } from '@visurel/iconify-angular';
 import { CURRENCY_MASK_CONFIG, CurrencyMaskModule } from 'ng2-currency-mask';
 import { NgxDropzoneModule } from 'ngx-dropzone';
@@ -106,6 +105,9 @@ import { SelectRoleComponent } from './components/select-role/select-role.compon
 import { SelectVariantGroupComponent } from './components/select-variant-group/select-variant-group.component';
 import { SelectVariantsComponent } from './components/select-variants/select-variants.component';
 import { StaffUserMenuComponent } from './components/staff/user-menu/user-menu.component';
+import { DropdownDateRangeComponent } from './components/dropdown-date-range/dropdown-date-range.component';
+import { CardCounterComponent } from './components/card-counter/card-counter.component';
+import { EditStockFormComponent } from './components/form/edit-stock-form/edit-stock-form.component';
 
 const modules = [
   CommonModule,
@@ -120,7 +122,6 @@ const modules = [
   AkaNavigationModule,
   CurrencyMaskModule,
   NgxJsonViewerModule,
-  NgxChartsModule,
   NgxDropzoneModule,
   ToggleDarkModeModule,
   MatToolbarModule,
@@ -189,6 +190,8 @@ const declarations = [
   BackdropLoaderComponent,
   ImageUploadComponent,
   SelectMultipleAutocompleteComponent,
+  DropdownDateRangeComponent,
+  CardCounterComponent,
 
   // Dialog Slider Image
   DialogGalleryComponent,
@@ -212,6 +215,7 @@ const declarations = [
   VariantFormComponent,
   ProductFormComponent,
   StockFormComponent,
+  EditStockFormComponent,
 
   // Select
   SelectLocationComponent,

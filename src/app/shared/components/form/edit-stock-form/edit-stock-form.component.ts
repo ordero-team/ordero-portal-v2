@@ -1,37 +1,29 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { OwnerProfile } from '@app/collections/owner/profile.collection';
-import { OwnerTable, OwnerTableCollection } from '@app/collections/owner/table.collection';
+import { OwnerStock, OwnerStockCollection } from '@app/collections/owner/stock.collection';
+import { OwnerTable } from '@app/collections/owner/table.collection';
 import { StaffProfile } from '@app/collections/staff/profile.collection';
-import { StaffTableCollection } from '@app/collections/staff/table.collection';
+import { StaffStockCollection } from '@app/collections/staff/stock.collection';
 import { OwnerAuthService } from '@app/core/services/owner/auth.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { Form, FormRecord } from '@lib/form';
 import { get, has } from 'lodash';
 
 @Component({
-  selector: 'aka-table-form',
-  templateUrl: './table-form.component.html',
-  styleUrls: ['./table-form.component.scss'],
+  selector: 'aka-edit-stock-form',
+  templateUrl: './edit-stock-form.component.html',
+  styleUrls: ['./edit-stock-form.component.scss'],
 })
-export class TableFormComponent implements OnInit {
+export class EditStockFormComponent implements OnInit {
   @Form({
-    number: 'required|alphaNumSpace',
     location: 'required',
-    status: 'required',
+    onhand: 'required',
   })
   formData: FormRecord;
 
-  statuses = [
-    { value: 'available', label: 'Available' },
-    { value: 'in_use', label: 'In Use' },
-    { value: 'reserved', label: 'Reserved' },
-    { value: 'unavailable', label: 'Unavailable' },
-    { value: 'empty', label: 'Empty' },
-  ];
-
-  _record: OwnerTable = null;
+  _record: OwnerStock = null;
   @Input()
-  get record(): OwnerTable {
+  get record(): OwnerStock {
     return this._record;
   }
 
@@ -44,7 +36,7 @@ export class TableFormComponent implements OnInit {
   @Input() user: OwnerProfile | StaffProfile;
 
   @Output() onClose: EventEmitter<boolean> = new EventEmitter();
-  @Output() onSuccess: EventEmitter<OwnerTable> = new EventEmitter();
+  @Output() onSuccess: EventEmitter<OwnerStock> = new EventEmitter();
 
   get isEdit() {
     return has(this.record, 'id');
@@ -55,34 +47,25 @@ export class TableFormComponent implements OnInit {
   }
 
   get ownerLocation() {
-    return this.auth.currentUser.location || null;
+    return this.auth.currentUser.location || this.record.location || null;
   }
 
   constructor(
-    private collection: OwnerTableCollection,
-    private staffCol: StaffTableCollection,
     private auth: OwnerAuthService,
-    private toast: ToastService
+    private toast: ToastService,
+    private collection: OwnerStockCollection,
+    private staffCol: StaffStockCollection
   ) {}
 
   ngOnInit() {
-    if (!this.isEdit) {
-      this.record = null;
-      this.formData.$import({
-        number: null,
-        location: {},
-        status: null,
-      });
-    } else {
-      this.formData.$import({
-        number: this.record.number,
-        location: this.record.location,
-        status: this.record.status,
-      });
-    }
+    this.formData.$import({
+      location: this.record.location,
+      onhand: this.record.onhand,
+    });
   }
 
   cancel() {
+    this.formData.$import({});
     this.onClose.emit(true);
   }
 
@@ -105,18 +88,8 @@ export class TableFormComponent implements OnInit {
           res = await this.staffCol.update(this.record.id, payload);
         }
 
-        this.toast.info(`Table successfully updated`);
+        this.toast.info(`Stock successfully updated`);
         this.onSuccess.emit(payload);
-      } else {
-        if (this.isOwner) {
-          res = await this.collection.create(payload);
-        } else {
-          payload['location_id'] = this.user.location.id;
-          res = await this.staffCol.create(payload);
-        }
-
-        this.toast.info(`Table ${res.number} successfully created`);
-        this.onSuccess.emit(res);
       }
     } catch (error) {
       this.toast.error('Something bad happened', error);

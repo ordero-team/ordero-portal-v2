@@ -1,2 +1,17 @@
 <aka-route-activator></aka-route-activator>
-<aka-under-development></aka-under-development>
+<div class="relative flex flex-col gap-4">
+  <aka-dropdown-date-range [default]="'last-7-days'" (callback)="callbackDateRange($event)"></aka-dropdown-date-range>
+
+  <div class="mx-4 flex flex-col gap-4">
+    <aka-total-order [date]="date"></aka-total-order>
+
+    <div class="grid w-full grid-cols-4 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="col-span-4 sm:col-span-2 md:col-span-2">
+        <aka-total-sales [date]="date"></aka-total-sales>
+      </div>
+      <div class="col-span-4 sm:col-span-2 md:col-span-2">
+        <aka-chart-order [date]="date"></aka-chart-order>
+      </div>
+    </div>
+  </div>
+</div>

@@ -22,6 +22,12 @@
     </td>
   </ng-container>
 
+  <ng-container psQCell="Allocated" akaMetalSort="allocated">
+    <td psQCol *psQBody="let stock; as: type">
+      <span>{{ stock.allocated | number }}</span>
+    </td>
+  </ng-container>
+
   <ng-container psQCell="Available" akaMetalSort="available">
     <td psQCol *psQBody="let stock; as: type">
       <span>{{ stock.available | number }}</span>

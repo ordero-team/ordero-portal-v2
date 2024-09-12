@@ -49,13 +49,13 @@
         />
         <div class="flex-1">
           <h3 class="text-lg font-medium">{{ item.product.name }}</h3>
-          <p class="text-hint">{{ item.price | currency }} | {{ item.qty }}pcs</p>
+          <p class="text-hint">{{ item.product.price | currency }} | {{ item.qty }}pcs</p>
         </div>
       </div>
 
       <div class="ml-auto flex items-center px-3">
         <p class="text-md font-semibold">Subtotal:</p>
-        <p class="ml-2 text-md">{{ item.price * item.qty | currency }}</p>
+        <p class="ml-2 text-md">{{ item.price | currency }}</p>
       </div>
     </div>
 

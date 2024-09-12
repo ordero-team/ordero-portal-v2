@@ -1,0 +1,32 @@
+<form role="form" [akaForm]="formData" (ngSubmit)="execute()">
+  <div class="flex flex-col">
+    <div *ngIf="isEdit && record" class="flex flex-col items-start">
+      <p class="mb-1.5 font-medium">Menu:</p>
+      <p>({{ record.item.product.sku }}) {{ record.item.product.name }}</p>
+    </div>
+
+    <div *ngIf="ownerLocation" class="my-5 flex flex-col items-start">
+      <p class="mb-1.5 font-medium">Selected Location:</p>
+      <p>{{ ownerLocation.name }}</p>
+    </div>
+
+    <mat-form-field class="aka-mat-dense w-full" akaProps>
+      <mat-label>On Hand Stock</mat-label>
+      <input type="number" name="onhand" [(ngModel)]="formData.onhand" matInput placeholder="0" />
+    </mat-form-field>
+  </div>
+
+  <div class="mt-4 flex items-center justify-end">
+    <button mat-button type="button" tabindex="-1" (click)="cancel()" [disabled]="formData.$loading">CANCEL</button>
+    <button
+      mat-flat-button
+      color="primary"
+      class="ml-3"
+      [disabled]="formData.$disabled || formData.$loading"
+      [akaLoading]="formData.$loading"
+      type="submit"
+    >
+      SAVE
+    </button>
+  </div>
+</form>

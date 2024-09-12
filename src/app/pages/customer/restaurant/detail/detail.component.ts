@@ -179,7 +179,6 @@ export class DetailComponent implements OnInit, AfterViewInit {
           return { ...data, qty: null };
         })
         .filter((val) => val);
-      console.log(this.menus);
       this.tempMenus = cloneDeep(this.menus);
     } catch (error) {
       this.toast.error(error);

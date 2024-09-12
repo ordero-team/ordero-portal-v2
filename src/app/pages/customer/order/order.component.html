@@ -42,7 +42,12 @@
     <h3 class="text-default mb-4 text-2xl font-semibold">Order Items</h3>
     <div class="space-y-6">
       <div *ngFor="let item of order.items" class="flex items-start rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
-        <img [src]="item.images[0].url" [alt]="item.product.name" class="mr-4 h-24 w-24 rounded-md object-cover" />
+        <img
+          *ngIf="item.images.length > 0"
+          [src]="item.images.length > 0 ? item.images[0].url : ''"
+          [alt]="item.product.name"
+          class="mr-4 h-24 w-24 rounded-md object-cover"
+        />
         <div class="flex-grow">
           <h4 class="text-default mb-2 text-xl font-semibold">{{ item.product.name }}</h4>
           <div class="flex items-center justify-start gap-3">
@@ -52,6 +57,10 @@
             </div>
             <div>
               <p class="text-default text-sm font-medium">Price</p>
+              <p class="text-default text-lg font-semibold">{{ item.product.price | currency }}</p>
+            </div>
+            <div>
+              <p class="text-default text-sm font-medium">Subtotal</p>
               <p class="text-default text-lg font-semibold">{{ item.price | currency }}</p>
             </div>
             <!-- <div>

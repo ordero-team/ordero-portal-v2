@@ -4,6 +4,7 @@ import { MetalCollection, MetalCollectionConfig } from '@lib/metal-data';
 import { MetalAPIData } from '@mtl/interfaces';
 import { OwnerProduct } from './product.collection';
 import { OwnerVariant } from './variant.collection';
+import { OwnerLocation } from './profile.collection';
 
 export interface OwnerStock extends MetalAPIData {
   onhand: number;
@@ -14,6 +15,7 @@ export interface OwnerStock extends MetalAPIData {
     product?: OwnerProduct;
     variant?: OwnerVariant;
   };
+  location?: OwnerLocation;
 }
 
 const StockConfig: MetalCollectionConfig<OwnerStock> = {

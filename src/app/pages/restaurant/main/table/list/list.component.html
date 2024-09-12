@@ -1,6 +1,6 @@
 <aka-route-activator></aka-route-activator>
 <aka-breadcrumb-actions [actions]="actionGroup"></aka-breadcrumb-actions>
-<aka-table-list [user]="auth.currentUser" [rowActions]="rowActions" [bulkActions]="bulkActions"></aka-table-list>
+<aka-table-list #tableList [user]="auth.currentUser" [rowActions]="rowActions" [bulkActions]="bulkActions"></aka-table-list>
 <aka-dialog #createDialog="akaDialog" class="small">
   <ng-container *akaDialogContent>
     <aka-table-form
