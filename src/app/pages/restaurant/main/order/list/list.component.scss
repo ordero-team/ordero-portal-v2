@@ -17,7 +17,8 @@
     .daterange {
       div.dropdown-date-range {
         padding: 0 !important;
-        background-color: transparent !important;
+        // background-color: transparent !important;
+        @apply bg-transparent dark:bg-transparent #{'!important'};
       }
     }
   }

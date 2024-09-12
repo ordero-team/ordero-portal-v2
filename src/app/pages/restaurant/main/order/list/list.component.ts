@@ -13,6 +13,8 @@ import { IRestPagination } from '@lib/resource';
 import { time } from '@lib/time';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { get, has } from 'lodash';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({
@@ -62,6 +64,10 @@ export class OrderListComponent implements OnInit, OnDestroy {
   subscriberPaginate: any;
   date: { start: number; end: number };
 
+  // Search
+  private searchSubject = new Subject<string>(); // Subject for search input
+  search = '';
+
   // Order Pagination
   currentPage = 1;
   totalCount: number;
@@ -100,8 +106,6 @@ export class OrderListComponent implements OnInit, OnDestroy {
           queryParamsHandling: 'merge',
         });
       }
-
-      this.fetch(status);
     });
 
     this.subscriberPaginate = this.orderRes.listUpdated.subscribe((val) => {
@@ -109,6 +113,12 @@ export class OrderListComponent implements OnInit, OnDestroy {
         const pagination = get(val, 'result.pagination');
         this.generatePaginate(pagination);
       }
+    });
+
+    // Subscribe to the search subject with debounce
+    this.searchSubject.pipe(debounceTime(300)).subscribe((searchTerm) => {
+      this.search = searchTerm; // Update the search term
+      this.fetch(this.selectedStatus, this.search); // Call filterOrders with the new search term
     });
   }
 
@@ -120,6 +130,8 @@ export class OrderListComponent implements OnInit, OnDestroy {
       start: Number(startDate),
       end: Number(endDate),
     };
+
+    this.fetch(this.selectedStatus);
   }
 
   goTo(page: 'next' | 'prev' | number) {
@@ -153,9 +165,20 @@ export class OrderListComponent implements OnInit, OnDestroy {
     });
   }
 
-  fetch(status = '') {
+  onSearchChange(searchTerm: string) {
+    this.searchSubject.next(searchTerm);
+  }
+
+  private fetchPromise: Promise<void> | null = null;
+  fetch(status = '', search = '') {
     this.isFetching = true;
-    this.orderRes
+
+    // Cancel the previous fetch if it's still ongoing
+    if (this.fetchPromise) {
+      this.fetchPromise = null; // Reset the promise to indicate cancellation
+    }
+
+    this.fetchPromise = this.orderRes
       .findAll({
         restaurant_id: this.auth.currentRestaurant.id,
         include: 'items,table',
@@ -163,13 +186,17 @@ export class OrderListComponent implements OnInit, OnDestroy {
         per_page: 15,
         sort: '-created_at',
         page: this.currentPage,
+        search,
         ...this.date,
       })
       .then((res) => {
         this.orderService.setData(get(res, 'result.data', []) as OwnerOrder[]);
       })
       .catch((error) => this.toast.error('Something bad happened', error))
-      .finally(() => (this.isFetching = false));
+      .finally(() => {
+        this.isFetching = false;
+        this.fetchPromise = null; // Reset the promise after completion
+      });
   }
 
   isAbleToAction(order: OwnerOrder) {
