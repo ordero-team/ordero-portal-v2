@@ -3,6 +3,7 @@ import { DashboardCollection } from '@app/collections/owner/dashboard.collection
 import { DarkModeService } from '@app/core/services/dark-mode.service';
 import { MaterialColorService } from '@app/shared/services/material-color.service';
 import { time } from '@lib/time';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { has } from 'lodash';
 
 import {
@@ -29,6 +30,8 @@ export type ChartOptions = {
   tooltip: ApexTooltip;
   legend: ApexLegend;
 };
+
+@UntilDestroy()
 @Component({
   selector: 'aka-chart-order',
   templateUrl: './chart-order.component.html',
@@ -68,7 +71,11 @@ export class ChartOrderComponent implements OnInit {
     private collection: DashboardCollection,
     private service: MaterialColorService,
     public darkMode: DarkModeService
-  ) {}
+  ) {
+    darkMode.darkMode$.pipe(untilDestroyed(this)).subscribe((val) => {
+      // this.chartOptions.tooltip.theme = val ? 'dark' : 'light';
+    });
+  }
 
   ngOnInit(): void {
     this.chartOptions = {
@@ -106,6 +113,7 @@ export class ChartOrderComponent implements OnInit {
         categories: [],
       },
       tooltip: {
+        theme: 'dark',
         x: {
           show: false,
         },

@@ -107,6 +107,7 @@ import { SelectVariantsComponent } from './components/select-variants/select-var
 import { StaffUserMenuComponent } from './components/staff/user-menu/user-menu.component';
 import { DropdownDateRangeComponent } from './components/dropdown-date-range/dropdown-date-range.component';
 import { CardCounterComponent } from './components/card-counter/card-counter.component';
+import { EditStockFormComponent } from './components/form/edit-stock-form/edit-stock-form.component';
 
 const modules = [
   CommonModule,
@@ -214,6 +215,7 @@ const declarations = [
   VariantFormComponent,
   ProductFormComponent,
   StockFormComponent,
+  EditStockFormComponent,
 
   // Select
   SelectLocationComponent,
