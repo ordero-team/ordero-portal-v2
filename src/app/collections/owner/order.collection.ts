@@ -10,6 +10,8 @@ import { MetalAPIData } from '@mtl/interfaces';
 import { capitalize } from 'lodash';
 import { OrderStatus } from '../order.collection';
 import { OwnerTable } from './table.collection';
+import { QueueService } from '@app/core/services/queue.service';
+import { appIcons } from '@app/core/helpers/icon.helper';
 
 export interface OwnerOrder extends MetalAPIData {
   number: string;
@@ -48,7 +50,8 @@ export class OwnerOrderCollection extends MetalCollection<OwnerOrder, OwnerOrigi
     private toast: ToastService,
     private orderService: OrderService,
     private dialog: MatDialog,
-    private auth: OwnerAuthService
+    private auth: OwnerAuthService,
+    private queue: QueueService
   ) {
     super(origin, OrderConfig);
   }
@@ -110,5 +113,18 @@ export class OwnerOrderCollection extends MetalCollection<OwnerOrder, OwnerOrigi
 
   async executeAction(order: OwnerOrder, action: string) {
     return await this.update(order.id, { action, restaurant_id: this.auth.currentRestaurant.id } as any);
+  }
+
+  async export({ restaurant_id, status, search }: { restaurant_id: string; status: string; search: string }) {
+    const res = (await this.findOne('', {
+      params: { restaurant_id, status, search },
+      suffix: 'export',
+    } as any)) as any;
+
+    // Run Queue
+    this.queue.start(res.request_id, {
+      label: `Generating Orders...`,
+      icon: appIcons.outlineDescription,
+    });
   }
 }

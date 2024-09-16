@@ -221,4 +221,15 @@ export class OrderListComponent implements OnInit, OnDestroy {
       order.loading = false;
     }
   }
+
+  isExportLoading = false;
+  async exportToExcel() {
+    this.isExportLoading = true;
+    await this.collection.export({
+      restaurant_id: this.auth.currentRestaurant.id,
+      status: this.selectedStatus,
+      search: this.search,
+    });
+    this.isExportLoading = false;
+  }
 }
