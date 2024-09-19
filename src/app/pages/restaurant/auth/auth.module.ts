@@ -7,9 +7,18 @@ import { RestaurantAuthComponent } from './auth.component';
 import { RestaurantLoginComponent } from './login/login.component';
 import { RestaurantRegisterComponent } from './register/register.component';
 import { RestaurantVerifyComponent } from './verify/verify.component';
+import { RestaurantChangePasswordComponent } from './change-password/change-password.component';
+import { RestaurantForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 @NgModule({
-  declarations: [RestaurantAuthComponent, RestaurantLoginComponent, RestaurantRegisterComponent, RestaurantVerifyComponent],
+  declarations: [
+    RestaurantAuthComponent,
+    RestaurantLoginComponent,
+    RestaurantRegisterComponent,
+    RestaurantVerifyComponent,
+    RestaurantForgotPasswordComponent,
+    RestaurantChangePasswordComponent,
+  ],
   imports: [SharedModule, AuthRoutingModule, ToggleDarkModeModule],
 })
 export class RestaurantAuthModule {}

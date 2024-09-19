@@ -1,8 +1,29 @@
+// Auth Container
+//aka-auth {}
+
 :host {
-    display: flex;
-    flex: 1 1 auto;
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
+  display: flex;
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  @apply transition-all duration-200;
+
+  ::ng-deep {
+    .auth-container {
+      @apply flex flex-col flex-auto items-center sm:justify-center min-w-0 md:p-8;
+
+      .auth-wrapper {
+        @apply flex w-full md:max-w-6xl sm:shadow-md rounded-lg overflow-hidden sm:bg-card sm:justify-center sm:w-min md:w-full;
+
+        .auth-headline {
+          @apply relative hidden md:flex flex-auto items-center justify-center p-16 overflow-hidden bg-primary-700 dark:bg-gray-700 text-white;
+        }
+
+        .auth-content {
+          @apply w-full sm:w-auto py-8 px-4 sm:p-12;
+        }
+      }
+    }
   }
-  
+}
