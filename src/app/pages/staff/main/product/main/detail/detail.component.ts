@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { INavRoute } from '@app/core/services/navigation.service';
 import { StaffProductMainDetailHistoryNavRoute, StaffProductMainDetailHistoryRoute } from './history/history.component';
-import { StaffProductMainDetailOverviewComponent } from './overview/overview.component';
+import { StaffProductMainDetailOverviewNavRoute, StaffProductMainDetailOverviewRoute } from './overview/overview.component';
+import { ProductSingleResolve } from '@app/collections/staff/product.collection';
 
 @Component({
   selector: 'aka-detail',
@@ -18,22 +19,26 @@ export const StaffProductMainDetailNavRoute: INavRoute = {
   path: ':product_id',
   name: 'staff.product.main.detail',
   title: 'product.main.detail.parent',
-  children: [StaffProductMainDetailHistoryNavRoute],
+  children: [StaffProductMainDetailOverviewNavRoute, StaffProductMainDetailHistoryNavRoute],
 };
 
 export const StaffProductMainDetailRoute: INavRoute = {
   ...StaffProductMainDetailNavRoute,
+  maps: {
+    product: ['title', 'sku'],
+  },
+  resolve: {
+    product: ProductSingleResolve,
+  },
+  runGuardsAndResolvers: 'always',
   component: StaffProductMainDetailComponent,
-  path: '',
   children: [
     {
       path: '',
       pathMatch: 'full',
-      name: 'restaurant.product.main.detail.overview',
-      title: 'product.main.parent',
-      data: { disableScroll: true },
-      component: StaffProductMainDetailOverviewComponent,
+      redirectTo: 'overview',
     },
+    StaffProductMainDetailOverviewRoute,
     StaffProductMainDetailHistoryRoute,
   ],
 };

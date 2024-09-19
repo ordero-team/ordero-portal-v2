@@ -110,6 +110,15 @@
         },
         "create": {
           "parent": "Create Product"
+        },
+        "detail": {
+          "parent": "Detail Product"
+        },
+        "overview": {
+          "parent": "Overview"
+        },
+        "history": {
+          "parent": "Histories"
         }
       },
       "category": {
@@ -181,6 +190,15 @@
         },
         "create": {
           "parent": "Create"
+        },
+        "detail": {
+          "parent": "Detail Product"
+        },
+        "overview": {
+          "parent": "Overview"
+        },
+        "history": {
+          "parent": "Histories"
         }
       },
       "category": {

@@ -4,7 +4,12 @@ import {
   RestaurantProductMainDetailHistoryNavRoute,
   RestaurantProductMainDetailHistoryRoute,
 } from './history/history.component';
-import { RestaurantProductDetailOverviewComponent } from './overview/overview.component';
+import {
+  RestaurantProductDetailOverviewComponent,
+  RestaurantProductMainDetailOverviewNavRoute,
+  RestaurantProductMainDetailOverviewRoute,
+} from './overview/overview.component';
+import { ProductSingleResolve } from '@app/collections/owner/product.collection';
 
 @Component({
   selector: 'aka-product-detail',
@@ -21,22 +26,26 @@ export const RestaurantProductMainDetailNavRoute: INavRoute = {
   path: ':product_id',
   name: 'restaurant.product.main.detail',
   title: 'product.main.detail.parent',
-  children: [RestaurantProductMainDetailHistoryNavRoute],
+  children: [RestaurantProductMainDetailOverviewNavRoute, RestaurantProductMainDetailHistoryNavRoute],
 };
 
 export const RestaurantProductMainDetailRoute: INavRoute = {
   ...RestaurantProductMainDetailNavRoute,
+  maps: {
+    product: ['title', 'sku'],
+  },
+  resolve: {
+    product: ProductSingleResolve,
+  },
+  runGuardsAndResolvers: 'always',
   component: RestaurantProductDetailComponent,
-  path: '',
   children: [
     {
       path: '',
       pathMatch: 'full',
-      name: 'restaurant.product.main.detail.overview',
-      title: 'product.main.parent',
-      data: { disableScroll: true },
-      component: RestaurantProductDetailOverviewComponent,
+      redirectTo: 'overview',
     },
+    RestaurantProductMainDetailOverviewRoute,
     RestaurantProductMainDetailHistoryRoute,
   ],
 };

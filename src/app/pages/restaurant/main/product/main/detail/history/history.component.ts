@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { OwnerProduct } from '@app/collections/owner/product.collection';
 import { INavRoute } from '@app/core/services/navigation.service';
+import { OwnerAuthService } from '@app/core/services/owner/auth.service';
 
 @Component({
   selector: 'aka-history',
@@ -7,7 +10,15 @@ import { INavRoute } from '@app/core/services/navigation.service';
   styleUrls: ['./history.component.scss'],
 })
 export class RestaurantProductDetailHistoryComponent implements OnInit {
-  constructor() {}
+  product: OwnerProduct;
+
+  constructor(active: ActivatedRoute, public auth: OwnerAuthService) {
+    active.parent.data.subscribe((data) => {
+      for (const [key, value] of Object.entries(data)) {
+        this[key] = value;
+      }
+    });
+  }
 
   ngOnInit(): void {}
 }
@@ -15,7 +26,7 @@ export class RestaurantProductDetailHistoryComponent implements OnInit {
 export const RestaurantProductMainDetailHistoryNavRoute: INavRoute = {
   path: 'histories',
   name: 'restaurant.product.main.detail.history',
-  title: 'product.main.create.parent',
+  title: 'product.main.history.parent',
 };
 
 export const RestaurantProductMainDetailHistoryRoute: INavRoute = {
