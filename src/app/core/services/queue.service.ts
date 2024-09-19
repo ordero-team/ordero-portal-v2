@@ -6,7 +6,7 @@ import { Select } from '@ngxs/store';
 import { Icon } from '@visurel/iconify-angular';
 import * as $ from 'lodash';
 import { EventEmitter } from '@lib/event';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface IQueueData {
   request_id: string;
@@ -76,7 +76,16 @@ const queueIcons = {
   providedIn: 'platform',
 })
 export class QueueService {
-  public queues: Queue[] = [];
+  private queuesSubject = new BehaviorSubject<Queue[]>([]);
+  public queues$ = this.queuesSubject.asObservable();
+
+  public get queues(): Queue[] {
+    return this.queuesSubject.getValue();
+  }
+
+  public set queues(value: Queue[]) {
+    this.queuesSubject.next(value);
+  }
 
   @Select(AuthState.currentUser) user$: Observable<Profile>;
 
@@ -139,7 +148,7 @@ export class QueueService {
    * @param configs Queue data to be displayed.
    */
   public create(id: string, configs: IQueue): Queue {
-    this.queues.push(new Queue(id, configs));
+    this.queues = [...this.queues, new Queue(id, configs)];
     return this.get(id);
   }
 
@@ -150,7 +159,7 @@ export class QueueService {
    */
   public start(id: string, configs?: IQueue): Queue {
     if (configs) {
-      this.queues.push(new Queue(id, configs, 'started'));
+      this.queues = [...this.queues, new Queue(id, configs, 'started')];
     } else {
       this.status(id, 'started');
     }

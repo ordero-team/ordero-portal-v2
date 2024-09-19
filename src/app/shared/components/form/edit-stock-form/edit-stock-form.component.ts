@@ -5,6 +5,7 @@ import { OwnerTable } from '@app/collections/owner/table.collection';
 import { StaffProfile } from '@app/collections/staff/profile.collection';
 import { StaffStockCollection } from '@app/collections/staff/stock.collection';
 import { OwnerAuthService } from '@app/core/services/owner/auth.service';
+import { StaffAuthService } from '@app/core/services/staff/auth.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { Form, FormRecord } from '@lib/form';
 import { get, has } from 'lodash';
@@ -47,11 +48,16 @@ export class EditStockFormComponent implements OnInit {
   }
 
   get ownerLocation() {
-    return this.auth.currentUser.location || this.record.location || null;
+    return (this.auth.currentUser && this.auth.currentUser.location) || null;
+  }
+
+  get staffLocation() {
+    return (this.staff.currentUser && this.staff.currentUser.location) || null;
   }
 
   constructor(
     private auth: OwnerAuthService,
+    private staff: StaffAuthService,
     private toast: ToastService,
     private collection: OwnerStockCollection,
     private staffCol: StaffStockCollection
@@ -72,20 +78,21 @@ export class EditStockFormComponent implements OnInit {
   async execute() {
     this.formData.$loading = true;
     try {
-      let res = null;
-
       const payload = {
         ...this.formData.$payload,
-        location_id: this.ownerLocation ? this.ownerLocation.id : get(this.formData.$payload, 'location.id', null),
+        location_id:
+          this.ownerLocation || this.staffLocation
+            ? (this.ownerLocation || this.staffLocation).id
+            : get(this.formData.$payload, 'location.id', null),
         restaurant_id: this.user.restaurant.id,
       };
 
       if (has(this.record, 'id')) {
         if (this.isOwner) {
-          res = await this.collection.update(this.record.id, payload);
+          await this.collection.update(this.record.id, payload);
         } else {
           payload['location_id'] = this.user.location.id;
-          res = await this.staffCol.update(this.record.id, payload);
+          await this.staffCol.update(this.record.id, payload);
         }
 
         this.toast.info(`Stock successfully updated`);

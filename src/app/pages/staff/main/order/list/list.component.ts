@@ -180,4 +180,11 @@ export class StaffOrderListComponent implements OnInit, OnDestroy {
       order.loading = false;
     }
   }
+
+  isPrintBillLoading = false;
+  async printBill(order_id: string) {
+    this.isPrintBillLoading = true;
+    await this.collection.printBill(this.auth.currentRestaurant.id, order_id);
+    this.isPrintBillLoading = false;
+  }
 }

@@ -25,7 +25,7 @@
   </div>
   <div *ngIf="showQueues" class="flex items-center justify-between">
     <div class="queues w-full rounded-bl-md">
-      <div *ngFor="let queue of service.queues" class="queue w-full border-l-4 px-6 py-3" [ngClass]="queue.status">
+      <div *ngFor="let queue of queues" class="queue w-full border-l-4 px-6 py-3" [ngClass]="queue.status">
         <div class="infos">
           <mat-icon *ngIf="queue.configs.icon" [icIcon]="queue.configs.icon"></mat-icon>
           <div class="text">

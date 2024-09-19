@@ -11,6 +11,8 @@ import { capitalize } from 'lodash';
 import { OrderStatus } from '../order.collection';
 import { OwnerTable } from '../owner/table.collection';
 import { StaffRestaurantCollection } from './restaurant.collection';
+import { QueueService } from '@app/core/services/queue.service';
+import { appIcons } from '@app/core/helpers/icon.helper';
 
 export interface StaffOrder extends MetalAPIData {
   number: string;
@@ -50,7 +52,8 @@ export class StaffOrderCollection extends MetalCollection<StaffOrder, StaffOrigi
     private auth: StaffAuthService,
     private orderService: OrderService,
     private toast: ToastService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private queue: QueueService
   ) {
     super(origin, StockConfig);
   }
@@ -112,5 +115,18 @@ export class StaffOrderCollection extends MetalCollection<StaffOrder, StaffOrigi
 
   async executeAction(order: StaffOrder, action: string) {
     return await this.update(order.id, { action, restaurant_id: this.auth.currentRestaurant.id } as any);
+  }
+
+  async printBill(restaurant_id: string, order_id: string) {
+    const res = (await this.findOne(order_id, {
+      params: { restaurant_id },
+      suffix: 'print',
+    } as any)) as any;
+
+    // Run Queue
+    this.queue.start(res.request_id, {
+      label: `Generating Order Bill`,
+      icon: appIcons.outlineDescription,
+    });
   }
 }

@@ -127,4 +127,17 @@ export class OwnerOrderCollection extends MetalCollection<OwnerOrder, OwnerOrigi
       icon: appIcons.outlineDescription,
     });
   }
+
+  async printBill(restaurant_id: string, order_id: string) {
+    const res = (await this.findOne(order_id, {
+      params: { restaurant_id },
+      suffix: 'print',
+    } as any)) as any;
+
+    // Run Queue
+    this.queue.start(res.request_id, {
+      label: `Generating Order Bill`,
+      icon: appIcons.outlineDescription,
+    });
+  }
 }
