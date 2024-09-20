@@ -95,7 +95,7 @@
 
         <!-- Actions -->
         <div class="mt-1.5 inline-flex w-full items-end justify-end">
-          <a class="text-md font-medium text-primary hover:underline" [routerLink]="['/forgot-password']">
+          <a class="text-md font-medium text-primary hover:underline" [routerLink]="['../forgot-password']">
             Forgot password?
           </a>
         </div>
@@ -114,6 +114,16 @@
         <a type="button" class="aka-mat-button-large mt-6 w-full" mat-button [routerLink]="['..', 'register']">
           Create a Restaurant Account
         </a>
+        <mat-divider class="my-6"></mat-divider>
+        <button
+          type="button"
+          [routerLink]="['/staff']"
+          class="aka-mat-button-large mt-0 w-full"
+          mat-flat-button
+          [color]="'accent'"
+        >
+          Log In as Staff
+        </button>
       </form>
     </div>
   </div>

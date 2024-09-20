@@ -4,6 +4,11 @@ import { INavRoute } from '@cs/navigation.service';
 import { RestaurantLoginNavRoute, RestaurantLoginRoute } from './login/login.component';
 import { RestaurantRegisterNavRoute, RestaurantRegisterRoute } from './register/register.component';
 import { RestaurantVerifyNavRoute, RestaurantVerifyRoute } from './verify/verify.component';
+import {
+  RestaurantForgotPasswordNavRoute,
+  RestaurantForgotPasswordRoute,
+} from './forgot-password/forgot-password.component';
+import { RestaurantResetPasswordNavRoute, RestaurantResetPasswordRoute } from './change-password/change-password.component';
 
 @Component({
   selector: 'aka-auth',
@@ -20,7 +25,13 @@ export const RestaurantAuthNavRoute: INavRoute = {
   path: '',
   name: 'owner.auth',
   title: 'auth.parent',
-  children: [RestaurantLoginNavRoute, RestaurantRegisterNavRoute, RestaurantVerifyNavRoute],
+  children: [
+    RestaurantLoginNavRoute,
+    RestaurantRegisterNavRoute,
+    RestaurantVerifyNavRoute,
+    RestaurantForgotPasswordNavRoute,
+    RestaurantResetPasswordNavRoute,
+  ],
 };
 
 export const RestaurantAuthRoute: INavRoute = {
@@ -35,5 +46,7 @@ export const RestaurantAuthRoute: INavRoute = {
     RestaurantLoginRoute,
     RestaurantRegisterRoute,
     RestaurantVerifyRoute,
+    RestaurantForgotPasswordRoute,
+    RestaurantResetPasswordRoute,
   ],
 };
