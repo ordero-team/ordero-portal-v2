@@ -1,6 +1,6 @@
 ![logo-primary](https://github.com/akbarsaputrait/ordero-portal-v2/assets/27531592/dd60884f-7ae3-408a-ba0c-cec1df191671)
 
-# Ordero
+# Ordero Portal
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.11.
 
