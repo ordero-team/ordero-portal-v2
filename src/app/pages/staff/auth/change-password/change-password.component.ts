@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OwnerGuestGuardService } from '@app/core/guards/owner-guard.service';
+import { StaffGuestGuardService } from '@app/core/guards/staff-guard.service';
 import { paramsTree } from '@app/core/helpers/route.helper';
 import { DarkModeService } from '@app/core/services/dark-mode.service';
 import { INavRoute } from '@app/core/services/navigation.service';
 import { OwnerAuthService } from '@app/core/services/owner/auth.service';
+import { StaffAuthService } from '@app/core/services/staff/auth.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { Form, FormRecord } from '@lib/form';
 
@@ -13,7 +15,7 @@ import { Form, FormRecord } from '@lib/form';
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.scss'],
 })
-export class RestaurantChangePasswordComponent implements OnInit {
+export class StaffChangePasswordComponent implements OnInit {
   @Form({
     password: 'required|minLength:6',
     password_confirmation: 'required|minLength:6|equalTo:password',
@@ -25,7 +27,7 @@ export class RestaurantChangePasswordComponent implements OnInit {
 
   constructor(
     private toast: ToastService,
-    private auth: OwnerAuthService,
+    private auth: StaffAuthService,
     private active: ActivatedRoute,
     private router: Router,
     public darkMode: DarkModeService
@@ -64,14 +66,14 @@ export class RestaurantChangePasswordComponent implements OnInit {
   }
 }
 
-export const RestaurantResetPasswordNavRoute: INavRoute = {
-  name: 'restauraht.auth.resetPassword',
+export const StaffChangePasswordNavRoute: INavRoute = {
+  name: 'staff.auth.resetPassword',
   path: 'reset-password/:token',
   title: 'auth.resetPassword',
 };
 
-export const RestaurantResetPasswordRoute: INavRoute = {
-  ...RestaurantResetPasswordNavRoute,
-  component: RestaurantChangePasswordComponent,
-  canActivate: [OwnerGuestGuardService],
+export const StaffChangePasswordRoute: INavRoute = {
+  ...StaffChangePasswordNavRoute,
+  component: StaffChangePasswordComponent,
+  canActivate: [StaffGuestGuardService],
 };
