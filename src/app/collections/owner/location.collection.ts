@@ -5,6 +5,7 @@ import { MetalAPIData } from '@mtl/interfaces';
 
 export interface OwnerLocation extends MetalAPIData {
   name?: string;
+  address?: string;
   is_default?: boolean;
   restaurant_id?: string;
 }

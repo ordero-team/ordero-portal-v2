@@ -13,6 +13,7 @@ import { has } from 'lodash';
 export class LocationFormComponent implements OnInit {
   @Form({
     name: 'required|alphaNumSpace',
+    address: 'required',
     is_default: 'required',
   })
   formData: FormRecord;
@@ -43,11 +44,13 @@ export class LocationFormComponent implements OnInit {
       this.record = null;
       this.formData.$import({
         name: null,
+        address: null,
         is_default: false,
       });
     } else {
       this.formData.$import({
         name: this.record.name,
+        address: this.record.address,
         is_default: this.record.is_default,
       });
     }
@@ -58,6 +61,7 @@ export class LocationFormComponent implements OnInit {
   }
 
   async execute() {
+    this.formData.$loading = true;
     try {
       let res = null;
 
@@ -75,6 +79,8 @@ export class LocationFormComponent implements OnInit {
       this.onSuccess.emit(res);
     } catch (error) {
       this.toast.error('Something bad happened', error);
+    } finally {
+      this.formData.$loading = false;
     }
   }
 }

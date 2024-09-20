@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { OwnerTable, OwnerTableCollection } from '@app/collections/owner/table.collection';
+import { StaffTableCollection } from '@app/collections/staff/table.collection';
 import { StaffAuthService } from '@app/core/services/staff/auth.service';
 import { IActionGroup } from '@app/core/states/breadcrumb/breadcrumb.actions';
 import { DialogComponent } from '@app/shared/components/dialog/dialog.component';
@@ -34,6 +35,15 @@ export class TableListComponent implements OnInit {
         };
       },
     },
+    {
+      icon: 'printerIcon',
+      text: 'Print',
+      action: (data) => {
+        return async () => {
+          await this.collection.printLabel(this.auth.currentRestaurant.id, [data]);
+        };
+      },
+    },
   ];
 
   public bulkActions: MetalQueryBulkAction<OwnerTable>[] = [
@@ -50,7 +60,7 @@ export class TableListComponent implements OnInit {
 
   @ViewChild('createDialog', { static: true }) createDialog: DialogComponent;
 
-  constructor(private collection: OwnerTableCollection, public auth: StaffAuthService) {}
+  constructor(private collection: StaffTableCollection, public auth: StaffAuthService) {}
 
   ngOnInit(): void {}
 

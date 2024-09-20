@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { INavRoute } from '@app/core/services/navigation.service';
 import { StaffLoginNavRoute, StaffLoginRoute } from './login/login.component';
+import { StaffForgotPasswordNavRoute, StaffForgotPasswordRoute } from './forgot-password/forgot-password.component';
+import { StaffChangePasswordNavRoute, StaffChangePasswordRoute } from './change-password/change-password.component';
 
 @Component({
   selector: 'aka-auth',
@@ -17,7 +19,7 @@ export const StaffAuthNavRoute: INavRoute = {
   path: '',
   name: 'staff.auth',
   title: 'auth.parent',
-  children: [StaffLoginNavRoute],
+  children: [StaffLoginNavRoute, StaffForgotPasswordNavRoute, StaffChangePasswordNavRoute],
 };
 
 export const StaffAuthRoute: INavRoute = {
@@ -30,5 +32,7 @@ export const StaffAuthRoute: INavRoute = {
       redirectTo: 'login',
     },
     StaffLoginRoute,
+    StaffForgotPasswordRoute,
+    StaffChangePasswordRoute,
   ],
 };

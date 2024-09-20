@@ -31,7 +31,7 @@ export class RestaurantProductListComponent implements OnInit {
       text: 'Edit',
       action: (data) => {
         return () => {
-          this.router.navigate(['../', data.id], { relativeTo: this.active });
+          this.router.navigate([`../${data.id}`], { relativeTo: this.active });
         };
       },
     },

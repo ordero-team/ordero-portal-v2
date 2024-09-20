@@ -221,4 +221,22 @@ export class OrderListComponent implements OnInit, OnDestroy {
       order.loading = false;
     }
   }
+
+  isExportLoading = false;
+  async exportToExcel() {
+    this.isExportLoading = true;
+    await this.collection.export({
+      restaurant_id: this.auth.currentRestaurant.id,
+      status: this.selectedStatus,
+      search: this.search,
+    });
+    this.isExportLoading = false;
+  }
+
+  isPrintBillLoading = false;
+  async printBill(order_id: string) {
+    this.isPrintBillLoading = true;
+    await this.collection.printBill(this.auth.currentRestaurant.id, order_id);
+    this.isPrintBillLoading = false;
+  }
 }

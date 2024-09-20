@@ -108,6 +108,7 @@ import { StaffUserMenuComponent } from './components/staff/user-menu/user-menu.c
 import { DropdownDateRangeComponent } from './components/dropdown-date-range/dropdown-date-range.component';
 import { CardCounterComponent } from './components/card-counter/card-counter.component';
 import { EditStockFormComponent } from './components/form/edit-stock-form/edit-stock-form.component';
+import { ProductHistoryListComponent } from './components/listing/product-history-list/product-history-list.component';
 
 const modules = [
   CommonModule,
@@ -238,6 +239,7 @@ const declarations = [
   TableListComponent,
   StockListComponent,
   ProductListComponent,
+  ProductHistoryListComponent,
 ];
 
 @NgModule({

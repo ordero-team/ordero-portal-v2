@@ -10,8 +10,11 @@ import { ToastService } from '@app/core/services/toast.service';
 import { StaffOrderResource } from '@app/resources/staff/order.resource';
 import { OrderDetailItemsComponent } from '@app/shared/components/order-detail-items/order-detail-items.component';
 import { IRestPagination } from '@lib/resource';
+import { time } from '@lib/time';
 import { untilDestroyed } from '@ngneat/until-destroy';
 import { get, has } from 'lodash';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'aka-list',
@@ -58,6 +61,11 @@ export class StaffOrderListComponent implements OnInit, OnDestroy {
   // orders$ = new BehaviorSubject<Order[]>([]);
   isFetching = true;
   subscriberPaginate: any;
+  date: { start: number; end: number };
+
+  // Search
+  private searchSubject = new Subject<string>(); // Subject for search input
+  search = '';
 
   // Order Pagination
   currentPage = 1;
@@ -83,7 +91,7 @@ export class StaffOrderListComponent implements OnInit, OnDestroy {
     }
   }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.activeRoute.queryParams.pipe(untilDestroyed(this)).subscribe((val) => {
       let status = '';
 
@@ -93,12 +101,10 @@ export class StaffOrderListComponent implements OnInit, OnDestroy {
       } else {
         this.route.navigate([], {
           relativeTo: this.activeRoute,
-          queryParams: { status: '' },
+          queryParams: { ...val, status: '' },
           queryParamsHandling: 'merge',
         });
       }
-
-      this.fetch(status);
     });
 
     this.subscriberPaginate = this.orderRes.listUpdated.subscribe((val) => {
@@ -107,6 +113,24 @@ export class StaffOrderListComponent implements OnInit, OnDestroy {
         this.generatePaginate(pagination);
       }
     });
+
+    // Subscribe to the search subject with debounce
+    this.searchSubject.pipe(debounceTime(300)).subscribe((searchTerm) => {
+      this.search = searchTerm; // Update the search term
+      this.fetch(this.selectedStatus, this.search); // Call filterOrders with the new search term
+    });
+  }
+
+  callbackDateRange(e: any) {
+    const startDate = time.tz(e.start, 'UTC').subtract(1, 'day').set('hour', 17).set('minute', 0).set('second', 0).unix();
+    const endDate = time.tz(e.end, 'UTC').utc().set('hour', 16).set('minute', 59).set('second', 59).unix();
+
+    this.date = {
+      start: Number(startDate),
+      end: Number(endDate),
+    };
+
+    this.fetch(this.selectedStatus);
   }
 
   goTo(page: 'next' | 'prev' | number) {
@@ -140,9 +164,20 @@ export class StaffOrderListComponent implements OnInit, OnDestroy {
     });
   }
 
-  fetch(status = '') {
+  onSearchChange(searchTerm: string) {
+    this.searchSubject.next(searchTerm);
+  }
+
+  private fetchPromise: Promise<void> | null = null;
+  fetch(status = '', search = '') {
     this.isFetching = true;
-    this.orderRes
+
+    // Cancel the previous fetch if it's still ongoing
+    if (this.fetchPromise) {
+      this.fetchPromise = null; // Reset the promise to indicate cancellation
+    }
+
+    this.fetchPromise = this.orderRes
       .findAll({
         restaurant_id: this.auth.currentRestaurant.id,
         include: 'items,table',
@@ -150,12 +185,17 @@ export class StaffOrderListComponent implements OnInit, OnDestroy {
         per_page: 15,
         sort: '-created_at',
         page: this.currentPage,
+        search,
+        ...this.date,
       })
       .then((res) => {
         this.orderService.setData(get(res, 'result.data', []) as StaffOrder[]);
       })
       .catch((error) => this.toast.error('Something bad happened', error))
-      .finally(() => (this.isFetching = false));
+      .finally(() => {
+        this.isFetching = false;
+        this.fetchPromise = null; // Reset the promise after completion
+      });
   }
 
   isAbleToAction(order: StaffOrder) {
@@ -179,5 +219,12 @@ export class StaffOrderListComponent implements OnInit, OnDestroy {
     } finally {
       order.loading = false;
     }
+  }
+
+  isPrintBillLoading = false;
+  async printBill(order_id: string) {
+    this.isPrintBillLoading = true;
+    await this.collection.printBill(this.auth.currentRestaurant.id, order_id);
+    this.isPrintBillLoading = false;
   }
 }

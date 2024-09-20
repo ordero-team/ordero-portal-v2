@@ -1,3 +1,14 @@
 <aka-route-activator></aka-route-activator>
 <aka-breadcrumb-actions [actions]="actionGroup"></aka-breadcrumb-actions>
-<aka-stock-list [user]="auth.currentUser" [rowActions]="rowActions" [bulkActions]="[]"></aka-stock-list>
+<aka-stock-list #tableList [user]="auth.currentUser" [rowActions]="rowActions" [bulkActions]="[]"></aka-stock-list>
+
+<aka-dialog #editDialog="akaDialog" class="small">
+  <ng-container *akaDialogContent>
+    <aka-edit-stock-form
+      [user]="auth.currentUser"
+      [record]="editDialog._data"
+      (onClose)="editDialog.hide()"
+      (onSuccess)="onSuccess()"
+    ></aka-edit-stock-form>
+  </ng-container>
+</aka-dialog>

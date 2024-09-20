@@ -5,6 +5,11 @@
       <input id="name" type="text" name="name" [(ngModel)]="formData.name" matInput />
     </mat-form-field>
 
+    <mat-form-field class="aka-mat-dense w-full" akaProps>
+      <mat-label>Address</mat-label>
+      <textarea id="address" name="address" [(ngModel)]="formData.address" matInput></textarea>
+    </mat-form-field>
+
     <mat-slide-toggle [(ngModel)]="formData.is_default" name="is_default" color="primary">Default</mat-slide-toggle>
   </div>
 
