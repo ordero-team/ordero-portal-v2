@@ -4,6 +4,7 @@ import { OwnerTable, OwnerTableCollection } from '@app/collections/owner/table.c
 import { StaffProfile } from '@app/collections/staff/profile.collection';
 import { StaffTableCollection } from '@app/collections/staff/table.collection';
 import { OwnerAuthService } from '@app/core/services/owner/auth.service';
+import { StaffAuthService } from '@app/core/services/staff/auth.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { Form, FormRecord } from '@lib/form';
 import { get, has } from 'lodash';
@@ -55,13 +56,18 @@ export class TableFormComponent implements OnInit {
   }
 
   get ownerLocation() {
-    return this.auth.currentUser.location || null;
+    return (this.auth.currentUser && this.auth.currentUser.location) || null;
+  }
+
+  get staffLocation() {
+    return (this.staff.currentUser && this.staff.currentUser.location) || null;
   }
 
   constructor(
     private collection: OwnerTableCollection,
     private staffCol: StaffTableCollection,
     private auth: OwnerAuthService,
+    private staff: StaffAuthService,
     private toast: ToastService
   ) {}
 
@@ -93,7 +99,10 @@ export class TableFormComponent implements OnInit {
 
       const payload = {
         ...this.formData.$payload,
-        location_id: this.ownerLocation ? this.ownerLocation.id : get(this.formData.$payload, 'location.id', null),
+        location_id:
+          this.ownerLocation || this.staffLocation
+            ? (this.ownerLocation || this.staffLocation).id
+            : get(this.formData.$payload, 'location.id', null),
         restaurant_id: this.user.restaurant.id,
       };
 

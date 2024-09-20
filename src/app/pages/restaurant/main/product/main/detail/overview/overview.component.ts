@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { INavRoute } from '@app/core/services/navigation.service';
 
 @Component({
   selector: 'aka-product-detail-overview',
@@ -10,3 +11,14 @@ export class RestaurantProductDetailOverviewComponent implements OnInit {
 
   ngOnInit(): void {}
 }
+
+export const RestaurantProductMainDetailOverviewNavRoute: INavRoute = {
+  path: 'overview',
+  name: 'restaurant.product.main.detail.history',
+  title: 'product.main.overview.parent',
+};
+
+export const RestaurantProductMainDetailOverviewRoute: INavRoute = {
+  ...RestaurantProductMainDetailOverviewNavRoute,
+  component: RestaurantProductDetailOverviewComponent,
+};

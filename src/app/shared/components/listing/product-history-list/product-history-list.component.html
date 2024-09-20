@@ -1,0 +1,40 @@
+<ps-metal-query [query]="query" [rowActions]="rowActions">
+  <ps-metal-query-filter [query]="query"></ps-metal-query-filter>
+
+  <ng-container psQCell="Action">
+    <td psQCol *psQBody="let history; as: type">
+      {{ history.action }}
+    </td>
+  </ng-container>
+
+  <ng-container psQCell="Actor">
+    <td psQCol *psQBody="let history; as: type">
+      {{ history.actor }}
+    </td>
+  </ng-container>
+
+  <ng-container psQCell="Created At">
+    <td psQCol *psQBody="let history; as: type">
+      <aka-date-time [date]="history.created_at" format="DD/MM/YYYY, HH:mm:ss"></aka-date-time>
+    </td>
+  </ng-container>
+
+  <ng-container psQCell>
+    <th class="ps-table-header-cell max-w-20" *psQHead>Data</th>
+    <td psQCol *psQBody="let data; as: type" class="whitespace-pre-line">
+      <span class="cursor-pointer text-primary-500 hover:text-primary-800" (click)="openDialog(data)">View Payload</span>
+    </td>
+  </ng-container>
+</ps-metal-query>
+
+<ng-template #alertDialog let-data>
+  <div mat-dialog-title class="flex flex-row items-center" [class.mb-3]="data.length">Payload</div>
+
+  <mat-dialog-content class="mat-typography">
+    <ngx-json-viewer [json]="data.action"></ngx-json-viewer>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close tabindex="-1">CLOSE</button>
+  </mat-dialog-actions>
+</ng-template>

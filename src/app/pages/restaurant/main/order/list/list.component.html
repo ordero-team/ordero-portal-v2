@@ -11,7 +11,6 @@
   </mat-form-field>
 
   <mat-form-field class="aka-mat-dense mb-0 w-full max-w-52">
-    <!-- <mat-label></mat-label> -->
     <mat-select
       name="variant"
       placeholder="Choose Status"
@@ -21,6 +20,17 @@
       <mat-option [value]="option.value" *ngFor="let option of statuses">{{ option.label }}</mat-option>
     </mat-select>
   </mat-form-field>
+
+  <button
+    mat-flat-button
+    color="primary"
+    [disabled]="isExportLoading || orderRes.isLoading || totalCount === 0"
+    [akaLoading]="isExportLoading"
+    (click)="exportToExcel()"
+  >
+    <mat-icon [icIcon]="'documentDownload'"></mat-icon>
+    <span>Export to Excel</span>
+  </button>
 
   <p *ngIf="!orderRes.isLoading && totalCount" class="text-lg font-medium">Total Orders: {{ totalCount || 0 }}</p>
 
@@ -56,15 +66,28 @@
         <div class="mb-2 flex items-center justify-between">
           <aka-state-label [state]="order.status" class="medium"></aka-state-label>
 
-          <button
-            mat-icon-button
-            class="aka-mat-button-small"
-            color="primary"
-            matTooltip="Show Details"
-            (click)="showDetail(order)"
-          >
-            <mat-icon class="align-middle icon-size-4">visibility</mat-icon>
-          </button>
+          <div class="flex items-center gap-1.5">
+            <button
+              *ngIf="order.status === 'completed'"
+              mat-icon-button
+              class="aka-mat-button-small"
+              color="primary"
+              matTooltip="Print"
+              (click)="printBill(order.id)"
+            >
+              <mat-icon class="align-middle icon-size-4">print</mat-icon>
+            </button>
+
+            <button
+              mat-icon-button
+              class="aka-mat-button-small"
+              color="primary"
+              matTooltip="Show Details"
+              (click)="showDetail(order)"
+            >
+              <mat-icon class="align-middle icon-size-4">visibility</mat-icon>
+            </button>
+          </div>
         </div>
 
         <h2 class="mb-1 font-bold">{{ order.number }}</h2>

@@ -34,8 +34,8 @@
     "auth": {
       "parent": "Auth",
       "login": "Login",
-      "forgot-password": "Forgot Password",
-      "reset-password": "Reset Password",
+      "forgotPassword": "Forgot Password",
+      "resetPassword": "Reset Password",
       "verify": "Verify Account",
       "register": "Register"
     },
@@ -110,6 +110,15 @@
         },
         "create": {
           "parent": "Create Product"
+        },
+        "detail": {
+          "parent": "Detail Product"
+        },
+        "overview": {
+          "parent": "Overview"
+        },
+        "history": {
+          "parent": "Histories"
         }
       },
       "category": {
@@ -123,7 +132,26 @@
       }
     }
   },
-  "pages": {},
+  "pages": {
+    "auth": {
+      "forgotPassword": {
+        "title": "Forgot Password",
+        "subtitle": "Please enter your email address to request a password reset instruction.",
+        "checkYourEmail": "Check Your Email",
+        "emailSent": "If an account exists for <strong>{{email}}</strong>, you’ll receive an email with a reset password link. Check your inbox and follow the instruction."
+      },
+      "resetPassword": {
+        "title": "Reset Password",
+        "subtitle": "Please choose your new password.",
+        "success": "Success",
+        "passwordChanged": "Your password have been changed successfully. You will be redirect to login page in <strong>{{count}}s</strong>",
+        "form": {
+          "newPassword": "New Password",
+          "confirmNewPassword": "Confirm New Password"
+        }
+      }
+    }
+  },
   "nav": {
     "undefined": "Untitled",
     "main_section": "Main Section",
@@ -181,6 +209,15 @@
         },
         "create": {
           "parent": "Create"
+        },
+        "detail": {
+          "parent": "Detail Product"
+        },
+        "overview": {
+          "parent": "Overview"
+        },
+        "history": {
+          "parent": "Histories"
         }
       },
       "category": {

@@ -95,7 +95,7 @@
 
         <!-- Actions -->
         <div class="mt-1.5 inline-flex w-full items-end justify-end">
-          <a class="text-md font-medium text-primary hover:underline" [routerLink]="['/forgot-password']">
+          <a class="text-md font-medium text-primary hover:underline" [routerLink]="['../forgot-password']">
             Forgot password?
           </a>
         </div>
@@ -110,6 +110,17 @@
           [akaLoading]="formData.$loading"
         >
           Log In
+        </button>
+
+        <mat-divider class="my-6"></mat-divider>
+        <button
+          type="button"
+          [routerLink]="['/restaurant']"
+          class="aka-mat-button-large mt-0 w-full"
+          mat-flat-button
+          [color]="'accent'"
+        >
+          Log In as Owner
         </button>
       </form>
     </div>

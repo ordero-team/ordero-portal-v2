@@ -15,6 +15,11 @@
       <aka-state-label *ngIf="location.is_default" [state]="'default'"></aka-state-label>
     </td>
   </ng-container>
+  <ng-container psQCell="Address">
+    <td psQCol *psQBody="let location; as: type">
+      {{ location.address }}
+    </td>
+  </ng-container>
   <ng-container psQCell="Created At">
     <td psQCol *psQBody="let location; as: type">
       <aka-date-time [date]="location.created_at"></aka-date-time>

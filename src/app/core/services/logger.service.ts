@@ -4,10 +4,17 @@ import { AuthService } from '@cs/auth.service';
 import { environment } from '@env/environment';
 import * as Sentry from '@sentry/browser';
 import { ToastService } from './toast.service';
+import { OwnerAuthService } from './owner/auth.service';
+import { StaffAuthService } from './staff/auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class LoggerService {
-  constructor(private authService: AuthService, private toast: ToastService) {
+  constructor(
+    private authService: AuthService,
+    private ownerAuthService: OwnerAuthService,
+    private staffAuthService: StaffAuthService,
+    private toast: ToastService
+  ) {
     const { sentryDsn: dsn, envName } = environment;
     if (dsn) {
       Sentry.init({
@@ -24,6 +31,17 @@ export class LoggerService {
       const { id, email, name: username } = this.authService.currentUser;
       Sentry.setUser({ id, email, username });
     }
+
+    if (this.ownerAuthService.isAuthenticated()) {
+      const { id, email, name: username } = this.ownerAuthService.currentUser;
+      Sentry.setUser({ id, email, username });
+    }
+
+    if (this.staffAuthService.isAuthenticated()) {
+      const { id, email, name: username } = this.staffAuthService.currentUser;
+      Sentry.setUser({ id, email, username });
+    }
+
     console.error(extractedError);
     // this.toast.error({
     //   title: 'Error!',

@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StaffStock } from '@app/collections/staff/stock.collection';
 import { StaffAuthService } from '@app/core/services/staff/auth.service';
 import { IActionGroup } from '@app/core/states/breadcrumb/breadcrumb.actions';
+import { DialogComponent } from '@app/shared/components/dialog/dialog.component';
 import { MetalQueryRowAction } from '@mtl/components/metal-query/metal-query.component';
+import { StockListComponent as TableListing } from '@sc/listing/stock-list/stock-list.component';
 
 @Component({
   selector: 'aka-list',
@@ -29,12 +31,22 @@ export class StockListComponent implements OnInit {
       icon: 'roundEdit',
       text: 'Edit',
       action: (data) => {
-        return () => {};
+        return () => {
+          this.editDialog.show({ title: 'Update Stock', data });
+        };
       },
     },
   ];
 
+  @ViewChild('editDialog', { static: true }) editDialog: DialogComponent;
+  @ViewChild('tableList', { static: true }) tableList: TableListing;
+
   constructor(public auth: StaffAuthService, private router: Router, private active: ActivatedRoute) {}
 
   ngOnInit() {}
+
+  onSuccess() {
+    this.tableList.query.fetch();
+    this.editDialog.hide();
+  }
 }
