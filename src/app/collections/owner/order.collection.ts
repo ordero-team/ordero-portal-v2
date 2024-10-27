@@ -22,6 +22,8 @@ export interface OwnerOrder extends MetalAPIData {
   note: string;
   customer_name?: string;
   customer_phone?: string;
+  pay_amount?: number;
+  change_amount?: number;
   items?: any[];
   table?: OwnerTable;
 
@@ -81,7 +83,7 @@ export class OwnerOrderCollection extends MetalCollection<OwnerOrder, OwnerOrigi
         const delRef = this.dialog.open(DialogConfirmComponent, {
           data: {
             title: `Confirm Payment`,
-            message: `Are you sure to confirm payment of <b>${order.number}</b>?`,
+            message: `Are you sure to confirm payment of <b>${order.number}</b>? This action cannot be undone.`,
             showConfirm: true,
             confirmLabel: 'Confirm',
             showWarning: false,
@@ -112,7 +114,14 @@ export class OwnerOrderCollection extends MetalCollection<OwnerOrder, OwnerOrigi
   }
 
   async executeAction(order: OwnerOrder, action: string) {
-    return await this.update(order.id, { action, restaurant_id: this.auth.currentRestaurant.id } as any);
+    const payload = { action, restaurant_id: this.auth.currentRestaurant.id } as any;
+
+    if (action === 'completed') {
+      payload['customer_phone'] = order.customer_phone;
+      payload['pay_amount'] = Number(order.pay_amount);
+    }
+
+    return await this.update(order.id, payload);
   }
 
   async export({ restaurant_id, status, search }: { restaurant_id: string; status: string; search: string }) {

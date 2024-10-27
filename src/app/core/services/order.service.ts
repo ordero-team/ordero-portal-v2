@@ -57,7 +57,7 @@ export class OrderService {
   }
 
   updateOrder(orderId: string, updatedOrder: Partial<OwnerOrder | StaffOrder>) {
-    const currentOrders = this.orders.value;
+    const currentOrders = this.orders.value || [];
     const updatedOrders = currentOrders.map((order) => (order.id === orderId ? { ...order, ...updatedOrder } : order));
     this.orders.next(updatedOrders);
   }

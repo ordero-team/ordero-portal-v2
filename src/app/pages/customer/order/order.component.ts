@@ -5,10 +5,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Order, OrderCollection } from '@app/collections/order.collection';
 import { INavRoute } from '@app/core/services/navigation.service';
 import { PubsubService } from '@app/core/services/pubsub.service';
+import { Queue, QueueService } from '@app/core/services/queue.service';
 import { ScanTableService } from '@app/core/services/scan-table.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { has } from 'lodash';
+import { get, has } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 
 @UntilDestroy()
@@ -21,6 +22,7 @@ export class OrderComponent implements OnInit {
   orderId$ = new BehaviorSubject<string>(null);
   order: Order = null;
   isFetching = true;
+  isPrinting = false;
 
   constructor(
     active: ActivatedRoute,
@@ -59,6 +61,14 @@ export class OrderComponent implements OnInit {
           );
         }
       });
+
+      PubsubService.getInstance().event(`ordero/${val}/event`, (data) => {
+        if (has(data, 'payload')) {
+          const payload = get(data, 'payload');
+          console.log({ url: get(payload, 'body.content', null) });
+          this.isPrinting = false;
+        }
+      });
     });
   }
 
@@ -71,6 +81,15 @@ export class OrderComponent implements OnInit {
       this.toast.error('Something bad happenned', error);
     } finally {
       this.isFetching = false;
+    }
+  }
+
+  async printBill() {
+    try {
+      this.isPrinting = true;
+      await this.collection.printBill('01J7ECH9NA6HD34KVSFZ2E7CK6', this.order.id);
+    } catch (error) {
+      this.toast.error('Something bad happenned', error);
     }
   }
 }

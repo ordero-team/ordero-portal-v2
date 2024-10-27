@@ -10,6 +10,18 @@
       <h2 class="text-default text-3xl font-bold">Order Detail</h2>
 
       <aka-state-label state="completed" text="Auto Update"></aka-state-label>
+
+      <button
+        *ngIf="order.status === 'completed'"
+        mat-flat-button
+        class="ml-auto"
+        [disabled]="isPrinting"
+        [akaLoading]="isPrinting"
+        (click)="printBill()"
+      >
+        <mat-icon class="mr-2">print</mat-icon>
+        Print
+      </button>
     </div>
 
     <div class="mb-8 grid grid-cols-2 gap-4">

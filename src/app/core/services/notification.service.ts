@@ -7,6 +7,7 @@ import { OwnerState } from '../states/owner/owner.state';
 @Injectable({ providedIn: 'platform' })
 export class NotificationService<T> {
   public notifications: BehaviorSubject<T[]> = new BehaviorSubject([]);
+  public notifications$: Observable<T[]> = this.notifications.asObservable();
 
   @Select(OwnerState.currentUser) user$: Observable<OwnerProfile>;
 

@@ -199,3 +199,69 @@
     </div>
   </ng-template>
 </ng-template>
+
+<aka-dialog #payAmountDialog="akaDialog" class="small" (close)="cancelPay()">
+  <ng-container *akaDialogContent>
+    <form role="form" [akaForm]="formData" (ngSubmit)="execute(selectedOrder)">
+      <div class="flex flex-col">
+        <mat-form-field class="aka-mat-dense w-full" akaProps>
+          <mat-label>Customer Name</mat-label>
+          <input type="text" name="customer_name" [(ngModel)]="formData.customer_name" matInput readonly disabled />
+        </mat-form-field>
+
+        <mat-form-field class="aka-mat-dense w-full" akaProps>
+          <mat-label>Customer Phone</mat-label>
+          <input
+            matInput
+            name="customer_phone"
+            type="text"
+            [ngModel]="formData.customer_phone | phoneNumber"
+            (ngModelChange)="formData.customer_phone = $event"
+            placeholder="e.g. 081234567890"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="aka-mat-dense w-full" akaProps>
+          <mat-label>Order Number</mat-label>
+          <input type="text" name="number" [(ngModel)]="formData.number" matInput readonly disabled />
+        </mat-form-field>
+
+        <mat-form-field class="aka-mat-dense w-full" akaProps>
+          <mat-label>Gross Total</mat-label>
+          <input type="text" name="gross_total" [(ngModel)]="formData.gross_total" matInput currencyMask readonly disabled />
+        </mat-form-field>
+
+        <mat-form-field class="aka-mat-dense w-full" akaProps>
+          <mat-label>Pay Amount</mat-label>
+          <input
+            matInput
+            [(ngModel)]="formData.pay_amount"
+            name="pay_amount"
+            placeholder="Rp0"
+            currencyMask
+            (ngModelChange)="formData.change_amount = formData.gross_total - $event"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="aka-mat-dense w-full" akaProps>
+          <mat-label>Change Amount</mat-label>
+          <input type="text" name="change" [(ngModel)]="formData.change_amount" matInput currencyMask readonly disabled />
+        </mat-form-field>
+      </div>
+
+      <div class="mt-4 flex items-center justify-end">
+        <button mat-button type="button" tabindex="-1" (click)="cancelPay()" [disabled]="formData.$loading">CANCEL</button>
+        <button
+          mat-flat-button
+          color="primary"
+          class="ml-3"
+          [disabled]="formData.$disabled || formData.$loading"
+          [akaLoading]="formData.$loading"
+          type="submit"
+        >
+          SUBMIT
+        </button>
+      </div>
+    </form>
+  </ng-container>
+</aka-dialog>

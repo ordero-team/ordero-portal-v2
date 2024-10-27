@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DashboardCollection } from '@app/collections/owner/dashboard.collection';
 import { DarkModeService } from '@app/core/services/dark-mode.service';
 import { MaterialColorService } from '@app/shared/services/material-color.service';
@@ -70,7 +70,8 @@ export class ChartOrderComponent implements OnInit {
   constructor(
     private collection: DashboardCollection,
     private service: MaterialColorService,
-    public darkMode: DarkModeService
+    public darkMode: DarkModeService,
+    private cd: ChangeDetectorRef
   ) {
     darkMode.darkMode$.pipe(untilDestroyed(this)).subscribe((val) => {
       // this.chartOptions.tooltip.theme = val ? 'dark' : 'light';
@@ -164,6 +165,7 @@ export class ChartOrderComponent implements OnInit {
       })
       .finally(() => {
         this.loading.chart = false;
+        this.cd.markForCheck();
       });
   }
 }

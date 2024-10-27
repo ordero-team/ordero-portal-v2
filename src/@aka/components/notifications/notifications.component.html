@@ -2,7 +2,7 @@
 <button mat-icon-button (click)="openPanel()" #notificationsOrigin>
   <span class="absolute left-0 right-0 top-0 flex h-3 items-center justify-center">
     <span
-      class="ml-4 mt-2.5 flex h-4 min-w-4 flex-shrink-0 items-center justify-center rounded-full bg-teal-600 px-1 text-xs font-medium text-indigo-50"
+      class="ml-4 mt-2.5 flex h-4 min-w-4 flex-shrink-0 items-center justify-center rounded-full bg-primary-600 px-1 text-xs font-medium text-indigo-50"
       *ngIf="unreadCount > 0"
     >
       {{ unreadCount }}
@@ -15,7 +15,7 @@
 <ng-template #notificationsPanel>
   <div class="fixed inset-0 flex flex-col overflow-hidden shadow-lg sm:static sm:inset-auto sm:w-90 sm:min-w-90 sm:rounded">
     <!-- Header -->
-    <div class="h-1 w-full flex-shrink-0 bg-teal-600"></div>
+    <div class="h-1 w-full flex-shrink-0 bg-primary-600"></div>
     <div class="flex flex-shrink-0 items-center border-b bg-gray-100 py-3 pl-6 pr-4 dark:bg-gray-800">
       <div class="-ml-1 mr-3 sm:hidden">
         <button mat-icon-button (click)="closePanel()">
@@ -71,7 +71,7 @@
                 class="h-2 w-2 rounded-full"
                 [ngClass]="{
                   'bg-gray-400 dark:bg-gray-500 sm:opacity-0 sm:group-hover:opacity-100': notification.read,
-                  'bg-teal-600': !notification.read
+                  'bg-primary-600': !notification.read
                 }"
               ></span>
             </button>
@@ -101,7 +101,18 @@
           <!-- Title, description & time -->
           <div class="flex flex-auto flex-col">
             <div class="font-semibold line-clamp-1" *ngIf="notification.title" [innerHTML]="notification.title"></div>
-            <div class="line-clamp-2" *ngIf="notification.content" [innerHTML]="notification.content"></div>
+
+            <ng-container *ngIf="notification.content">
+              <div
+                *ngIf="!isJson(notification.content)"
+                class="text-sm line-clamp-2"
+                [innerHTML]="notification.content"
+              ></div>
+              <div *ngIf="isJson(notification.content)" class="text-sm line-clamp-2">
+                Order {{ notification.content.number }} has been updated to
+                <aka-state-label [state]="notification.content.status" class="text-sm"></aka-state-label>
+              </div>
+            </ng-container>
             <div class="text-secondary mt-2 text-sm leading-none">
               {{ notification.created_at | date: 'MMM dd, h:mm a' }}
             </div>

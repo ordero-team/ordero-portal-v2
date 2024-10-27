@@ -237,7 +237,13 @@ const navRoutes: { [key: string]: INavRoute[] } = {
     RestaurantStaffNavRoute,
     RestaurantSettingNavRoute,
   ],
-  cashier: [StaffDashboardNavRoute, StaffOrderNavRoute, StaffTableNavRoute, StaffProductNavRoute, StaffStockNavRoute],
+  cashier: [
+    // StaffDashboardNavRoute,
+    StaffOrderNavRoute,
+    StaffTableNavRoute,
+    StaffProductNavRoute,
+    StaffStockNavRoute,
+  ],
 };
 
 @UntilDestroy()

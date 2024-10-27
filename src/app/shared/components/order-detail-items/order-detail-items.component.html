@@ -43,7 +43,8 @@
     <div *ngFor="let item of order.items" class="flex items-center justify-between py-2">
       <div class="flex items-center">
         <img
-          [src]="item.images[0]?.original || 'assets/images/default-restaurant.jpg'"
+          *ngIf="item.images[0]?.original"
+          [src]="item.images[0]?.original"
           alt="{{ item.name }}"
           class="mr-2 h-12 w-12 rounded-md object-cover"
         />
@@ -62,6 +63,15 @@
     <div class="flex items-center justify-between pb-2 pt-4">
       <p class="text-xl font-medium">Total Amount:</p>
       <p class="text-xl font-medium">{{ order.gross_total | currency }}</p>
+    </div>
+
+    <div *ngIf="order.status === 'completed'" class="flex items-center justify-between py-2">
+      <p class="text-md font-medium">Pay Amount:</p>
+      <p class="text-md font-medium">{{ order.pay_amount | currency }}</p>
+    </div>
+    <div *ngIf="order.status === 'completed'" class="flex items-center justify-between py-2">
+      <p class="text-md font-medium">Change Amount:</p>
+      <p class="text-md font-medium">{{ order.change_amount | currency }}</p>
     </div>
   </div>
 

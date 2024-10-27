@@ -353,124 +353,7 @@ export class MaterialColorService {
   };
 
   states: any = {
-    // Inbound
     cancelled: this.colors.red,
-    checking: this.colors.blue[900],
-    confirming: this.colors.blue,
-    on_hold: this.colors.yellow[700],
-    receiving: this.colors.blue,
-
-    // Outbound
-    picking: this.colors.orange,
-    picked: this.colors.yellow[700],
-    packing: this.colors.blue[900],
-    packed: this.colors.blue,
-    partially_packed: this.colors.purple,
-
-    // Bin
-    no_rack: this.colors.grey,
-    on_receive: this.colors.blue,
-    on_rack: this.colors.green,
-    need_rack: this.colors.orange,
-    on_pick: this.colors.red,
-    to_pack: this.colors.green,
-    on_pack: this.colors.indigo,
-
-    // Packing
-    multi_item: this.colors.yellow[900],
-    single_item: this.colors.blue,
-    single_outbound: this.colors.indigo,
-    wholesale_item: this.colors.yellow[700],
-    bundle_item: this.colors.green[700],
-
-    // Package
-    no_shipment: this.colors.grey,
-    ready_to_ship: this.colors.blue,
-    awaiting_pickup: this.colors.orange,
-    partially_shipped: this.colors.purple,
-    shipped: this.colors.green[900],
-    delivered: this.colors.green,
-    canceled: this.colors.red,
-
-    // Tracking Strategy
-    serial_number: this.colors.green,
-    batch_number: this.colors.blue,
-    expiry_number: this.colors.red,
-
-    // Removal Strategy
-    fefo: this.colors.red,
-    lefo: this.colors.red,
-    fifo: this.colors.red,
-    lifo: this.colors.red,
-
-    // Manifest
-    ready: this.colors.green,
-    handed_over: this.colors.blue,
-    courier: this.colors.yellow[700],
-    warehouse: this.colors.purple,
-
-    // Storage Type
-    standard: this.colors.blue,
-    temperature_controlled: this.colors.yellow,
-
-    // Plans
-    percentage: this.colors.blue,
-    volume: this.colors.yellow[700],
-
-    // Cycle Count Types
-    counting: this.colors.yellow[700],
-    in_review: this.colors.green,
-    recount: this.colors.orange,
-    adjusted: this.colors.blue,
-
-    // Companies
-    no_plan: this.colors.grey,
-    overdue: this.colors.red,
-
-    // Transactions Types
-    inbound: this.colors.blue,
-    outbound: this.colors.blue[900],
-    stock_adjustment: this.colors.yellow[700],
-    pick: this.colors.yellow[700],
-    pack: this.colors.orange,
-    shipment: this.colors.purple,
-    manifest: this.colors.purple[900],
-
-    // Orders
-    new_order: this.colors.blue,
-    return: this.colors.yellow[900],
-    paid: this.colors.blue[700],
-    ready_to_process: this.colors.green[600],
-    processed: this.colors.green[700],
-    to_confirm_receive: this.colors.orange,
-    shipped_back: this.colors.indigo[900],
-    shipped_back_success: this.colors.indigo,
-    seller_accept: this.colors.green[700],
-    waiting_for_pickup: this.colors.orange,
-    no_outbound: this.colors.grey,
-    rejected_by_seller: this.colors.red,
-    awaiting_collection: this.colors.orange[900],
-    awaiting_shipment: this.colors['deep-orange'][700],
-    in_transit: this.colors.purple,
-    finished: this.colors.green[700],
-    new: this.colors.blue,
-    pesanan_telah_terkirim: this.colors.green,
-    menunggu_pengambilan_kuri: this.colors.orange,
-    pesanan_sedang_diproses: this.colors.yellow[700],
-    cod: this.colors.orange[700],
-
-    // Marketplaces
-    tokopedia: this.colors.tokopedia,
-    shopee: this.colors.shopee,
-    bukalapak: this.colors.bukalapak,
-    lazada: this.colors.lazada,
-    shopify: this.colors.shopify,
-    jubelio: this.colors.jubelio,
-    tiktok: this.colors.tiktok,
-    blibli: this.colors.blibli,
-    offline: this.colors.offline,
-
-    // General
     completed: this.colors.green[700],
     open: this.colors.green,
     closed: this.colors.red[700],
@@ -482,13 +365,7 @@ export class MaterialColorService {
     online: this.colors.green,
     verify_email: this.colors.yellow[700],
     verify_phone: this.colors.yellow[700],
-    low_stock: this.colors.yellow[700],
-    out_of_stock: this.colors.red,
-    dropship: this.colors.blue,
     draft: this.colors.grey,
-    problem: this.colors.red,
-    additional: this.colors.blue[700],
-    bundle: this.colors.teal[700],
     used: this.colors.green,
     default: this.colors.green,
     required: this.colors.green,
@@ -501,7 +378,7 @@ export class MaterialColorService {
     confirmed: this.colors.blue[400],
     preparing: this.colors.cyan[600],
     served: this.colors.cyan[700],
-    waiting_payment: this.colors.green,
+    waiting_payment: this.colors.yellow[700],
     in_use: this.colors.yellow[800],
   };
 

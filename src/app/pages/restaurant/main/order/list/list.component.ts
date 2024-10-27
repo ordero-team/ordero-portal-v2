@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
@@ -8,7 +8,9 @@ import { OrderService } from '@app/core/services/order.service';
 import { OwnerAuthService } from '@app/core/services/owner/auth.service';
 import { ToastService } from '@app/core/services/toast.service';
 import { OwnerOrderResource } from '@app/resources/owner/order.resource';
+import { DialogComponent } from '@app/shared/components/dialog/dialog.component';
 import { OrderDetailItemsComponent } from '@app/shared/components/order-detail-items/order-detail-items.component';
+import { Form, FormRecord } from '@lib/form';
 import { IRestPagination } from '@lib/resource';
 import { time } from '@lib/time';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -23,6 +25,17 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./list.component.scss'],
 })
 export class OrderListComponent implements OnInit, OnDestroy {
+  @ViewChild('payAmountDialog', { static: true }) payAmountDialog: DialogComponent;
+  @Form({
+    pay_amount: 'required|min:0',
+    change_amount: '',
+    number: '',
+    gross_total: '',
+    customer_name: '',
+    customer_phone: '',
+  })
+  formData: FormRecord;
+
   statuses = [
     {
       label: 'All',
@@ -211,9 +224,51 @@ export class OrderListComponent implements OnInit, OnDestroy {
     });
   }
 
+  cancelPay() {
+    this.payAmountDialog.hide();
+    this.formData.$import({
+      pay_amount: 0,
+      number: '',
+      gross_total: '',
+      customer_name: '',
+      customer_phone: '',
+      change_amount: 0,
+    });
+    this.selectedOrder = null;
+  }
+
+  selectedOrder: OwnerOrder = null;
+  async execute(order: OwnerOrder) {
+    order.loading = true;
+    try {
+      order.pay_amount = this.formData.$payload.pay_amount;
+      order.customer_phone = this.formData.$payload.customer_phone;
+      await this.collection.action(order, 'completed');
+    } catch (error) {
+      this.toast.error('Something bad hapened', error);
+    } finally {
+      order.loading = false;
+      this.cancelPay();
+    }
+  }
+
   async action(order: OwnerOrder, action: string) {
     order.loading = true;
     try {
+      if (action === 'completed') {
+        this.selectedOrder = order;
+        this.formData.$import({
+          customer_name: order.customer_name,
+          customer_phone: order.customer_phone,
+          pay_amount: 0,
+          change_amount: 0,
+          number: order.number,
+          gross_total: order.gross_total,
+        });
+        this.payAmountDialog.show();
+        return;
+      }
+
       await this.collection.action(order, action);
     } catch (error) {
       this.toast.error('Something bad hapened', error);

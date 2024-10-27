@@ -3,6 +3,9 @@ import { MetalCollection, MetalCollectionConfig } from '@lib/metal-data';
 import { MetalAPIData } from '@mtl/interfaces';
 import { OriginService } from '@mtl/services/origin.service';
 import { Table } from './table.collection';
+import { QueueService } from '@app/core/services/queue.service';
+import { appIcons } from '@app/core/helpers/icon.helper';
+import { Restaurant } from './restaurant.collection';
 
 export type OrderStatus =
   | 'waiting_approval'
@@ -41,6 +44,8 @@ export interface Order extends MetalAPIData {
   status: OrderStatus;
   table: Table;
   items: OrderItem[];
+
+  restaurant?: Restaurant;
 }
 
 const OrderConfig: MetalCollectionConfig<Order> = {
@@ -50,7 +55,14 @@ const OrderConfig: MetalCollectionConfig<Order> = {
 
 @Injectable({ providedIn: 'root' })
 export class OrderCollection extends MetalCollection<Order, OriginService> {
-  constructor(public origin: OriginService) {
+  constructor(public origin: OriginService, private queue: QueueService) {
     super(origin, OrderConfig);
+  }
+
+  async printBill(restaurant_id: string, order_id: string) {
+    await this.findOne(order_id, {
+      params: { restaurant_id },
+      suffix: 'print',
+    } as any);
   }
 }

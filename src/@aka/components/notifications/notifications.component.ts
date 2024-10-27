@@ -64,6 +64,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   unreadCount = 0;
   private _overlayRef: OverlayRef;
 
+  isJson(val: any): boolean {
+    return typeof val === 'object';
+  }
+
   /**
    * Constructor
    */
@@ -111,8 +115,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
     this.role$.pipe(untilDestroyed(this)).subscribe((val) => (this.role = val.name));
 
-    this.service.notifications.pipe(untilDestroyed(this)).subscribe((val) => {
+    this.service.notifications$.pipe(untilDestroyed(this)).subscribe((val) => {
       this.notifications = val;
+      this.unreadCount = val.filter((val) => !val.is_read).length;
+      this._changeDetectorRef.markForCheck();
     });
   }
 
@@ -130,8 +136,19 @@ export class NotificationsComponent implements OnInit, OnDestroy {
           sort: '-created_at',
         } as any,
       });
+
+      notifications.forEach((notif) => {
+        try {
+          const content = JSON.parse(notif.content);
+          if (typeof content === 'object') {
+            notif.content = content;
+          }
+        } catch (e) {
+          console.error('Invalid JSON:', notif.content);
+        }
+      });
+
       this.service.notifications.next(notifications);
-      this.unreadCount = notifications.filter((val) => !val.is_read).length;
     }
   }
 

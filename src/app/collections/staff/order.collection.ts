@@ -23,6 +23,8 @@ export interface StaffOrder extends MetalAPIData {
   note: string;
   customer_name?: string;
   customer_phone?: string;
+  pay_amount?: number;
+  change_amount?: number;
   items?: any[];
   table?: OwnerTable;
 
@@ -114,7 +116,14 @@ export class StaffOrderCollection extends MetalCollection<StaffOrder, StaffOrigi
   }
 
   async executeAction(order: StaffOrder, action: string) {
-    return await this.update(order.id, { action, restaurant_id: this.auth.currentRestaurant.id } as any);
+    const payload = { action, restaurant_id: this.auth.currentRestaurant.id } as any;
+
+    if (action === 'completed') {
+      payload['customer_phone'] = order.customer_phone;
+      payload['pay_amount'] = Number(order.pay_amount);
+    }
+
+    return await this.update(order.id, payload);
   }
 
   async printBill(restaurant_id: string, order_id: string) {

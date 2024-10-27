@@ -16,7 +16,14 @@ export class RestaurantDashboardComponent implements OnInit {
   ngOnInit(): void {}
 
   callbackDateRange(e: any) {
-    const startDate = time.tz(e.start, 'UTC').subtract(1, 'day').set('hour', 17).set('minute', 0).set('second', 0).unix();
+    const startDate = time
+      .tz(e.start, 'UTC')
+      .utc()
+      .subtract(1, 'day')
+      .set('hour', 17)
+      .set('minute', 0)
+      .set('second', 0)
+      .unix();
     const endDate = time.tz(e.end, 'UTC').utc().set('hour', 16).set('minute', 59).set('second', 59).unix();
 
     this.date = {

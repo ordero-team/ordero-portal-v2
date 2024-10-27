@@ -102,7 +102,7 @@ export class StaffAuthService {
   }
 
   toDashboardArea() {
-    this.router.navigate([`/${this.$path}/${this.currentRestaurant.slug}/dashboard`]);
+    this.router.navigate([`/${this.$path}/${this.currentRestaurant.slug}/orders`]);
   }
 
   toHomePage() {
