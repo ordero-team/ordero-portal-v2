@@ -44,9 +44,9 @@ export class SettingRestaurantComponent implements OnInit {
     private dialog: MatDialog,
     private store: Store
   ) {
-    this.currentResstaurant$.pipe(untilDestroyed(this)).subscribe((user) => {
-      if (user != this.record) {
-        this.record = user;
+    this.currentResstaurant$.pipe(untilDestroyed(this)).subscribe((restaurant) => {
+      if (restaurant != this.record) {
+        this.record = restaurant;
       }
     });
   }
@@ -56,7 +56,7 @@ export class SettingRestaurantComponent implements OnInit {
   }
 
   async applyData() {
-    await this.store.dispatch([new OwnerFetchMeAction()]);
+    this.store.dispatch([new OwnerFetchMeAction()]);
 
     if (this.record.logo_url) {
       this.logo = this.record.logo_url as any;

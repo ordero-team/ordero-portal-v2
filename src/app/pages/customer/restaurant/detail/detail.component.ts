@@ -66,7 +66,16 @@ export class DetailComponent implements OnInit, AfterViewInit {
 
   async ngOnInit() {
     this.scanTable.hide();
-    combineLatest([this.restaurantId$.pipe(filter((id) => !!id)), this.tableId$.pipe(filter((id) => !!id))])
+    combineLatest([
+      this.restaurantId$.pipe(
+        filter((id) => !!id),
+        startWith(null)
+      ),
+      this.tableId$.pipe(
+        filter((id) => !!id),
+        startWith(null)
+      ),
+    ])
       .pipe(untilDestroyed(this))
       .subscribe(async ([restaurantId, tableId]) => {
         await this.fetch(restaurantId);
