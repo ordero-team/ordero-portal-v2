@@ -32,7 +32,10 @@ export class CustomerCartComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.cart.infoObservable.pipe(untilDestroyed(this)).subscribe((val) => (this.info = val));
+    this.cart.infoObservable.pipe(untilDestroyed(this)).subscribe((val) => {
+      console.log({ val });
+      this.info = val;
+    });
     this.cart.cartObservable.pipe(untilDestroyed(this)).subscribe((val) => (this.cartItems = val));
     this.cart.totalPriceObservable.pipe(untilDestroyed(this)).subscribe((val) => (this.totalPrice = val));
     this.cart.isShownObservable.pipe(untilDestroyed(this)).subscribe((val) => {

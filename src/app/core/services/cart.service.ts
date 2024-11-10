@@ -46,9 +46,9 @@ export class CartService {
   setInfo(data: CartInfo) {
     if (this.info.getValue() === null) {
       this.info.next(data);
-    } else if (this.info.getValue().restaurant.id !== data.restaurant.id) {
+    } else if (this.info.getValue()?.restaurant.id !== data.restaurant.id) {
       throw new Error('Clear your Cart to make another Order from different Restaurant');
-    } else if (this.info.getValue().table.id !== data.table.id) {
+    } else if (this.info.getValue()?.table.id !== data.table.id) {
       throw new Error('Clear your Cart to make another Order from different Restaurant');
     }
   }

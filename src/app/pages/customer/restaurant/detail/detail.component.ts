@@ -66,16 +66,7 @@ export class DetailComponent implements OnInit, AfterViewInit {
 
   async ngOnInit() {
     this.scanTable.hide();
-    combineLatest([
-      this.restaurantId$.pipe(
-        filter((id) => !!id),
-        startWith(null)
-      ),
-      this.tableId$.pipe(
-        filter((id) => !!id),
-        startWith(null)
-      ),
-    ])
+    combineLatest([this.restaurantId$.pipe(filter((id) => !!id)), this.tableId$.pipe(filter((id) => !!id))])
       .pipe(untilDestroyed(this))
       .subscribe(async ([restaurantId, tableId]) => {
         await this.fetch(restaurantId);
@@ -109,7 +100,8 @@ export class DetailComponent implements OnInit, AfterViewInit {
       this.restaurant = data;
       this.title.setTitle(`${data.name} | Ordero`);
     } catch (error) {
-      this.toast.error(error);
+      console.error(error);
+      // this.toast.error(error);
     } finally {
       this.isFetching = false;
     }
@@ -134,7 +126,8 @@ export class DetailComponent implements OnInit, AfterViewInit {
       this.table = data;
       this.cart.setInfo({ restaurant: this.restaurant, table: this.table });
     } catch (error) {
-      this.toast.error(error);
+      console.error(error);
+      // this.toast.error(error);
     } finally {
       this.isFetching = false;
     }
@@ -181,7 +174,8 @@ export class DetailComponent implements OnInit, AfterViewInit {
         .filter((val) => val);
       this.tempMenus = cloneDeep(this.menus);
     } catch (error) {
-      this.toast.error(error);
+      console.error(error);
+      // this.toast.error(error);
     } finally {
       this.isFetchingMenu = false;
     }

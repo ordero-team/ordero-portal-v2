@@ -45,8 +45,11 @@ export class CustomerTableComponent implements OnInit {
       this.table = await this.collection.findOne(id, { params: { include: 'restaurant' } });
 
       setTimeout(() => {
-        this.cart.setInfo({ table: this.table, restaurant: null });
-        this.router.navigate(['/restaurants', this.table.restaurant.id], { queryParams: { table_id: this.table.id } });
+        this.cart.setInfo({ table: this.table, restaurant: this.table.restaurant });
+        this.router.navigate(['/restaurants', this.table.restaurant.id], {
+          queryParams: { table_id: this.table.id },
+          replaceUrl: true,
+        });
       }, 2000);
     } catch (error) {
       this.table = null;

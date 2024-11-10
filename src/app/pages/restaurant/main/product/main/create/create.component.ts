@@ -18,8 +18,8 @@ export class RestaurantProductCreateComponent {
     public auth: OwnerAuthService
   ) {}
 
-  onSuccess(data: { product: OwnerProduct; another: boolean }) {
-    this.toast.info(`${data.product.name} successfully added!`);
+  onSuccess(data: any) {
+    this.toast.info(`Product successfully added!`);
     if (!data.another) {
       this.router.navigate([`../`], { relativeTo: this.route });
     }
